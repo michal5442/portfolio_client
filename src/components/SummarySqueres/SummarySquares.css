@@ -1,0 +1,62 @@
+.ss-wrapper {
+  padding: 12px 0;
+  direction: rtl;
+}
+
+.ss-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.ss-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ss-title {
+  font-size: 13px;
+  color: #888;
+  font-weight: 400;
+  text-align: center;
+}
+
+.ss-value {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1a1a1a;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.ss-sub {
+  font-size: 12px;
+  color: #aaa;
+  text-align: center;
+}
+
+.ss-gap-positive .ss-value {
+  color: #1D9E75;
+}
+
+.ss-arrow {
+  font-size: 14px;
+}
+
+.ss-ok .ss-value {
+  color: #1a1a1a;
+}
+
+.ss-error {
+  color: #E24B4A;
+  font-size: 14px;
+  padding: 12px;
+}
