@@ -1,0 +1,162 @@
+.np-trigger {
+  background-color: #1e5f8e;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+}
+
+.np-trigger:hover {
+  background-color: #174f78;
+}
+
+.np-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.np-modal {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+  width: 580px;
+  padding: 2rem;
+}
+
+.np-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.np-tabs {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1.5rem;
+}
+
+.np-tab {
+  padding-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+  color: #6b7280;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.np-tab:hover {
+  color: #374151;
+}
+
+.np-tab--active {
+  border-bottom-color: #1e5f8e;
+  color: #1e5f8e;
+}
+
+.np-field {
+  margin-bottom: 1rem;
+  text-align: right;
+}
+
+.np-field--last {
+  margin-bottom: 1.5rem;
+}
+
+.np-label {
+  display: block;
+  font-size: 0.875rem;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.np-input,
+.np-select,
+.np-textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.np-input:focus,
+.np-select:focus,
+.np-textarea:focus {
+  box-shadow: 0 0 0 1px #1e5f8e;
+  border-color: #1e5f8e;
+}
+
+.np-select {
+  appearance: none;
+}
+
+.np-textarea {
+  resize: vertical;
+}
+
+.np-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.np-row .np-field {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.np-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.np-btn-cancel {
+  border: 1px solid #d1d5db;
+  color: #374151;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.25rem;
+  background: white;
+  cursor: pointer;
+}
+
+.np-btn-cancel:hover {
+  background-color: #f9fafb;
+}
+
+.np-btn-submit {
+  background-color: #1e5f8e;
+  color: white;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+}
+
+.np-btn-submit:hover {
+  background-color: #174f78;
+}
+
+.np-input--error {
+  border-color: #dc2626 !important;
+  outline: none;
+}

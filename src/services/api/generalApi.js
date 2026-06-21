@@ -61,7 +61,7 @@ export async function getAllProjects() {
 }
 
 export async function getProjectByYear(year) {
-  const response = await apiFetch(`/${RESOURCE}/getProjectByYear/${encodeURIComponent(year)}`);
+  const response = await apiFetch(`/${RESOURCE}/getProjectsByYear/${encodeURIComponent(year)}`);
 
   if (response.status === 404) {
     throw new Error(`Project for year '${year}' was not found.`);

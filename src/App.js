@@ -1,15 +1,19 @@
+import { useState } from 'react';
 import './App.css';
-import SummarySquares from './components/SummarySqueres/SummarySquares';
-import Project from './components/Project/Project';
-import { useProjects } from './services/context/ProjectsContext';
+import PageTitle from './components/BudgetManagementPage/TopBar/PageTitle/PageTitle';
+import SummarySquares from './components/BudgetManagementPage/SummarySqueres/SummarySquares';
+import ProjectsList from './components/BudgetManagementPage/ProjectsList/ProjectsList';
 
 function App() {
-  const { filteredProjects } = useProjects();
-
+  const [view, setView] = useState('split');
   return (
-    <div className="App">
-      פורטפוליו
-      <SummarySquares />
+    <div className="App" dir="rtl">
+      <PageTitle view={view} onViewChange={setView} />
+
+      <main>
+        <SummarySquares />
+        <ProjectsList view={view} />
+      </main>
     </div>
   );
 }

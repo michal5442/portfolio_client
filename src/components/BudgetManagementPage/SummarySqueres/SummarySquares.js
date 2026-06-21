@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllProjects } from "../../services/api/generalApi";
+import { getAllProjects } from "../../../services/api/generalApi";
 import "./SummarySquares.css";
 
 export default function SummarySquares() {
