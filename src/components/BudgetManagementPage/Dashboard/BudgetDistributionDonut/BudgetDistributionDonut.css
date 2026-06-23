@@ -1,0 +1,55 @@
+.bdd-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  padding: 20px;
+}
+
+.bdd-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 12px;
+  text-align: right;
+}
+
+.bdd-body {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 8px 0;
+}
+
+.bdd-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.bdd-leg-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bdd-leg-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.bdd-leg-lbl { color: #64748b; }
+
+.bdd-leg-val {
+  font-weight: 600;
+  color: #1e293b;
+  margin-right: auto;
+}
+
+.bdd-total {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 4px;
+}

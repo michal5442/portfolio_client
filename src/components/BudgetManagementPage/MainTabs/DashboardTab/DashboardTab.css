@@ -1,0 +1,4 @@
+.dashboard-tab {
+  display: flex;
+  flex-direction: column;
+}

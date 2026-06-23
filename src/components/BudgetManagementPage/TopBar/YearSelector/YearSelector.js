@@ -4,7 +4,11 @@ import { useProjects } from '../../../../services/context/ProjectsContext';
 const YearSelector = () => {
   const { selectedYear, setSelectedYear } = useProjects();
   const now = new Date().getFullYear();
-  const years = [now + 1, now, now - 1, now - 2];
+  const startYear = 2026;
+  const years = [];
+  for (let y = now + 1; y >= startYear; y--) {
+    years.push(y);
+  }
 
   const onChange = (e) => {
     const y = Number(e.target.value);

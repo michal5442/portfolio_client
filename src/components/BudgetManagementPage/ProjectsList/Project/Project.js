@@ -18,6 +18,16 @@ export default function Project({ project }) {
   const totalTaktziv =
     (project.totalTakzuvCoachAdam || 0) + (project.totalTakzivRechesh || 0);
   const gap = project.budgetHR - (project.plannedHR || 0);
+  const gapRel = Math.abs(gap) / (project.plannedHR || 1);
+  const GAP_THRESHOLD = 0.1;
+  let gapStateClass;
+  if (gap === 0) {
+    gapStateClass = 'pc-gap--ok';
+  } else if (gapRel >= GAP_THRESHOLD) {
+    gapStateClass = gap > 0 ? 'pc-gap--exceed-pos' : 'pc-gap--exceed-neg';
+  } else {
+    gapStateClass = 'pc-gap--ok';
+  }
 
   return (
     <article className="project-card" dir="rtl" aria-label={project.name}>
@@ -50,9 +60,9 @@ export default function Project({ project }) {
         </div>
         <div className="pc-item">
           <div className="pc-item-label">פערים</div>
-          <div className="pc-item-value pc-gap">
+          <div className={`pc-item-value pc-gap ${gapStateClass}`}>
             {formatMoney(Math.abs(gap))}
-            {gap > 0 ? <span className="pc-arrow">▲</span> : null}
+              {gap > 0 ? <span className="pc-arrow">▲</span> : (gap < 0 ? <span className="pc-arrow">▼</span> : null)}
           </div>
         </div>
       </section>

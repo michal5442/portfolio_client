@@ -1,21 +1,12 @@
-import { useState } from 'react';
 import './App.css';
 import PageTitle from './components/BudgetManagementPage/TopBar/PageTitle/PageTitle';
-import SummarySquares from './components/BudgetManagementPage/SummarySqueres/SummarySquares';
-import ProjectsList from './components/BudgetManagementPage/ProjectsList/ProjectsList';
+import MainTabs from './components/BudgetManagementPage/MainTabs/MainTabs';
 
-function App() {
-  const [view, setView] = useState('split');
+export default function App() {
   return (
     <div className="App" dir="rtl">
-      <PageTitle view={view} onViewChange={setView} />
-
-      <main>
-        <SummarySquares />
-        <ProjectsList view={view} />
-      </main>
+      <PageTitle />
+      <MainTabs />
     </div>
   );
 }
-
-export default App;

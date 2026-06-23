@@ -6,7 +6,7 @@ const ProjectsContext = createContext();
 export function ProjectsProvider({ children }) {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedYear, setSelectedYear] = useState(2025); // השנה הנבחרת בטופבר
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // השנה הנבחרת בטופבר (ברירת מחדל: השנה הנוכחית)
   const [activeTab, setActiveTab] = useState("projects"); // "projects" או "dashboard"
   const [viewMode, setViewMode] = useState("split"); // "split" (מפוצלת) או "cards" (כרטיסיות)
   const [selectedProjectId, setSelectedProjectId] = useState(null); // הפרויקט שנבחר בפנל הצדדי
@@ -24,7 +24,11 @@ export function ProjectsProvider({ children }) {
       setIsLoading(true);
       try {
         const data = await getProjectByYear(selectedYear);
-        setProjects(data || []);
+        const normalized = (data || []).map(p => ({
+          ...p,
+          gap: (p.plannedHR || 0) - (p.budgetHR || 0)
+        }));
+        setProjects(normalized);
         setSelectedProjectId(null); 
       } catch (err) {
         console.error("שגיאה בטעינת פרויקטים לשנה הנבחרת:", err);
@@ -78,7 +82,7 @@ export function ProjectsProvider({ children }) {
     });
 
     const totalBudget = totalHR + totalProc;
-    const totalGap = totalHR - totalPlannedHR; // פער כ"א מול תכנון
+    const totalGap = totalPlannedHR - totalHR; // פער = תכנון כוח אדם פחות סה"כ תקציב כוח אדם
 
     return {
       totalCount,
@@ -95,16 +99,22 @@ export function ProjectsProvider({ children }) {
   const addNewProject = async (projectData) => {
     // הוספת השנה הנוכחית לנתונים שנשלחים
     const fullData = { ...projectData, year: selectedYear };
+    fullData.gap = (fullData.plannedHR || 0) - (fullData.budgetHR || 0);
     const savedProject = await insertProject(fullData);
-    setProjects(prev => [...prev, savedProject]);
+    // ensure returned object has normalized gap
+    const normalizedSaved = { ...savedProject, gap: (savedProject.plannedHR || 0) - (savedProject.budgetHR || 0) };
+    setProjects(prev => [...prev, normalizedSaved]);
     return savedProject;
   };
 
   // עדכון פרויקט קיים
   const updateProjectData = async (projectData) => {
-    const updated = await updateProject(projectData);
-    setProjects(prev => prev.map(p => p.id === updated.id ? updated : p));
-    return updated;
+    // ensure gap is up-to-date before sending
+    const toSend = { ...projectData, gap: (projectData.plannedHR || 0) - (projectData.budgetHR || 0) };
+    const updated = await updateProject(toSend);
+    const normalizedUpdated = { ...updated, gap: (updated.plannedHR || 0) - (updated.budgetHR || 0) };
+    setProjects(prev => prev.map(p => p.id === normalizedUpdated.id ? normalizedUpdated : p));
+    return normalizedUpdated;
   };
 
 //   // מחיקת פרויקט (Soft Delete לפי האפיון שלכם)

@@ -23,8 +23,23 @@ export default function NewProjectButton() {
 
   const set = (field, value) => setForm((prev) => ({ ...prev, [field]: value }));
 
+  const handleNumFocus = (field) => {
+    if (Number(form[field]) === 0) set(field, "");
+  };
+
+  const handleNumBlur = (field) => {
+    if (form[field] === "" || form[field] === null || form[field] === undefined) set(field, 0);
+  };
+
   const totalBudget = Number(form.totalTakzuvCoachAdam) + Number(form.totalTakzivRechesh);
-  const gaps = totalBudget - Number(form.coachAdam);
+  // פערים = תכנון כוח אדם פחות סה"כ תקציב כוח אדם (רק תקציב כ"א)
+  const gaps = Number(form.coachAdam) - Number(form.totalTakzuvCoachAdam);
+
+  // display helpers for gap: show neutral '₪0' when zero, otherwise arrow + color
+  const gapNum = Number(gaps) || 0;
+  const gapDisplay = gapNum === 0 ? `₪0` : (gapNum > 0 ? `▲ ₪${gapNum}+` : `▼ ₪${Math.abs(gapNum)}-`);
+  // neutral color: primary brand blue
+  const gapColor = gapNum === 0 ? "#1e5f8e" : (gapNum > 0 ? "#059669" : "#dc2626");
 
   const handleSubmit = async () => {
     const newErrors = {};
@@ -133,11 +148,11 @@ export default function NewProjectButton() {
                 <div className="np-row">
                   <div className="np-field">
                     <label className="np-label">תקציב רכש (₪) *</label>
-                    <input type="number" className={`np-input${errors.totalTakzivRechesh ? " np-input--error" : ""}`} value={form.totalTakzivRechesh} onChange={(e) => set("totalTakzivRechesh", e.target.value)} />
+                    <input type="number" className={`np-input${errors.totalTakzivRechesh ? " np-input--error" : ""}`} value={form.totalTakzivRechesh} onFocus={() => handleNumFocus('totalTakzivRechesh')} onBlur={() => handleNumBlur('totalTakzivRechesh')} onChange={(e) => set("totalTakzivRechesh", e.target.value)} />
                   </div>
                   <div className="np-field">
                     <label className="np-label">תקציב כ"א (₪) *</label>
-                    <input type="number" className={`np-input${errors.totalTakzuvCoachAdam ? " np-input--error" : ""}`} value={form.totalTakzuvCoachAdam} onChange={(e) => set("totalTakzuvCoachAdam", e.target.value)} />
+                    <input type="number" className={`np-input${errors.totalTakzuvCoachAdam ? " np-input--error" : ""}`} value={form.totalTakzuvCoachAdam} onFocus={() => handleNumFocus('totalTakzuvCoachAdam')} onBlur={() => handleNumBlur('totalTakzuvCoachAdam')} onChange={(e) => set("totalTakzuvCoachAdam", e.target.value)} />
                   </div>
                 </div>
 
@@ -149,11 +164,11 @@ export default function NewProjectButton() {
                 <div className="np-row np-field--last">
                   <div className="np-field" style={{ marginBottom: 0 }}>
                     <label className="np-label">פערים (אוטומטי)</label>
-                    <input className="np-input" readOnly value={gaps >= 0 ? `▲ ₪${gaps}+` : `▼ ₪${Math.abs(gaps)}-`} style={{ backgroundColor: "#f9fafb", color: gaps >= 0 ? "#059669" : "#dc2626" }} />
+                    <input className="np-input" readOnly value={gapDisplay} style={{ backgroundColor: "#f9fafb", color: gapColor }} />
                   </div>
                   <div className="np-field" style={{ marginBottom: 0 }}>
                     <label className="np-label">תכנון כ"א (₪) *</label>
-                    <input type="number" className={`np-input${errors.coachAdam ? " np-input--error" : ""}`} value={form.coachAdam} onChange={(e) => set("coachAdam", e.target.value)} />
+                    <input type="number" className={`np-input${errors.coachAdam ? " np-input--error" : ""}`} value={form.coachAdam} onFocus={() => handleNumFocus('coachAdam')} onBlur={() => handleNumBlur('coachAdam')} onChange={(e) => set("coachAdam", e.target.value)} />
                   </div>
                 </div>
               </>

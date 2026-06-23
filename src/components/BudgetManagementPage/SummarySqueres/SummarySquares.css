@@ -43,16 +43,19 @@
   text-align: center;
 }
 
-.ss-gap-positive .ss-value {
-  color: #1D9E75;
-}
-
 .ss-arrow {
   font-size: 14px;
 }
 
-.ss-ok .ss-value {
-  color: #1a1a1a;
+/* new gap states */
+.ss-gap-ok .ss-value {
+  color: #1e5f8e; /* כחול מותג ראשי */
+}
+.ss-gap-exceed-pos .ss-value {
+  color: #f97316; /* כתום */
+}
+.ss-gap-exceed-neg .ss-value {
+  color: #dc2626; /* אדום */
 }
 
 .ss-error {

@@ -33,8 +33,17 @@ export default function SummarySquares() {
   const totalTakzivRechesh = sumField("totalTakzivRechesh");
   const totalTaktsiv = totalTakzuvCoachAdam + totalTakzivRechesh;
   const totalCoachAdamPlanned = sumField("coachAdam");
-  const totalGaps = totalTaktsiv - totalCoachAdamPlanned;
-
+  const totalGaps = totalCoachAdamPlanned - totalTakzuvCoachAdam;
+  const totalGapRel = Math.abs(totalGaps) / (totalCoachAdamPlanned || 1);
+  const GAP_THRESHOLD = 0.1; // 10%
+  let gapClass;
+  if (totalGaps === 0) {
+    gapClass = 'ss-gap-ok';
+  } else if (totalGapRel >= GAP_THRESHOLD) {
+    gapClass = totalGaps > 0 ? 'ss-gap-exceed-pos' : 'ss-gap-exceed-neg';
+  } else {
+    gapClass = 'ss-gap-ok';
+  }
   if (loading) return <div className="ss-wrapper">טוען סיכומים...</div>;
   if (error) return <div className="ss-wrapper ss-error">{error}</div>;
 
@@ -67,11 +76,14 @@ export default function SummarySquares() {
           <div className="ss-value">{totalCoachAdamPlanned}</div>
         </div>
 
-        <div className={"ss-card " + (totalGaps > 0 ? "ss-gap-positive" : "ss-ok")}>
+          <div className={"ss-card " + gapClass}>
           <div className="ss-title">פערים</div>
           <div className="ss-value">
-            {totalGaps > 0 && <span className="ss-arrow">▲</span>}
-            {totalGaps}
+            {totalGaps === 0 ? (
+              `₪0`
+            ) : (
+              <>{totalGaps > 0 && <span className="ss-arrow">▲</span>}{totalGaps}</>
+            )}
           </div>
         </div>
       </div>

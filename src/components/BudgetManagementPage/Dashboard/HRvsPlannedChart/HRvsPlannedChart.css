@@ -1,0 +1,116 @@
+.hrp-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  padding: 20px 24px;
+}
+
+.hrp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  direction: rtl;
+}
+
+.hrp-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.hrp-legend {
+  display: flex;
+  gap: 14px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.hrp-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hrp-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.hrp-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* כל שורה: [בארים+טקסט] | שם יחידה */
+.hrp-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  align-items: center;
+  gap: 16px;
+  direction: rtl;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.hrp-row:last-child { border-bottom: none; }
+
+/* עמודה שמאל: בארים למעלה, טקסט מתחת */
+.hrp-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* הבארים */
+.hrp-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* הבר גדל משמאל לימין */
+.hrp-track {
+  height: 14px;
+  background: #f1f5f9;
+  border-radius: 99px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.hrp-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width .3s ease;
+}
+
+/* טקסט מתחת לבארים — מיושר לשמאל */
+.hrp-nums {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  direction: ltr;
+  font-size: 12px;
+}
+
+.hrp-sep { color: #cbd5e1; }
+
+.hrp-totals { color: #94a3b8; }
+
+/* שם יחידה — מימין */
+.hrp-lbl {
+  font-size: 13px;
+  color: #475569;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hrp-surplus { color: #ea580c; font-weight: 600; } /* חריגה כלפי מטה — כתום */
+.hrp-over    { color: #dc2626; font-weight: 600; } /* חריגה כלפי מעלה — אדום */
+.hrp-under   { color: #ea580c; font-weight: 600; } /* חריגה כלפי מטה — כתום */

@@ -148,6 +148,10 @@
   color: var(--ok);
 }
 
+.pc-gap--ok { color: #3b82f6; }
+.pc-gap--exceed-pos { color: #f97316; }
+.pc-gap--exceed-neg { color: #dc2626; }
+
 .pc-arrow {
   font-size: 10px;
   margin-right: 2px;
