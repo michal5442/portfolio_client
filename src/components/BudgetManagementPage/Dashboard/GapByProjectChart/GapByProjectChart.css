@@ -28,48 +28,40 @@
 .gap-rows {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .gap-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(160px, 24%) 1fr; /* label | axis */
   align-items: center;
-  gap: 8px;
-}
-
-.gap-row {
+  gap: 1.2rem;
   position: relative;
 }
 
 .gap-lbl {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 144px;
-  font-size: 12px;
+  grid-column: 1;
+  font-size: 0.95rem;
   color: #475569;
   text-align: right;
-  /* allow wrapping for long project names while keeping RTL */
   white-space: normal;
   overflow: visible;
   word-break: break-word;
   direction: rtl;
+  padding: 0 0.6rem;
 }
 
-/* Force axis (values) to render left of the label (unit name) regardless of dir */
-.gap-axis { order: 1; }
-.gap-lbl { order: 2; }
+.gap-axis {
+  grid-column: 2;
+}
 
 .gap-axis {
-  flex: 1;
   position: relative;
-  height: 20px;
+  height: 2.6vh;
   display: flex;
   align-items: center;
-  margin-right: 160px; /* reserve space for the right-aligned project name */
-  padding-left: 12px; /* keep bars/labels away from card edge */
-  padding-right: 12px;
+  padding-left: 2.2%; /* keep bars/labels away from card edge */
+  padding-right: 2.2%;
   box-sizing: border-box;
 }
 
@@ -84,10 +76,10 @@
 
 .gap-bar {
   position: absolute;
-  height: 14px;
-  border-radius: 3px;
+  height: 1.8vh;
+  border-radius: 6px;
   transition: width .3s ease;
-  max-width: calc(50% - 12px); /* don't allow bar to cross past the centerline/label area */
+  max-width: calc(50% - 1.6%); /* don't allow bar to cross past the centerline/label area */
 }
 
 .gap-val {
@@ -95,8 +87,10 @@
   font-size: 11px;
   font-weight: 600;
   white-space: nowrap;
-  z-index: 6; /* keep the value on top of bars/connectors */
-  padding: 0 6px;
+  z-index: 6;
+  padding: 0;
+  background: transparent;
+  color: #0f1724;
 }
 
 /* Hover highlight: when hovering a row, emphasize both the bar and the label */
@@ -123,20 +117,7 @@
 }
 
 /* Connector line from label to bar (keeps RTL layout) */
-.gap-lbl {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 144px;
-  font-size: 12px;
-  color: #475569;
-  text-align: right;
-  white-space: normal;
-  overflow: visible;
-  word-break: break-word;
-  direction: rtl;
-}
+.gap-lbl { }
 
 .gap-lbl::before {
   content: '';

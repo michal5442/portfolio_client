@@ -48,11 +48,12 @@
 /* כל שורה: [בארים+טקסט] | שם יחידה */
 .hrp-row {
   display: grid;
-  grid-template-columns: 130px 1fr;
+  /* left column: label (percent), right column: bars */
+  grid-template-columns: 28% 72%;
   align-items: center;
-  gap: 16px;
+  gap: 1.6%;
   direction: rtl;
-  padding: 8px 0;
+  padding: 0.6% 0;
   border-bottom: 1px solid #f1f5f9;
 }
 .hrp-row:last-child { border-bottom: none; }
@@ -73,9 +74,11 @@
 
 /* הבר גדל משמאל לימין */
 .hrp-track {
-  height: 14px;
+  /* responsive height in viewport units so tracks scale on different screens */
+  height: 2.2vh;
   background: #f1f5f9;
   border-radius: 99px;
+  /* keep the fill clipped inside the track */
   overflow: hidden;
   display: flex;
   justify-content: flex-start;
@@ -85,6 +88,8 @@
   height: 100%;
   border-radius: 99px;
   transition: width .3s ease;
+    display: block;
+    box-shadow: none;
 }
 
 /* טקסט מתחת לבארים — מיושר לשמאל */
@@ -93,8 +98,9 @@
   flex-direction: row;
   align-items: center;
   gap: 6px;
-  direction: ltr;
+  direction: rtl; /* keep Hebrew numeric/contextual text aligned to the right */
   font-size: 12px;
+  line-height: 1.4;
 }
 
 .hrp-sep { color: #cbd5e1; }
@@ -103,7 +109,7 @@
 
 /* שם יחידה — מימין */
 .hrp-lbl {
-  font-size: 13px;
+  font-size: 1rem;
   color: #475569;
   text-align: right;
   /* allow wrapping for long unit names and avoid truncation */
@@ -111,7 +117,8 @@
   overflow: visible;
   word-break: break-word;
   direction: rtl;
-  max-width: 160px;
+  max-width: 24%;
+  line-height: 1.4;
 }
 
 .hrp-surplus { color: #ea580c; font-weight: 600; } /* חריגה כלפי מטה — כתום */
