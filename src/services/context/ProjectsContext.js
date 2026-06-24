@@ -1,137 +1,150 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { getProjectByYear, insertProject, updateProject } from "../api/generalApi";
+import { calculateProjectFinance } from "../../utils/calculateProjectFinance";
 
 const ProjectsContext = createContext();
 
 export function ProjectsProvider({ children }) {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // השנה הנבחרת בטופבר (ברירת מחדל: השנה הנוכחית)
-  const [activeTab, setActiveTab] = useState("projects"); // "projects" או "dashboard"
-  const [viewMode, setViewMode] = useState("split"); // "split" (מפוצלת) או "cards" (כרטיסיות)
-  const [selectedProjectId, setSelectedProjectId] = useState(null); // הפרויקט שנבחר בפנל הצדדי
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [activeTab, setActiveTab] = useState("projects");
+  const [viewMode, setViewMode] = useState("cards");
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
 
   const [filters, setFilters] = useState({
     search: "",
-    sector: "",
-    unit: "",
-    track: "",
-    isContinued: "" 
+    agaff: "",
+    yechidaMevatzat: "",
+    maslol: "",
+    logHemsheci: "",
   });
 
+  // // map of computed finance values for quick access in UI
+  // map of computed finance values for quick access in UI
+  const projectFinanceMap = useMemo(() => {
+    const map = {};
+    projects.forEach((p) => {
+      map[p.id] = calculateProjectFinance(p);
+    });
+    return map;
+  }, [projects]);
+
   useEffect(() => {
+    let mounted = true;
     async function fetchProjects() {
       setIsLoading(true);
       try {
         const data = await getProjectByYear(selectedYear);
-        const normalized = (data || []).map(p => ({
+        const normalized = (data || []).map((p) => ({
           ...p,
-          gap: (p.plannedHR || 0) - (p.budgetHR || 0)
+          // keep both possible field names used across the app; compute safe defaults
+          projectName: p.projectName || p.name || "",
+          teur: p.teur || p.desc || "",
+          totalTakzuvCoachAdam: p.totalTakzuvCoachAdam || 0,
+          totalTakzivRechesh: p.totalTakzivRechesh || 0,
+          coachAdam: p.coachAdam || 0,
         }));
+        if (!mounted) return;
         setProjects(normalized);
-        setSelectedProjectId(null); 
+        setSelectedProjectId(null);
       } catch (err) {
         console.error("שגיאה בטעינת פרויקטים לשנה הנבחרת:", err);
       } finally {
-        setIsLoading(false);
+        if (mounted) setIsLoading(false);
       }
     }
     fetchProjects();
+    return () => {
+      mounted = false;
+    };
   }, [selectedYear]);
 
   const updateFilter = (filterName, value) => {
-    setFilters(prev => ({ ...prev, [filterName]: value }));
+    setFilters((prev) => ({ ...prev, [filterName]: value }));
   };
 
   const clearFilters = () => {
-    setFilters({ search: "", sector: "", unit: "", track: "", isContinued: "" });
+    setFilters({ search: "", agaff: "", yechidaMevatzat: "", maslol: "", logHemsheci: "" });
   };
 
-  // --- 5. לוגיקת סינון הפרויקטים (Filtered Projects) ---
-  // מתעדכן אוטומטית רק כשהפרויקטים מהשרת או הסינונים משתנים
+  // derive filter options from loaded projects
+  const filterOptions = useMemo(() => {
+    const uniq = (key) => Array.from(new Set(projects.map((p) => p[key]).filter(Boolean))).sort();
+    return {
+      agaff: uniq("agaff"),
+      yechidaMevatzat: uniq("yechidaMevatzat"),
+    };
+  }, [projects]);
+
   const filteredProjects = useMemo(() => {
-    return projects.filter(project => {
-      const matchesSearch = !filters.search || 
-        project.name?.toLowerCase().includes(filters.search.toLowerCase()) ||
-        project.desc?.toLowerCase().includes(filters.search.toLowerCase());
+    return projects.filter((project) => {
+      const matchesSearch =
+        !filters.search ||
+        project.projectName?.toLowerCase().includes(filters.search.toLowerCase()) ||
+        project.teur?.toLowerCase().includes(filters.search.toLowerCase());
 
-      const matchesSector = !filters.sector || project.sector === filters.sector;
-      const matchesUnit = !filters.unit || project.unit === filters.unit;
-      const matchesTrack = !filters.track || project.track === filters.track;
-      
-      let matchesCont = true;
-      if (filters.isContinued === "yes") matchesCont = project.isContinued === true;
-      if (filters.isContinued === "no") matchesCont = project.isContinued === false;
+      const matchesAgaff = !filters.agaff || project.agaff === filters.agaff;
+      const matchesYechida = !filters.yechidaMevatzat || project.yechidaMevatzat === filters.yechidaMevatzat;
+      const matchesMaslol = !filters.maslol || String(project.maslol) === String(filters.maslol);
 
-      return matchesSearch && matchesSector && matchesUnit && matchesTrack && matchesCont;
+      let matchesHemsheci = true;
+      if (filters.logHemsheci === "yes") matchesHemsheci = project.logHemsheci === true;
+      if (filters.logHemsheci === "no") matchesHemsheci = project.logHemsheci === false;
+
+      return matchesSearch && matchesAgaff && matchesYechida && matchesMaslol && matchesHemsheci;
     });
   }, [projects, filters]);
 
-  // --- 6. חישוב מדדים עבור כרטיסי הסיכום (Summary Cards Data) ---
-  // מחושב בזמן אמת על בסיס הפרויקטים המסוננים שמופיעים על המסך
   const summaryData = useMemo(() => {
-    let totalCount = filteredProjects.length;
     let totalHR = 0;
     let totalProc = 0;
     let totalPlannedHR = 0;
 
-    filteredProjects.forEach(p => {
-      totalHR += (p.budgetHR || 0);
-      totalProc += (p.budgetProc || 0);
-      totalPlannedHR += (p.plannedHR || 0);
+    filteredProjects.forEach((p) => {
+      totalHR += p.totalTakzuvCoachAdam || 0;
+      totalProc += p.totalTakzivRechesh || 0;
+      totalPlannedHR += p.coachAdam || 0;
     });
 
-    const totalBudget = totalHR + totalProc;
-    const totalGap = totalPlannedHR - totalHR; // פער = תכנון כוח אדם פחות סה"כ תקציב כוח אדם
-
     return {
-      totalCount,
+      totalCount: filteredProjects.length,
       totalHR,
       totalProc,
-      totalBudget,
-      totalGap
+      totalBudget: totalHR + totalProc,
+      totalGap: totalHR - totalPlannedHR,
     };
   }, [filteredProjects]);
 
-  // --- 7. פעולות CRUD (הוספה, עריכה, מחיקה) ---
-  
-  // הוספת פרויקט חדש
   const addNewProject = async (projectData) => {
-    // הוספת השנה הנוכחית לנתונים שנשלחים
     const fullData = { ...projectData, year: selectedYear };
-    fullData.gap = (fullData.plannedHR || 0) - (fullData.budgetHR || 0);
+    // ensure numeric fields
+    fullData.totalTakzuvCoachAdam = Number(fullData.totalTakzuvCoachAdam || 0);
+    fullData.totalTakzivRechesh = Number(fullData.totalTakzivRechesh || 0);
+    fullData.coachAdam = Number(fullData.coachAdam || 0);
     const savedProject = await insertProject(fullData);
-    // ensure returned object has normalized gap
-    const normalizedSaved = { ...savedProject, gap: (savedProject.plannedHR || 0) - (savedProject.budgetHR || 0) };
-    setProjects(prev => [...prev, normalizedSaved]);
-    return savedProject;
+    const normalizedSaved = { ...savedProject, totalTakzuvCoachAdam: savedProject.totalTakzuvCoachAdam || 0, totalTakzivRechesh: savedProject.totalTakzivRechesh || 0, coachAdam: savedProject.coachAdam || 0 };
+    setProjects((prev) => [...prev, normalizedSaved]);
+    return normalizedSaved;
   };
 
-  // עדכון פרויקט קיים
   const updateProjectData = async (projectData) => {
-    // ensure gap is up-to-date before sending
-    const toSend = { ...projectData, gap: (projectData.plannedHR || 0) - (projectData.budgetHR || 0) };
+    const toSend = { ...projectData };
+    toSend.totalTakzuvCoachAdam = Number(toSend.totalTakzuvCoachAdam || 0);
+    toSend.totalTakzivRechesh = Number(toSend.totalTakzivRechesh || 0);
+    toSend.coachAdam = Number(toSend.coachAdam || 0);
     const updated = await updateProject(toSend);
-    const normalizedUpdated = { ...updated, gap: (updated.plannedHR || 0) - (updated.budgetHR || 0) };
-    setProjects(prev => prev.map(p => p.id === normalizedUpdated.id ? normalizedUpdated : p));
+    const normalizedUpdated = { ...updated, totalTakzuvCoachAdam: updated.totalTakzuvCoachAdam || 0, totalTakzivRechesh: updated.totalTakzivRechesh || 0, coachAdam: updated.coachAdam || 0 };
+    setProjects((prev) => prev.map((p) => (p.id === normalizedUpdated.id ? normalizedUpdated : p)));
     return normalizedUpdated;
   };
 
-//   // מחיקת פרויקט (Soft Delete לפי האפיון שלכם)
-//   const removeProject = async (id) => {
-//     await deleteProject(id);
-//     setProjects(prev => prev.filter(p => p.id !== id));
-//     if (selectedProjectId === id) setSelectedProjectId(null);
-//   };
-
-  // מציאת האובייקט המלא של הפרויקט שנבחר לפנל הצדדי
-  const selectedProject = useMemo(() => {
-    return projects.find(p => p.id === selectedProjectId) || null;
-  }, [projects, selectedProjectId]);
+  const selectedProject = useMemo(() => projects.find((p) => p.id === selectedProjectId) || null, [projects, selectedProjectId]);
 
   const value = {
     projects,
     filteredProjects,
+    projectFinanceMap,
     summaryData,
     isLoading,
     selectedYear,
@@ -144,24 +157,18 @@ export function ProjectsProvider({ children }) {
     setSelectedProjectId,
     selectedProject,
     filters,
+    filterOptions,
     updateFilter,
     clearFilters,
     addNewProject,
     updateProjectData,
-    //removeProject
   };
 
-  return (
-    <ProjectsContext.Provider value={value}>
-      {children}
-    </ProjectsContext.Provider>
-  );
+  return <ProjectsContext.Provider value={value}>{children}</ProjectsContext.Provider>;
 }
 
 export function useProjects() {
   const context = useContext(ProjectsContext);
-  if (!context) {
-    throw new Error("useProjects must be used within a ProjectsProvider");
-  }
+  if (!context) throw new Error("useProjects must be used within a ProjectsProvider");
   return context;
 }

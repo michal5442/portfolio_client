@@ -40,21 +40,29 @@ export default function GapByProjectChart() {
             valueLabel = `${isPos ? '+' : '−'}₪${formatCompactNumber(Math.abs(g))}`;
           }
 
+          // Responsive percent-based clamp: never allow bar percent to exceed MAX_BAR_PCT
+          const MAX_BAR_PCT = 42; // max percent of axis the bar can occupy (keeps space for label)
+          const INSIDE_LABEL_PCT = 12; // if bar >= this percent, we can render label visually 'inside'
+          const effPct = Math.min(pct, MAX_BAR_PCT);
+          const labelInside = effPct >= INSIDE_LABEL_PCT;
+          const offsetPct = labelInside ? Math.max(effPct - 6, 2) : Math.min(effPct + 1, MAX_BAR_PCT - 2);
+          const posKey = isPos ? 'left' : 'right';
+          const labelColor = labelInside ? '#ffffff' : barColor;
+
           return (
             <div key={p.id} className="gap-row">
               <div className="gap-axis">
                 <div className="gap-zero" />
                 <div className="gap-bar" style={{
                   [isPos ? 'left' : 'right']: '50%',
-                  width: `${pct}%`,
+                  width: `${effPct}%`,
                   background: barColor
                 }} />
                 <span className="gap-val" style={{
-                  [isPos ? 'left' : 'right']: `calc(50% + ${pct + 1}%)`,
-                  color: barColor
-                }}>
-                  {valueLabel}
-                </span>
+                  [posKey]: `calc(50% + ${offsetPct}%)`,
+                  color: labelColor,
+                  whiteSpace: 'nowrap'
+                }}>{valueLabel}</span>
               </div>
               <div className="gap-lbl" title={p.projectName}>{p.projectName}</div>
             </div>

@@ -33,7 +33,11 @@
 .donut-leg-lbl {
   font-size: 13px;
   color: #475569;
-  white-space: nowrap;
+  /* allow label wrapping for longer names */
+  white-space: normal;
+  word-break: break-word;
+  direction: rtl;
+  text-align: right;
 }
 
 /* עמודת ערכים — משמאל */
@@ -48,7 +52,8 @@
   font-size: 13px;
   font-weight: 600;
   color: #1e293b;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .donut-extra {

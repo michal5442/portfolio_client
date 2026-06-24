@@ -1,0 +1,150 @@
+/* src/components/ProjectsList/Project/ProjectFinanceLayout.css */
+
+.card-fin {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: auto;
+}
+
+.cf {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 11px;
+  text-align: center;
+  min-height: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cf-lbl {
+  font-size: 10px;
+  color: var(--text2);
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.cf-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cf-tot-row {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cf-tot {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue);
+  text-align: left;
+}
+
+.cf-edit-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text2);
+  background-color: rgb(221, 245, 185);
+  padding: 3px 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  transition: all .12s ease;
+}
+
+.cf-edit-btn:hover {
+  background: var(--bg2);
+  color: var(--text);
+  border-color: var(--border2);
+}
+
+.cf-edit-icon {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  position: relative;
+}
+
+.cf-edit-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z'/><path d='M15 5l4 4'/></svg>") center / contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z'/><path d='M15 5l4 4'/></svg>") center / contain no-repeat;
+}
+
+.li-fin {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  margin-right: auto;
+}
+
+.li-fin span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text2);
+}
+
+.li-fin strong {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.li-gap { color: var(--text2); }
+.li-tot-val { color: var(--blue) !important; }
+
+.pd-fin-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+  margin-bottom: 8px;
+}
+
+.pd-fc {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-height: 64px;
+  justify-content: center;
+}
+
+.pd-fc-lbl {
+  font-size: 10px;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.pd-fc-val {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+@media (max-width: 700px) {
+  .pd-fin-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

@@ -1,0 +1,5 @@
+.pfm-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center}
+.pfm-modal{background:#fff;color:#000;padding:16px;border-radius:6px;min-width:320px;max-width:720px}
+.pfm-header{display:flex;justify-content:space-between;align-items:center}
+.pfm-body{margin-top:12px}
+.pfm-footer{display:flex;justify-content:flex-end;margin-top:12px}

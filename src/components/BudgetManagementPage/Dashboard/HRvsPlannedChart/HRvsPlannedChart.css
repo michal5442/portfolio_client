@@ -106,9 +106,12 @@
   font-size: 13px;
   color: #475569;
   text-align: right;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* allow wrapping for long unit names and avoid truncation */
+  white-space: normal;
+  overflow: visible;
+  word-break: break-word;
+  direction: rtl;
+  max-width: 160px;
 }
 
 .hrp-surplus { color: #ea580c; font-weight: 600; } /* חריגה כלפי מטה — כתום */

@@ -16,8 +16,8 @@ export default function DashboardModule() {
 
   return (
     <div className="dashboard" dir="rtl">
-      <BudgetBySectorChart />
       <GapByProjectChart />
+      <BudgetBySectorChart />
       <HRvsPlannedChart />
       <div className="dashboard-row-2">
         <BudgetDistributionDonut />
