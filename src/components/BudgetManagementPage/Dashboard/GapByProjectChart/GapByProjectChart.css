@@ -3,7 +3,7 @@
   border-radius: 16px;
   box-shadow: 0 1px 4px rgba(0,0,0,.07);
   padding: 20px;
-  overflow: hidden; /* keep visual content inside the card */
+  overflow: hidden;
 
 }
 
@@ -53,6 +53,8 @@
 
 .gap-axis {
   grid-column: 2;
+  overflow: visible;
+  min-width: 0;
 }
 
 .gap-axis {
@@ -60,8 +62,8 @@
   height: 2.6vh;
   display: flex;
   align-items: center;
-  padding-left: 2.2%; /* keep bars/labels away from card edge */
-  padding-right: 2.2%;
+  padding-left: 4%; /* keep bars/labels away from card edge */
+  padding-right: 4%;
   box-sizing: border-box;
 }
 
@@ -79,14 +81,18 @@
   height: 1.8vh;
   border-radius: 6px;
   transition: width .3s ease;
-  max-width: calc(50% - 1.6%); /* don't allow bar to cross past the centerline/label area */
+  max-width: calc(50% - 2rem); /* don't allow bar to cross past the centerline/label area */
 }
 
 .gap-val {
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 11px;
   font-weight: 600;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
+  max-width: 42%;
   z-index: 6;
   padding: 0;
   background: transparent;
