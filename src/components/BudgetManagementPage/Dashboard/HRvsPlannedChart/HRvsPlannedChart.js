@@ -29,7 +29,7 @@ export default function HrVsPlannedChart() {
           const hrBudget = project.totalTakzuvCoachAdam || 0;
           const planned = project.coachAdam || 0;
           const difference = hrBudget - planned;
-          const differenceClass = difference > 0 ? 'hrp-surplus' : 'hrp-over';
+          const differenceClass = difference > 0 ? 'hrp-surplus' : difference < 0 ? 'hrp-over' : '';
           let differenceLabel;
           if (difference === 0) {
             differenceLabel = `₪0`;
@@ -48,14 +48,21 @@ export default function HrVsPlannedChart() {
                     <div className="hrp-fill" style={{ width: `${Math.round(val / maxProjectBudget * 100)}%`, background: color }} />
                   </div>
                 ))}
-                <div className="hrp-nums">
-                  תקציב ₪{formatCurrencyShort(hrBudget)} · תכנון ₪{formatCurrencyShort(planned)}
-                  {difference !== 0 && (
-                    <>
-                      <span className="hrp-sep"> · </span>
-                      <span className={differenceClass}>{differenceLabel}</span>
-                    </>
-                  )}
+                <div className="hrp-nums" dir="ltr">
+                  <span className={`hrp-item hrp-gap ${differenceClass}`}>
+                    <span className="hrp-item-value">{differenceLabel}</span>
+                    <span className="hrp-item-label">פער</span>
+                  </span>
+                  <span className="hrp-sep" aria-hidden="true">·</span>
+                  <span className="hrp-item hrp-plan">
+                    <span className="hrp-item-value">₪{formatCurrencyShort(planned)}</span>
+                    <span className="hrp-item-label">תכנון</span>
+                  </span>
+                  <span className="hrp-sep" aria-hidden="true">·</span>
+                  <span className="hrp-item hrp-budget">
+                    <span className="hrp-item-value">₪{formatCurrencyShort(hrBudget)}</span>
+                    <span className="hrp-item-label">תקציב</span>
+                  </span>
                 </div>
               </div>
             </div>

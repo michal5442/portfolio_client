@@ -65,6 +65,7 @@
 
 .bbs-bars {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -89,6 +90,9 @@
   font-size: 11px;
   color: #94a3b8;
   margin-top: 2px;
-  text-align: left;
+  text-align: right;
   direction: rtl;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
