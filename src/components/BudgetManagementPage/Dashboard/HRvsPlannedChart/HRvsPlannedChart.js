@@ -48,11 +48,15 @@ export default function HrVsPlannedChart() {
                     <div className="hrp-fill" style={{ width: `${Math.round(val / maxProjectBudget * 100)}%`, background: color }} />
                   </div>
                 ))}
-              </div>
-              <div className="hrp-nums">
-                <span className={differenceClass}>{differenceLabel}</span>
-                <span className="hrp-sep">·</span>
-                <span className="hrp-totals">תקציב ₪{formatCurrencyShort(hrBudget)} · תכנון ₪{formatCurrencyShort(planned)}</span>
+                <div className="hrp-nums">
+                  תקציב ₪{formatCurrencyShort(hrBudget)} · תכנון ₪{formatCurrencyShort(planned)}
+                  {difference !== 0 && (
+                    <>
+                      <span className="hrp-sep"> · </span>
+                      <span className={differenceClass}>{differenceLabel}</span>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           );
