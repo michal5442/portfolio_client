@@ -10,8 +10,8 @@ export default function ProjectRow({ project, financeData, isSelected }) {
   const { setSelectedProjectId } = useProjects();
 
   return (
-    <div className={`list-item ${isSelected ? "sel" : ""}`} onClick={() => setSelectedProjectId(isSelected ? null : project.id)}>
-      <div className="li-content">
+    <div className={`list-item ${isSelected ? "sel" : ""}`}>
+      <div className="li-content" onClick={(e) => { e.stopPropagation(); setSelectedProjectId(isSelected ? null : project.id); }}>
         <div className="li-name" title={project.projectName}>{project.projectName}</div>
 
         <div className="li-badges">

@@ -90,8 +90,8 @@
   font-size: 11px;
   color: #94a3b8;
   margin-top: 2px;
-  text-align: right;
-  direction: rtl;
+  text-align: left;
+  direction: ltr;
   white-space: normal;
   word-break: break-word;
   overflow-wrap: anywhere;

@@ -1,8 +1,20 @@
 import React from "react";
 import "./ProjectFormModal.css";
+import ProjectForm from "./ProjectForm";
+import { useProjects } from "../../../services/context/ProjectsContext";
 
 export default function ProjectFormModal({ open, onClose, initialData = {}, mode = "new" }) {
+  const { updateProjectData, addNewProject } = useProjects();
   if (!open) return null;
+
+  const handleSubmit = async (data) => {
+    if (mode === "edit") {
+      await updateProjectData({ ...data, id: initialData.id });
+    } else {
+      await addNewProject(data);
+    }
+    onClose();
+  };
 
   return (
     <div className="pfm-backdrop" dir="rtl">
@@ -12,11 +24,8 @@ export default function ProjectFormModal({ open, onClose, initialData = {}, mode
           <button onClick={onClose} aria-label="close">✕</button>
         </header>
         <div className="pfm-body">
-          <p>טופס פרויקט — כאן ניתן לשים את הטופס המלא במימוש מלא. כרגע מדובר ברכיב placeholder.</p>
+          <ProjectForm initialData={initialData} mode={mode} onSubmit={handleSubmit} onCancel={onClose} />
         </div>
-        <footer className="pfm-footer">
-          <button onClick={onClose}>סגור</button>
-        </footer>
       </div>
     </div>
   );

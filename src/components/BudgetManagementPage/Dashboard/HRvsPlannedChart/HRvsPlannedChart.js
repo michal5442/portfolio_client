@@ -51,7 +51,6 @@ export default function HrVsPlannedChart() {
                 <div className="hrp-nums" dir="ltr">
                   <span className={`hrp-item hrp-gap ${differenceClass}`}>
                     <span className="hrp-item-value">{differenceLabel}</span>
-                    <span className="hrp-item-label">פער</span>
                   </span>
                   <span className="hrp-sep" aria-hidden="true">·</span>
                   <span className="hrp-item hrp-plan">

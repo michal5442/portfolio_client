@@ -47,43 +47,67 @@
 }
 
 .np-tab {
-  padding-bottom: 0.5rem;
-  font-size: 0.875rem;
+  padding: 0.75rem 0;
+  font-size: 0.94rem;
   font-weight: 500;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   background: none;
   cursor: pointer;
-  color: #6b7280;
+  color: #64748b;
   margin-bottom: -1px;
-  transition: color 0.15s, border-color 0.15s;
+  transition: color 0.2s, border-color 0.2s;
 }
 
 .np-tab:hover {
-  color: #374151;
+  color: #1e293b;
 }
 
 .np-tab--active {
-  border-bottom-color: #1e5f8e;
-  color: #1e5f8e;
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+  font-weight: 700;
 }
 
-.np-field {
-  margin-bottom: 1rem;
-  text-align: right;
+.np-panels {
+  position: relative;
 }
 
-.np-field--last {
-  margin-bottom: 1.5rem;
+.np-panel {
+  opacity: 0;
+  transform: translateX(10px);
+  max-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, max-height 0.25s ease;
 }
 
-.np-label {
-  display: block;
-  font-size: 0.875rem;
-  color: #374151;
-  margin-bottom: 0.25rem;
+.np-panel--active {
+  opacity: 1;
+  transform: translateX(0);
+  max-height: 2000px;
+  pointer-events: auto;
 }
 
+.np-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px) saturate(0.9);
+  -webkit-backdrop-filter: blur(4px) saturate(0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.np-modal {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 30px -8px rgba(2,6,23,0.18), 0 8px 12px -6px rgba(2,6,23,0.08);
+  width: 580px;
+  padding: 2rem;
+  z-index: 1001;
+}
 .np-input,
 .np-select,
 .np-textarea {

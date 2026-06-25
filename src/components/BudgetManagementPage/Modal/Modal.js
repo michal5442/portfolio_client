@@ -20,7 +20,12 @@ export default function Modal({ onClose, children, maxWidth = 520 }) {
 
   return (
     <div className="modal-overlay" onClick={handleOverlayClick}>
-      <div className="modal" dir="rtl" style={{ maxWidth }}>
+      <div
+        className="modal"
+        dir="rtl"
+        style={{ maxWidth }}
+        onClick={(e) => e.stopPropagation()}
+      >
         {children}
       </div>
     </div>

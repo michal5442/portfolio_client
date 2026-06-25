@@ -14,10 +14,10 @@ export default function ProjectCard({ project, financeData, isSelected }) {
   const [openEdit, setOpenEdit] = useState(false);
 
   return (
-    <div className={`card ${isSelected ? "sel" : ""}`} onClick={() => setSelectedProjectId(isSelected ? null : project.id)}>
+    <div className={`card ${isSelected ? "sel" : ""}`}>
       <div className={`card-accent ${isKiyum ? "card-accent--kiyum" : "card-accent--hit"}`} />
       <div className="card-body">
-        <div className="card-title-row">
+        <div className="card-title-row" onClick={(e) => { e.stopPropagation(); setSelectedProjectId(isSelected ? null : project.id); }}>
           <div className="card-name">{project.projectName}</div>
           <div className="card-actions">
             <StatusPill maslol={project.maslol} />
