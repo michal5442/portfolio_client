@@ -33,12 +33,38 @@
 
 .gap-row {
   display: grid;
-  grid-template-columns: minmax(160px, 24%) 1fr; /* label | axis */
-  align-items: start;
-  gap: 1.2rem;
+  grid-template-columns: minmax(160px, 22%) 1fr auto; /* label | axis | button */
+  align-items: center;
+  gap: 1rem;
   min-height: 3rem;
   position: relative;
   z-index: 1;
+  cursor: pointer;
+}
+
+.gap-row:focus-visible {
+  outline: 2px solid #1e5f8e;
+  outline-offset: 4px;
+}
+
+.gap-detail-btn {
+  justify-self: end;
+  align-self: center;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #1e3a8a;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 999px;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.gap-detail-btn:hover,
+.gap-detail-btn:focus-visible {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1e40af;
 }
 
 .gap-info {

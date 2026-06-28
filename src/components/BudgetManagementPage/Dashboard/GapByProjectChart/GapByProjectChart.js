@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import './GapByProjectChart.css';
 import { useProjects } from '../../../../services/context/ProjectsContext';
+import Modal from '../../Modal/Modal';
+import ProjectDetail from '../../ProjectDetail/ProjectDetail';
 import { formatCompactNumber, computeBudgetMinusPlanned } from '../dashUtils/dashUtils';
 
 export default function GapByProjectChart() {
   const { projects } = useProjects();
   const [showMore, setShowMore] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
+
+  const selectedProject = projects.find((p) => p.id === selectedProjectId);
+  const openProjectDetail = (id) => setSelectedProjectId(id);
+  const closeProjectDetail = () => setSelectedProjectId(null);
 
   const sorted = [...projects].sort((a, b) => computeBudgetMinusPlanned(b) - computeBudgetMinusPlanned(a));
   const maxAbs = Math.max(...sorted.map((p) => Math.abs(computeBudgetMinusPlanned(p))), 1);
@@ -71,7 +78,20 @@ export default function GapByProjectChart() {
           const offset = 1.1;
 
           return (
-            <div key={p.id} className="gap-row">
+            <div
+              key={p.id}
+              className="gap-row"
+              role="button"
+              tabIndex={0}
+              onClick={() => openProjectDetail(p.id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  openProjectDetail(p.id);
+                }
+              }}
+              aria-label={`פתח פרטי פרויקט ${p.projectName}`}
+            >
               <div className="gap-lbl" title={p.projectName}>{p.projectName}</div>
               <div className="gap-axis">
                 <div className="gap-zero" />
@@ -92,10 +112,27 @@ export default function GapByProjectChart() {
                   {valueLabel}
                 </span>
               </div>
+              <button
+                type="button"
+                className="gap-detail-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openProjectDetail(p.id);
+                }}
+                aria-label={`פתח פרטי פרויקט ${p.projectName}`}
+              >
+                פרטים
+              </button>
             </div>
           );
         })}
       </div>
+
+      {selectedProject && (
+        <Modal onClose={closeProjectDetail}>
+          <ProjectDetail project={selectedProject} onClose={closeProjectDetail} />
+        </Modal>
+      )}
 
       {hiddenCount > 0 && (
         <div className="gap-footer mt-4 flex items-center justify-between gap-3">
