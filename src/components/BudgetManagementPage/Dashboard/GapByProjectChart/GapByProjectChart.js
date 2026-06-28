@@ -94,7 +94,7 @@ export default function GapByProjectChart() {
 
       {hiddenCount > 0 && (
         <div className="gap-footer mt-4 flex items-center justify-between gap-3">
-          <div className="text-right text-sm text-slate-600">עוד {hiddenCount} פרויקטים עם פערי פחות מ‑40% זמינים בהרחבה.</div>
+          <div className="text-right text-sm text-slate-600">עוד {hiddenCount} פרויקטים עם פער של יותר מ‑40% זמינים בהרחבה.</div>
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white p-2 text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"

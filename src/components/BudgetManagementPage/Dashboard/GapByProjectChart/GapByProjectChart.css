@@ -89,7 +89,7 @@
 
 .gap-bar {
   position: absolute;
-  height: 1.8rem;
+  height: 1rem;
   border-radius: 6px;
   transition: width .3s ease;
   max-width: calc(50% - 2rem); /* don't allow bar to cross past the centerline/label area */
@@ -125,9 +125,9 @@
 
 /* Emphasize the numeric label (value) on hover as well */
 .gap-row:hover .gap-val {
-  font-weight: 800;
-  transform: translateY(-1px);
-  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+  font-weight: 600;
+  transform: translateY(-50%);
+  text-shadow: none;
 }
 
 /* Make label feel interactive and strengthen connector on hover */
