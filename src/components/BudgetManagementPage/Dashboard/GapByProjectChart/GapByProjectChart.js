@@ -11,6 +11,7 @@ export default function GapByProjectChart() {
   const maxAbs = Math.max(...sorted.map((p) => Math.abs(computeBudgetMinusPlanned(p))), 1);
   const W = 44;
   const THRESHOLD = 0.4; // חריגה = 40% ומעלה
+  const INITIAL_VISIBLE_COUNT = 5;
 
   const highGapProjects = sorted.filter((p) => {
     const g = computeBudgetMinusPlanned(p);
@@ -18,8 +19,8 @@ export default function GapByProjectChart() {
     const rel = Math.abs(g) / relativeBase;
     return g !== 0 && rel >= THRESHOLD;
   });
-  const hiddenCount = sorted.length - highGapProjects.length;
-  const visibleProjects = showMore ? sorted : highGapProjects;
+  const hiddenCount = Math.max(highGapProjects.length - INITIAL_VISIBLE_COUNT, 0);
+  const visibleProjects = showMore ? highGapProjects : highGapProjects.slice(0, INITIAL_VISIBLE_COUNT);
 
   return (
     <div className="gap-card">
@@ -36,7 +37,13 @@ export default function GapByProjectChart() {
         {highGapProjects.length === 0 ? (
           <div className="text-right text-sm text-slate-600">אין כרגע פרויקטים עם פער של יותר מ‑40%.</div>
         ) : (
-          <div className="text-right text-sm text-slate-600">מוצגים {highGapProjects.length} פרויקטים עם חריגה גבוהה.</div>
+          <div className="text-right text-sm text-slate-600">
+            {showMore
+              ? `מוצגים כל ${highGapProjects.length} פרויקטים עם חריגה גבוהה.`
+              : highGapProjects.length > INITIAL_VISIBLE_COUNT
+                ? `מוצגים ${INITIAL_VISIBLE_COUNT} מתוך ${highGapProjects.length} פרויקטים עם חריגה גבוהה.`
+                : `מוצגים ${highGapProjects.length} פרויקטים עם חריגה גבוהה.`}
+          </div>
         )}
       </div>
 
@@ -62,7 +69,6 @@ export default function GapByProjectChart() {
           const MAX_BAR_PCT = 42;
           const effPct = Math.min(pct, MAX_BAR_PCT);
           const offset = 1.1;
-          const labelColor = '#0f1724';
 
           return (
             <div key={p.id} className="gap-row">
@@ -80,7 +86,6 @@ export default function GapByProjectChart() {
                 <span
                   className="gap-val"
                   style={{
-                    color: labelColor,
                     [isPos ? 'left' : 'right']: `calc(50% + ${effPct}% + ${offset}rem)`,
                   }}
                 >
