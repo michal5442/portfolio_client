@@ -157,8 +157,8 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
       </div>
 
       <div className="np-actions">
-        <button className="np-btn-cancel" onClick={onCancel}>ביטול</button>
-        <button className="np-btn-submit" onClick={handleSubmit}>{mode === 'edit' ? 'עדכן פרויקט' : 'הוסף פרויקט'}</button>
+        <button type="button" className="np-btn-cancel" onClick={onCancel}>ביטול</button>
+        <button type="button" className="np-btn-submit" onClick={handleSubmit}>{mode === 'edit' ? 'עדכן פרויקט' : 'הוסף פרויקט'}</button>
       </div>
     </div>
   );
