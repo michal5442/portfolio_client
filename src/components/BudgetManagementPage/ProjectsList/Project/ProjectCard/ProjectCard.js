@@ -40,7 +40,7 @@ export default function ProjectCard({ project, financeData, isSelected }) {
           </span>
         </div>
         
-        {project.teur && <div className="card-desc">{project.teur}</div>}
+        <div className="card-desc">{project.teur || ""}</div>
 
         <ProjectFinanceLayout
           financeData={financeData}

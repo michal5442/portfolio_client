@@ -1,12 +1,11 @@
 /* Styles for PageTitle component */
 .page-title-header {
-  position: sticky;
-  top: 0;
+  position: static;
   width: 100%;
-  background: #ffffff;
-  z-index: 60;
+  background: transparent;
   padding: 12px 18px;
   border-bottom: 1px solid rgba(0,0,0,0.06);
+  font-family: inherit;
 }
 
 .page-title-inner {
@@ -25,9 +24,10 @@
 .page-title-title {
   margin: 0;
   font-size: 28px;
-  font-weight: 800;
-  color: #0f172a; /* darker gray */
+  font-weight: 600;
   line-height: 1.05;
+  color: #0f172a; /* darker gray */
+  font-family: inherit;
 }
 
 .page-title-subwrap {
@@ -73,17 +73,6 @@
   border: 1px solid rgba(0,0,0,0.08);
   padding: 6px 10px;
   border-radius: 8px;
-}
-
-/* Keep header sticky */
-.page-title-header {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  background: #ffffff;
-  z-index: 60;
-  padding: 18px 22px;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
 }
 
 @media (max-width: 768px) {
