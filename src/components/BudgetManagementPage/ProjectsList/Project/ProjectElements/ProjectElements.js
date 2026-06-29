@@ -13,10 +13,12 @@ export const StatusPill = ({ maslol }) => {
 
 /**
  * עיגול אזהרה עם סימן קריאה: אדום לפער שלילי (גירעון), כתום לפער חיובי (עודף).
- * לא מוצג כשאין פער (value === 0).
+ * מוצג רק כשהפער גדול מ-10%.
  */
-const GapAlertIcon = ({ value }) => {
-  if (!value) return null;
+const GapAlertIcon = ({ value, achuzPearim }) => {
+  const percent = Number(achuzPearim) || 0;
+  if (!value || Math.abs(percent) <= 10) return null;
+
   const isNegative = value < 0;
   return (
     <span
@@ -41,7 +43,7 @@ export const GapIndicator = ({ value, statusPearim, achuzPearim, className = "" 
 
   return (
     <span className={`pc-gap pc-gap--${status} ${className}`} >
-      <GapAlertIcon value={value} />
+      <GapAlertIcon value={value} achuzPearim={achuzPearim} />
       {isNegative ? "▼ " : "▲ +"}
       {formatMoney(value)}
       {achuzPearim !== undefined && ` (${achuzPearim}%)`}

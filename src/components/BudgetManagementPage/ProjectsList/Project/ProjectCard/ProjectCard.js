@@ -13,8 +13,17 @@ export default function ProjectCard({ project, financeData, isSelected }) {
   const isKiyum = project.maslol === "KIYUM";
   const [openEdit, setOpenEdit] = useState(false);
 
+  const handleCardClick = (event) => {
+    const clickedInteractiveElement = event.target.closest("button, a, input, select, textarea");
+    if (clickedInteractiveElement) {
+      return;
+    }
+
+    setSelectedProjectId(isSelected ? null : project.id);
+  };
+
   return (
-    <div className={`card ${isSelected ? "sel" : ""}`} onClick={() => setSelectedProjectId(isSelected ? null : project.id)}>
+    <div className={`card ${isSelected ? "sel" : ""}`} onClick={handleCardClick}>
       <div className={`card-accent ${isKiyum ? "card-accent--kiyum" : "card-accent--hit"}`} />
       <div className="card-body">
         <div className="card-title-row">
