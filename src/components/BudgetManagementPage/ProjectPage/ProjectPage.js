@@ -1,5 +1,4 @@
 import React from "react";
-import "./ProjectsPage.css";
 import SummarySquares from "../SummarySqueres/SummarySquares";
 import FilterBar from "../FilterBar/FilterBar";
 import ProjectsList from "../ProjectsList/ProjectsList";

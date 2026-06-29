@@ -1,5 +1,6 @@
 import React from 'react';
 import { useProjects } from '../../../../services/context/ProjectsContext';
+import './YearSelector.css';
 
 const YearSelector = () => {
   const { selectedYear, setSelectedYear } = useProjects();
@@ -16,11 +17,11 @@ const YearSelector = () => {
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="ys-wrapper">
       <select
         value={selectedYear}
         onChange={onChange}
-        className="bg-white border border-gray-200 rounded-lg px-3 py-2 shadow-sm text-sm"
+        className="ys-select"
         aria-label="בחר שנת תקציב"
       >
         {years.map(y => (

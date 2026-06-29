@@ -3,6 +3,8 @@ import './MainTabs.css';
 import { useProjects } from '../../../services/context/ProjectsContext';
 import ProjectsTab from './ProjectsTab/ProjectsTab';
 import DashboardTab from './DashboardTab/DashboardTab';
+import ProjectsPage from '../ProjectPage/ProjectPage';
+import DashboardModule from '../Dashboard/DashboardModule/DashboardModule';
 
 const TABS = [
   { id: 'projects',  label: 'פרויקטים' },
@@ -27,8 +29,8 @@ export default function MainTabs() {
       </div>
 
       <div className="main-tabs-content">
-        {activeTab === 'projects'  && <ProjectsTab />}
-        {activeTab === 'dashboard' && <DashboardTab />}
+        {activeTab === 'projects'  && <ProjectsPage />}
+        {activeTab === 'dashboard' && <DashboardModule />}
       </div>
     </div>
   );

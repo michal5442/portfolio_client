@@ -39,26 +39,12 @@
 
 .p-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
 }
 
 @media (max-width: 700px) {
   .p-split {
     grid-template-columns: 1fr;
   }
-}
-
-/* Hide small progress tracks inside the projects list to avoid showing
-   many tiny rounded 'dots' in compact list/card views. These tracks are
-   used elsewhere (dashboard/project page) so we only target list contexts. */
-.p-rows .bar-track,
-.p-rows .sb-track,
-.p-rows .pl-track,
-.p-grid .bar-track,
-.p-grid .sb-track,
-.p-grid .pl-track {
-  display: none !important;
-  height: 0 !important;
-  background: transparent !important;
 }

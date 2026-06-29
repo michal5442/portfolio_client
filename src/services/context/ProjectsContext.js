@@ -68,15 +68,6 @@ export function ProjectsProvider({ children }) {
     setFilters({ search: "", agaff: "", yechidaMevatzat: "", maslol: "", logHemsheci: "" });
   };
 
-  // derive filter options from loaded projects
-  const filterOptions = useMemo(() => {
-    const uniq = (key) => Array.from(new Set(projects.map((p) => p[key]).filter(Boolean))).sort();
-    return {
-      agaff: uniq("agaff"),
-      yechidaMevatzat: uniq("yechidaMevatzat"),
-    };
-  }, [projects]);
-
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
       const matchesSearch =
@@ -95,26 +86,49 @@ export function ProjectsProvider({ children }) {
       return matchesSearch && matchesAgaff && matchesYechida && matchesMaslol && matchesHemsheci;
     });
   }, [projects, filters]);
+  // derive filter options from loaded projects
+  const filterOptions = useMemo(() => {
+    const uniq = (key) => Array.from(new Set(projects.map((p) => p[key]).filter(Boolean))).sort();
+    return {
+      agaff: uniq("agaff"),
+      yechidaMevatzat: uniq("yechidaMevatzat"),
+    };
+  }, [projects]);
+
+  const gapDetails = useMemo(() => {
+    return filteredProjects.map((p) => {
+      const financeData = projectFinanceMap[p.id] || {};
+      return {
+        id: p.id,
+        name: p.projectName || p.teur || "—",
+        financeData,
+      };
+    });
+  }, [filteredProjects, projectFinanceMap]);
 
   const summaryData = useMemo(() => {
     let totalHR = 0;
     let totalProc = 0;
-    let totalPlannedHR = 0;
+    let totalGap = 0;
+    let totalActive = 0;
 
     filteredProjects.forEach((p) => {
-      totalHR += p.totalTakzuvCoachAdam || 0;
-      totalProc += p.totalTakzivRechesh || 0;
-      totalPlannedHR += p.coachAdam || 0;
+      const financeData = projectFinanceMap[p.id] || {};
+      totalHR += financeData.totalTakzuvCoachAdam || 0;
+      totalProc += financeData.totalTakzivRechesh || 0;
+      totalGap += financeData.pearim || 0;
+      if (p.active) totalActive += 1;
     });
 
     return {
       totalCount: filteredProjects.length,
+      totalActive,
       totalHR,
       totalProc,
       totalBudget: totalHR + totalProc,
-      totalGap: totalHR - totalPlannedHR,
+      totalGap,
     };
-  }, [filteredProjects]);
+  }, [filteredProjects, projectFinanceMap]);
 
   const addNewProject = async (projectData) => {
     const fullData = { ...projectData, year: selectedYear };
@@ -146,6 +160,7 @@ export function ProjectsProvider({ children }) {
     filteredProjects,
     projectFinanceMap,
     summaryData,
+    gapDetails,
     isLoading,
     selectedYear,
     setSelectedYear,

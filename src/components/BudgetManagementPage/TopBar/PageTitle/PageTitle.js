@@ -28,8 +28,6 @@ const PageTitle = ({ view = 'split', onViewChange }) => {
 
 				<div className="page-title-left">
 					<div className="page-title-controls">
-						<NewProjectButton />
-						<ViewToggle view={view} onChange={onViewChange} />
 						<YearSelector />
 					</div>
 				</div>

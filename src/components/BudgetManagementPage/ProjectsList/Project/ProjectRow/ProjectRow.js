@@ -1,33 +1,39 @@
 // src/components/ProjectsList/Project/ProjectRow.js
 import React from "react";
 import { useProjects } from "../../../../../services/context/ProjectsContext";
-import { StatusPill } from "../ProjectElements/ProjectElements";
-import ProjectFinanceLayout from "../ProjectFinanceLayout/ProjectFinanceLayout";
+import { StatusPill, BudgetGap } from "../ProjectElements/ProjectElements";
+import { formatMoney } from "../../../../../utils/formatMoney";
 import "../Project.css";
 import "./ProjectRow.css";
 
 export default function ProjectRow({ project, financeData, isSelected }) {
   const { setSelectedProjectId } = useProjects();
 
+  const { totalTakzivCoachAdam, totalTakzivRechesh } = financeData;
+
   return (
-    <div className={`list-item ${isSelected ? "sel" : ""}`}>
-      <div className="li-content" onClick={(e) => { e.stopPropagation(); setSelectedProjectId(isSelected ? null : project.id); }}>
-        <div className="li-name" title={project.projectName}>{project.projectName}</div>
-
-        <div className="li-badges">
-          <span className="badge b-sector">אגף {project.agaff}</span>
-          <span className="badge b-unit">{project.yechidaMevatzat}</span>
-          <span className={`badge ${project.logHemsheci ? "b-yes" : "b-no"}`}>
-            {project.logHemsheci ? "המשיכי: כן" : "חדש"}
-          </span>
-        </div>
-
-        <ProjectFinanceLayout financeData={financeData} mode="row" />
-      </div>
-
-      <div className="li-side">
+    <tr
+      className={`tr-item ${isSelected ? "sel" : ""}`}
+      onClick={() => setSelectedProjectId(isSelected ? null : project.id)}
+    >
+      <td className="tr-name-cell">
+        <div className="tr-name" title={project.projectName}>{project.projectName}</div>
+      </td>
+      <td className="tr-sector">אגף {project.agaff}</td>
+      <td className="tr-unit">{project.yechidaMevatzat}</td>
+      <td className="tr-continuation">
+        <span className={`badge ${project.logHemsheci ? "b-yes" : "b-no"}`}>
+          {project.logHemsheci ? "המשיכי: כן" : "חדש"}
+        </span>
+      </td>
+      <td className="tr-status">
         <StatusPill maslol={project.maslol} />
-      </div>
-    </div>
+      </td>
+      <td className="tr-num">{formatMoney(totalTakzivCoachAdam)}</td>
+      <td className="tr-num">{formatMoney(totalTakzivRechesh)}</td>
+      <td className="tr-num">
+        <BudgetGap financeData={financeData} />
+      </td>
+    </tr>
   );
 }

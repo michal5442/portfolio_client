@@ -6,6 +6,16 @@ import ProjectDetail from "../ProjectDetail/ProjectDetail";
 import Modal from "../Modal/Modal";
 import "./ProjectsList.css";
 
+function DetailContainer({ project, onClose }) {
+  if (!project) return null;
+
+  return (
+    <Modal onClose={onClose}>
+      <ProjectDetail project={project} onClose={onClose} />
+    </Modal>
+  );
+}
+
 export default function ProjectsList() {
   const { filteredProjects, isLoading, viewMode, selectedProject, setSelectedProjectId } = useProjects();
 
@@ -27,13 +37,27 @@ export default function ProjectsList() {
   if (isList) {
     return (
       <section className="p-list" dir="rtl">
-        <div className={`p-split ${selectedProject ? "" : "p-split--no-det"}`}>
-          <div className="p-rows">{projectItems}</div>
-          {selectedProject && (
-            <div className="p-side-det">
-              <ProjectDetail project={selectedProject} onClose={closeDetail} />
-            </div>
-          )}
+        <div className={`p-split p-split--no-det`}>
+          <div className="p-table-wrap">
+            <table className="p-table">
+              <thead>
+                <tr>
+                  <th className="pt-th-name">שם הפרויקט</th>
+                  <th className="pt-th-sector">אגף</th>
+                  <th className="pt-th-unit">יחידה מבצעת</th>
+                  <th className="pt-th-continuation">המשכיות</th>
+                  <th className="pt-th-status">מסלול</th>
+                  <th>תקציב כ"א</th>
+                  <th>תקציב רכש</th>
+                  <th>פערים</th>
+                </tr>
+              </thead>
+              <tbody>
+                {projectItems}
+              </tbody>
+            </table>
+          </div>
+          <DetailContainer project={selectedProject} onClose={closeDetail} />
         </div>
       </section>
     );
@@ -42,11 +66,7 @@ export default function ProjectsList() {
   return (
     <section className="p-list" dir="rtl">
       <div className="p-grid">{projectItems}</div>
-      {selectedProject && (
-        <Modal onClose={closeDetail}>
-          <ProjectDetail project={selectedProject} onClose={closeDetail} />
-        </Modal>
-      )}
+      <DetailContainer project={selectedProject} onClose={closeDetail} />
     </section>
   );
 }

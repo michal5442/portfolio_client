@@ -1,92 +1,59 @@
-import React, { useEffect, useState } from "react";
-import { getAllProjects } from "../../../services/api/generalApi";
+import React, { useState } from "react";
+import { useProjects } from "../../../services/context/ProjectsContext";
+import { GapIndicator } from "../ProjectsList/Project/ProjectElements/ProjectElements";
+import { formatMoney } from "../../../utils/formatMoney";
+import GapDetailsModal from "../GapDetailsModal/GapDetailsModal";
 import "./SummarySquares.css";
 
 export default function SummarySquares() {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { summaryData, isLoading, gapDetails } = useProjects();
+  const { totalCount, totalActive, totalHR, totalProc, totalBudget, totalGap } = summaryData;
+  const [isGapOpen, setIsGapOpen] = useState(false);
 
-  useEffect(() => {
-    let mounted = true;
-    async function load() {
-      try {
-        const data = await getAllProjects();
-        if (mounted) setProjects(data || []);
-      } catch (err) {
-        setError(err.message || "שגיאה בטעינת פרויקטים");
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    }
-    load();
-    return () => (mounted = false);
-  }, []);
+  const summaryCards = [
+    { label: "פרויקטים", value: totalCount, subText: `פעילים: ${totalActive}` },
+    { label: `תקציב כ"א`, value: formatMoney(totalHR) },
+    { label: "תקציב רכש", value: formatMoney(totalProc) },
+    { label: "סה''כ תקציב", value: formatMoney(totalBudget) },
+  ];
 
-  const totalProjects = projects.length;
-  const totalActive = projects.filter((p) => p.active).length;
-
-  const sumField = (field) =>
-    projects.reduce((acc, p) => acc + (Number(p[field]) || 0), 0);
-
-  const totalTakzuvCoachAdam = sumField("totalTakzuvCoachAdam");
-  const totalTakzivRechesh = sumField("totalTakzivRechesh");
-  const totalTaktsiv = totalTakzuvCoachAdam + totalTakzivRechesh;
-  const totalCoachAdamPlanned = sumField("coachAdam");
-  const totalGaps = totalCoachAdamPlanned - totalTakzuvCoachAdam;
-  const totalGapRel = Math.abs(totalGaps) / (totalCoachAdamPlanned || 1);
-  const GAP_THRESHOLD = 0.1; // 10%
-  let gapClass;
-  if (totalGaps === 0) {
-    gapClass = 'ss-gap-ok';
-  } else if (totalGapRel >= GAP_THRESHOLD) {
-    gapClass = totalGaps > 0 ? 'ss-gap-exceed-pos' : 'ss-gap-exceed-neg';
-  } else {
-    gapClass = 'ss-gap-ok';
-  }
-  if (loading) return <div className="ss-wrapper">טוען סיכומים...</div>;
-  if (error) return <div className="ss-wrapper ss-error">{error}</div>;
+  if (isLoading) return <div className="ss-wrapper">טוען סיכומים...</div>;
 
   return (
     <div className="ss-wrapper">
       <div className="ss-grid">
-        <div className="ss-card">
-          <div className="ss-title">פרויקטים</div>
-          <div className="ss-value">{totalProjects}</div>
-          <div className="ss-sub">פעילים: {totalActive}</div>
-        </div>
+        {summaryCards.map(({ label, value, subText }) => (
+          <div key={label} className="ss-card">
+            <div className="ss-title">{label}</div>
+            <div className="ss-value">{value}</div>
+            {subText && <div className="ss-sub">{subText}</div>}
+          </div>
+        ))}
 
-        <div className="ss-card">
-          <div className="ss-title">תקציב כ"א</div>
-          <div className="ss-value">{totalTakzuvCoachAdam}</div>
-        </div>
-
-        <div className="ss-card">
-          <div className="ss-title">תקציב רכש</div>
-          <div className="ss-value">{totalTakzivRechesh}</div>
-        </div>
-
-        <div className="ss-card">
-          <div className="ss-title">סה"כ תקציב</div>
-          <div className="ss-value">{totalTaktsiv}</div>
-        </div>
-
-        <div className="ss-card">
-          <div className="ss-title">תכנון כ"א</div>
-          <div className="ss-value">{totalCoachAdamPlanned}</div>
-        </div>
-
-          <div className={"ss-card " + gapClass}>
+        <div
+          className={`ss-card ss-card--clickable${isGapOpen ? " ss-card--active" : ""}`}
+          onClick={() => setIsGapOpen(true)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") setIsGapOpen(true);
+          }}
+        >
           <div className="ss-title">פערים</div>
           <div className="ss-value">
-            {totalGaps === 0 ? (
-              `₪0`
-            ) : (
-              <>{totalGaps > 0 && <span className="ss-arrow">▲</span>}{totalGaps}</>
-            )}
+            <GapIndicator value={totalGap} />
           </div>
         </div>
       </div>
+
+      {isGapOpen && (
+        <GapDetailsModal
+          rows={gapDetails}
+          totalGap={totalGap}
+          totalActual={totalHR}
+          onClose={() => setIsGapOpen(false)}
+        />
+      )}
     </div>
   );
 }

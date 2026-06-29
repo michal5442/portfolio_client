@@ -1,6 +1,6 @@
 import React from "react";
 import { useProjects } from "../../../services/context/ProjectsContext";
-import { MASLOL_LABELS } from "../constants/maslol";
+import { MASLOL_LABELS } from "../../../constants/maslol";
 import "./FilterBar.css";
 
 export default function FilterBar() {
