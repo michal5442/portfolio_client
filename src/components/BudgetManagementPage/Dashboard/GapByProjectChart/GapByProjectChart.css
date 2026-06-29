@@ -9,8 +9,10 @@
 
 .gap-header {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 16px;
 }
 
@@ -23,6 +25,62 @@
 .gap-subtitle {
   font-size: 11px;
   color: #94a3b8;
+  text-align: right;
+  direction: rtl;
+}
+
+.gap-hint {
+  margin-top: 0.5rem;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.gap-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.gap-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  direction: rtl;
+}
+
+.gap-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #1f2937;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.gap-action-btn:hover,
+.gap-action-btn:focus-visible {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1e40af;
+}
+
+.gap-action-btn {
+  flex: 1 1 120px;
+  min-width: 110px;
+}
+
+@media (max-width: 900px) {
+  .gap-action-btn {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.78rem;
+  }
 }
 
 .gap-rows {
@@ -33,12 +91,16 @@
 
 .gap-row {
   display: grid;
-  grid-template-columns: minmax(160px, 22%) 1fr auto; /* label | axis | button */
+  grid-template-columns: minmax(160px, 24%) 1fr; /* label | axis */
   align-items: center;
   gap: 1rem;
   min-height: 3rem;
   position: relative;
   z-index: 1;
+  cursor: pointer;
+}
+
+.gap-row .gap-axis {
   cursor: pointer;
 }
 
@@ -204,6 +266,21 @@
   background: transparent !important;
 }
 
+.gap-row.selected .gap-bar,
+.gap-row.selected .gap-lbl {
+  box-shadow: 0 6px 20px rgba(30,95,142,0.18);
+}
+
+.gap-row.selected .gap-bar {
+  transform: translateY(-1px);
+  border: 1px solid rgba(30,95,142,0.16);
+}
+
+.gap-row.selected .gap-lbl {
+  color: #0f172a;
+  transform: scale(1.03);
+}
+
 .gap-row:hover .gap-lbl::before,
 .gap-row:hover .gap-lbl::after {
   background: rgba(30,95,142,0.22);
@@ -216,6 +293,20 @@
   padding-top: 0.75rem;
   background: #fff;
   border-top: 1px solid #e2e8f0;
+}
+
+.gap-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 1rem;
+  color: #64748b;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.gap-legend span {
+  white-space: nowrap;
 }
 
 .gap-row:hover {

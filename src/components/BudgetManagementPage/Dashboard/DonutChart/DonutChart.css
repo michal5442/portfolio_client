@@ -21,6 +21,17 @@
   align-items: center;
   gap: 8px;
   direction: rtl;
+  padding: 0.3rem 0.4rem;
+  border-radius: 10px;
+}
+
+.donut-leg-row.clickable:hover {
+  background: rgba(59,130,246,0.08);
+}
+
+.donut-leg-row.clickable:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
 }
 
 .donut-leg-dot {
@@ -60,4 +71,12 @@
   font-size: 11px;
   color: #94a3b8;
   margin-top: 2px;
+}
+
+.donut-hint {
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  color: #475569;
+  text-align: center;
+  direction: rtl;
 }

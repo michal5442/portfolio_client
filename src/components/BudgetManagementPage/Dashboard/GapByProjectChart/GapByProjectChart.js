@@ -44,13 +44,7 @@ export default function GapByProjectChart() {
         {highGapProjects.length === 0 ? (
           <div className="text-right text-sm text-slate-600">אין כרגע פרויקטים עם פער של יותר מ‑40%.</div>
         ) : (
-          <div className="text-right text-sm text-slate-600">
-            {showMore
-              ? `מוצגים כל ${highGapProjects.length} פרויקטים עם חריגה גבוהה.`
-              : highGapProjects.length > INITIAL_VISIBLE_COUNT
-                ? `מוצגים ${INITIAL_VISIBLE_COUNT} מתוך ${highGapProjects.length} פרויקטים עם חריגה גבוהה.`
-                : `מוצגים ${highGapProjects.length} פרויקטים עם חריגה גבוהה.`}
-          </div>
+          <div className="text-right text-sm text-slate-600">לחץ על פרויקט כדי לראות פרטים נוספים.</div>
         )}
       </div>
 
@@ -112,17 +106,6 @@ export default function GapByProjectChart() {
                   {valueLabel}
                 </span>
               </div>
-              <button
-                type="button"
-                className="gap-detail-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  openProjectDetail(p.id);
-                }}
-                aria-label={`פתח פרטי פרויקט ${p.projectName}`}
-              >
-                פרטים
-              </button>
             </div>
           );
         })}

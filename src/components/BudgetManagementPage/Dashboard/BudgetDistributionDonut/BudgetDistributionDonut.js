@@ -23,7 +23,8 @@ export default function BudgetDistributionDonut() {
     <div className="bdd-card">
       <div className="bdd-title">כ"א VS רכש</div>
       <DonutChart segments={segments} items={items} label='כ"א'
-        extra={`סה"כ ₪${formatCompactNumber(totalHrBudget + totalProcurementBudget)}`} />
+        extra={`סה"כ ₪${formatCompactNumber(totalHrBudget + totalProcurementBudget)}`}
+      />
     </div>
   );
 }
