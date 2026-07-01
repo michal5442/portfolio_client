@@ -1,0 +1,141 @@
+.hrp-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  padding: 20px;
+}
+
+.hrp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  min-width: 0;
+}
+
+.hrp-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
+  text-align: right;
+  flex: 0 0 auto;
+}
+
+.hrp-legend {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.hrp-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hrp-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.hrp-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hrp-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  direction: rtl;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.hrp-lbl {
+  width: 130px;
+  font-size: 12px;
+  color: #475569;
+  text-align: right;
+  padding-top: 4px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.hrp-bars {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.hrp-track {
+  height: 12px;
+  background: #f1f5f9;
+  border-radius: 99px;
+  overflow: hidden;
+  direction: ltr;
+  min-width: 0;
+}
+
+.hrp-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width .3s ease;
+  float: right;
+}
+
+.hrp-nums {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+  text-align: left;
+  direction: ltr;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+}
+
+.hrp-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.hrp-item-label {
+  color: #64748b;
+}
+
+.hrp-item-value {
+  color: inherit;
+}
+
+.hrp-sep {
+  color: #cbd5e1;
+}
+
+.hrp-surplus { color: #ea580c; font-weight: 600; }
+.hrp-over    { color: #dc2626; font-weight: 600; }
+

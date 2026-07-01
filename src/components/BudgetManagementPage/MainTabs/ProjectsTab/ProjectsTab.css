@@ -1,0 +1,4 @@
+.projects-tab {
+  display: flex;
+  flex-direction: column;
+}

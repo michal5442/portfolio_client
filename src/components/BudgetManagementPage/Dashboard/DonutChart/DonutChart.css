@@ -1,0 +1,82 @@
+.donut-body {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  padding: 8px 0;
+  direction: rtl;
+}
+
+/* עיגול — מימין (כבר flex-shrink:0 ב-svg) */
+
+/* לג'נד — dot + שם */
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.donut-leg-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  direction: rtl;
+  padding: 0.3rem 0.4rem;
+  border-radius: 10px;
+}
+
+.donut-leg-row.clickable:hover {
+  background: rgba(59,130,246,0.08);
+}
+
+.donut-leg-row.clickable:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.donut-leg-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.donut-leg-lbl {
+  font-size: 13px;
+  color: #475569;
+  /* allow label wrapping for longer names */
+  white-space: normal;
+  word-break: break-word;
+  direction: rtl;
+  text-align: right;
+}
+
+/* עמודת ערכים — משמאל */
+.donut-vals {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-right: auto;
+}
+
+.donut-val-row {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.donut-extra {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.donut-hint {
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  color: #475569;
+  text-align: center;
+  direction: rtl;
+}

@@ -1,0 +1,33 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background: transparent;
+  min-height: 100%;
+}
+
+.dashboard-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.dashboard-row-2-full {
+  grid-column: 1 / -1;
+}
+
+.dashboard-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 256px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-row-2 {
+    grid-template-columns: 1fr;
+  }
+}

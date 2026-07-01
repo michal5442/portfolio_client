@@ -1,0 +1,98 @@
+.bbs-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  padding: 20px;
+}
+
+.bbs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.bbs-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.bbs-legend {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.bbs-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bbs-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.bbs-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bbs-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  direction: rtl;
+}
+
+.bbs-lbl {
+  width: 130px;
+  font-size: 12px;
+  color: #475569;
+  text-align: right;
+  padding-top: 4px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bbs-bars {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bbs-track {
+  height: 12px;
+  background: #f1f5f9;
+  border-radius: 99px;
+  overflow: hidden;
+  direction: ltr;
+}
+
+.bbs-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width .3s ease;
+  float: right;
+}
+
+.bbs-nums {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+  text-align: left;
+  direction: ltr;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}

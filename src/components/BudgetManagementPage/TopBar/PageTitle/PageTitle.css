@@ -1,0 +1,82 @@
+/* Styles for PageTitle component */
+.page-title-header {
+  position: static;
+  width: 100%;
+  background: transparent;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  font-family: inherit;
+}
+
+.page-title-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.page-title-right {
+  text-align: right;
+}
+
+.page-title-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.05;
+  color: #0f172a; /* darker gray */
+  font-family: inherit;
+}
+
+.page-title-subwrap {
+  margin-top: 6px;
+}
+
+.page-title-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.page-title-meta-dot { color: #9ca3af; }
+
+.page-title-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-title-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-primary {
+  background: #0ea5e9;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.year-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .page-title-inner { flex-direction: column; align-items: stretch; }
+  .page-title-left { justify-content: flex-start; }
+  .page-title-title { font-size: 22px; }
+}

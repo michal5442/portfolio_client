@@ -1,0 +1,31 @@
+/* YearSelector component styles copied from Tailwind equivalents */
+.ys-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem; /* gap-3 */
+}
+
+.ys-select {
+	background-color: #ffffff; /* bg-white */
+	border: 1px solid #e5e7eb; /* border-gray-200 */
+	border-radius: 0.5rem; /* rounded-lg */
+	padding: 0.5rem 0.75rem; /* py-2 px-3 */
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* shadow-sm */
+	font-size: 0.875rem; /* text-sm */
+	line-height: 1.25rem;
+	color: #111827;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.ys-select:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(30,95,142,0.12); /* subtle focus ring */
+	border-color: #1e5f8e;
+}
+
+/* optional: keep native dropdown arrow visible on some browsers while removing default on others */
+.ys-select::-ms-expand {
+	display: none;
+}
+

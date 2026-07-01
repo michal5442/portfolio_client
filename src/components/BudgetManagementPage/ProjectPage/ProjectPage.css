@@ -1,0 +1,157 @@
+/* ProjectsPage layout — matches the dashboard reference */
+
+.page-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.summary-panel {
+  margin-bottom: 4px;
+}
+
+.page-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 0.2rem;
+  border-bottom: 1px solid var(--border2);
+}
+
+.ptab {
+  border: 0;
+  background: transparent;
+  color: var(--text2);
+  padding: 8px 18px;
+  border-bottom: 2px solid transparent;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ptab:hover {
+  color: var(--text);
+}
+
+.ptab.active {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+
+.ptab-icon {
+  font-size: 14px;
+}
+
+.dashboard-shell {
+  padding-top: 4px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.dashboard-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.dashboard-card--full {
+  grid-column: 1 / -1;
+}
+
+.dashboard-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bar-row,
+.sb-row,
+.pl-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.bar-row:last-child,
+.sb-row:last-child,
+.pl-row:last-child {
+  margin-bottom: 0;
+}
+
+.bar-lbl,
+.sb-lbl,
+.pl-name {
+  font-size: 11px;
+  color: var(--text2);
+  width: 140px;
+  flex-shrink: 0;
+  /* allow wrapping for Hebrew labels, align RTL */
+  white-space: normal;
+  overflow: visible;
+  word-break: break-word;
+  text-align: right;
+  direction: rtl;
+}
+
+.bar-wrap,
+.sb-track,
+.pl-track {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bar-track,
+.sb-track,
+.pl-track {
+  height: 12px;
+  background: var(--bg3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar-fill,
+.sb-fill,
+.pl-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--blue) 0%, #5a9fe0 100%);
+}
+
+.sb-fill--accent {
+  background: linear-gradient(90deg, var(--green-text) 0%, #71cfa8 100%);
+}
+
+.bar-num,
+.sb-num,
+.pl-pct {
+  font-size: 10px;
+  color: var(--text3);
+  width: 60px;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

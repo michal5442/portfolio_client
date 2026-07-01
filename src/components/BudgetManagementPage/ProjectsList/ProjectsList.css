@@ -1,0 +1,50 @@
+/* src/components/ProjectsList/ProjectsList.css */
+.p-list { padding: 8px 0 16px; }
+.p-list--load, .p-list--empty {
+  text-align: center;
+  color: var(--text2);
+  font-size: 14px;
+  padding: 40px 0;
+}
+
+.p-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.p-split--no-det {
+  grid-template-columns: 1fr;
+}
+
+.p-rows {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .03);
+}
+
+.p-side-det {
+  width: 100%;
+  position: sticky;
+  top: 20px;
+  flex-shrink: 0;
+}
+
+.p-split--no-det .p-side-det { display: none; }
+
+.p-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 700px) {
+  .p-split {
+    grid-template-columns: 1fr;
+  }
+}
