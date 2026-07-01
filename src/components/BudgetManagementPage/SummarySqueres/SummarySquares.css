@@ -57,6 +57,24 @@
   text-align: center;
 }
 
+/* Ensure gap indicator colors inside the summary cards match the project list legend */
+.ss-value .pc-gap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  color: #fff !important;
+  font-weight: 700;
+  background: transparent;
+}
+
+/* colored pill variants to match the gap legend */
+.ss-value .pc-gap--geraon { background: var(--red) !important; }
+.ss-value .pc-gap--odef   { background: #f97316 !important; }
+.ss-value .pc-gap--takin  { background: var(--blue) !important; }
+
 .ss-error {
   color: var(--red);
   font-size: 14px;

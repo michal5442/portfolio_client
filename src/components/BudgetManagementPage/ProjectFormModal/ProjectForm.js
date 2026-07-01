@@ -46,7 +46,7 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
   };
 
   const totalBudget = Number(form.totalTakzuvCoachAdam) + Number(form.totalTakzivRechesh);
-  const gaps = Number(form.coachAdam) - Number(form.totalTakzuvCoachAdam);
+  const gaps = Number(form.totalTakzuvCoachAdam) - Number(form.coachAdam);
   const gapNum = Number(gaps) || 0;
   const gapDisplay = gapNum === 0 ? `₪0` : (gapNum > 0 ? `▲ ₪${gapNum}+` : `▼ ₪${Math.abs(gapNum)}-`);
   const gapColor = gapNum === 0 ? "#1e5f8e" : (gapNum > 0 ? "#059669" : "#dc2626");

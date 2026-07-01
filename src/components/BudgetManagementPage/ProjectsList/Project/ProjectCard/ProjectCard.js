@@ -40,7 +40,7 @@ export default function ProjectCard({ project, financeData, isSelected }) {
           </span>
         </div>
         
-        <div className="card-desc">{project.teur || ""}</div>
+        <div className={`card-desc ${!project.teur ? "card-desc--empty" : ""}`}>{project.teur || "אין תאור"}</div>
 
         <ProjectFinanceLayout
           financeData={financeData}

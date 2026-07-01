@@ -22,11 +22,26 @@
   color: #1e293b;
 }
 
-.gap-subtitle {
+.gap-legend {
+  display: flex;
+  gap: 12px;
   font-size: 11px;
-  color: #94a3b8;
-  text-align: right;
+  color: #64748b;
   direction: rtl;
+  flex-wrap: wrap;
+}
+
+.gap-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gap-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
 }
 
 .gap-hint {
@@ -180,7 +195,7 @@
 .gap-bar {
   position: absolute;
   height: 1rem;
-  border-radius: 6px;
+  border-radius: 99px;
   transition: width .3s ease;
   max-width: calc(50% - 2rem); /* don't allow bar to cross past the centerline/label area */
 }

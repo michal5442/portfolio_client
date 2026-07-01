@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useProjects } from "../../../services/context/ProjectsContext";
 import { GapIndicator } from "../ProjectsList/Project/ProjectElements/ProjectElements";
 import { formatMoney } from "../../../utils/formatMoney";
@@ -9,6 +9,15 @@ export default function SummarySquares() {
   const { summaryData, isLoading, gapDetails } = useProjects();
   const { totalCount, totalActive, totalHR, totalProc, totalBudget, totalGap } = summaryData;
   const [isGapOpen, setIsGapOpen] = useState(false);
+
+  const totalGapStatus = useMemo(() => {
+    if (!totalHR) return "takin";
+    const percent = Math.abs(totalGap) / totalHR;
+    if (percent >= 0.4) {
+      return totalGap < 0 ? "geraon" : "odef";
+    }
+    return "takin";
+  }, [totalGap, totalHR]);
 
   const summaryCards = [
     { label: "פרויקטים", value: totalCount, subText: `פעילים: ${totalActive}` },
@@ -41,7 +50,7 @@ export default function SummarySquares() {
         >
           <div className="ss-title">פערים</div>
           <div className="ss-value">
-            <GapIndicator value={totalGap} />
+            <GapIndicator value={totalGap} statusPearim={totalGapStatus} />
           </div>
         </div>
       </div>

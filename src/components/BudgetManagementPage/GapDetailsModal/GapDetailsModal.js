@@ -17,13 +17,13 @@ const columns = [
   },
   {
     key: "actual",
-    header: "תקציב בפועל",
+    header: 'תקציב כ"א',
     renderCell: (row) => formatMoney(row.financeData.totalTakzivCoachAdam),
     renderTotal: (totals) => formatMoney(totals.totalActual),
   },
   {
     key: "planned",
-    header: "תקציב מתוכנן",
+    header: 'תכנון כ"א',
     renderCell: (row) => formatMoney(row.financeData.coachAdam),
     renderTotal: (totals) => formatMoney(totals.totalPlanned),
   },
