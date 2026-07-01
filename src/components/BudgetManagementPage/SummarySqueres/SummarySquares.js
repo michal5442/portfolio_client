@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { useProjects } from "../../../services/context/ProjectsContext";
 import { GapIndicator } from "../ProjectsList/Project/ProjectElements/ProjectElements";
 import { formatMoney } from "../../../utils/formatMoney";
+import { GAP_STATUS_THRESHOLD } from "../Dashboard/dashUtils/dashUtils";
 import GapDetailsModal from "../GapDetailsModal/GapDetailsModal";
 import "./SummarySquares.css";
 
@@ -13,7 +14,7 @@ export default function SummarySquares() {
   const totalGapStatus = useMemo(() => {
     if (!totalHR) return "takin";
     const percent = Math.abs(totalGap) / totalHR;
-    if (percent >= 0.4) {
+    if (percent >= GAP_STATUS_THRESHOLD) {
       return totalGap < 0 ? "geraon" : "odef";
     }
     return "takin";

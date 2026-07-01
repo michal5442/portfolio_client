@@ -36,7 +36,7 @@ export default function ProjectCard({ project, financeData, isSelected }) {
           <span className="badge b-sector">אגף {project.agaff}</span>
           <span className="card-unit">{project.yechidaMevatzat}</span>
           <span className={`badge ${project.logHemsheci ? "b-yes" : "b-no"}`}>
-            {project.logHemsheci ? "המשיכי: כן" : "חדש"}
+            {project.logHemsheci ? "המשכי" : "חדש"}
           </span>
         </div>
         

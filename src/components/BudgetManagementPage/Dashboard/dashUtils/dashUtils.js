@@ -15,6 +15,26 @@ export const computeProjectTotalBudget = (p) => (p.totalTakzuvCoachAdam || 0) + 
 // compute budget gap as (HR budget - planned HR)
 export const computeBudgetMinusPlanned = (p) => (p.totalTakzuvCoachAdam || 0) - (p.coachAdam || 0);
 
+const GAP_STATUS_THRESHOLD_PERCENT = Number(process.env.REACT_APP_GAP_STATUS_THRESHOLD_PERCENT) || 10;
+export const GAP_STATUS_THRESHOLD = GAP_STATUS_THRESHOLD_PERCENT / 100; // פער נחשב כחריגה החל מ-10% או לפי env
+export const GAP_DISPLAY_THRESHOLD = 0.4; // תצוגה ראשונית של פרויקטים עם פער גבוה מ-40%
+
+export const computeRelativeGap = (p) => {
+  const g = computeBudgetMinusPlanned(p);
+  const base = Math.max(p.coachAdam || 0, p.totalTakzuvCoachAdam || 0, 1);
+  return Math.abs(g) / base;
+};
+
+export const isGapStatusExceeded = (p) => {
+  const g = computeBudgetMinusPlanned(p);
+  return g !== 0 && computeRelativeGap(p) >= GAP_STATUS_THRESHOLD;
+};
+
+export const isProjectShownInGapChart = (p) => {
+  const g = computeBudgetMinusPlanned(p);
+  return g !== 0 && computeRelativeGap(p) >= GAP_DISPLAY_THRESHOLD;
+};
+
 // Donut geometry constants (clearer names)
 export const CIRCLE_RADIUS = 48;
 export const CIRCLE_CENTER_X = 56;

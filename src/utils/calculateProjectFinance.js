@@ -2,7 +2,7 @@
  * מחשב תקציבים, סך הכל ופערים עבור פרויקט בודד ומאחד שמות שדות
  */
 
-const ACHUZEY_PEARIM = Number(import.meta.env.VITE_ACHUZEY_PEARIM) || 40;
+const ACHUZEY_PEARIM = Number(process.env.REACT_APP_GAP_STATUS_THRESHOLD_PERCENT) || 10;
 
 export const calculateProjectFinance = (project) => {
 

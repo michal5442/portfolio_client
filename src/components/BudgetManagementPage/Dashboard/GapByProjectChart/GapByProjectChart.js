@@ -3,7 +3,7 @@ import './GapByProjectChart.css';
 import { useProjects } from '../../../../services/context/ProjectsContext';
 import Modal from '../../Modal/Modal';
 import ProjectDetail from '../../ProjectDetail/ProjectDetail';
-import { computeBudgetMinusPlanned } from '../dashUtils/dashUtils';
+import { computeBudgetMinusPlanned, computeRelativeGap, isProjectShownInGapChart, isGapStatusExceeded } from '../dashUtils/dashUtils';
 
 export default function GapByProjectChart() {
   const { projects } = useProjects();
@@ -14,20 +14,13 @@ export default function GapByProjectChart() {
   const openProjectDetail = (id) => setSelectedProjectId(id);
   const closeProjectDetail = () => setSelectedProjectId(null);
 
-  const relativeGap = (p) => {
-    const g = computeBudgetMinusPlanned(p);
-    const base = Math.max(p.coachAdam || 0, p.totalTakzuvCoachAdam || 0, 1);
-    return Math.abs(g) / base;
-  };
-
   const sorted = [...projects].sort((a, b) => {
-    const relDiff = relativeGap(b) - relativeGap(a);
+    const relDiff = computeRelativeGap(b) - computeRelativeGap(a);
     return relDiff !== 0 ? relDiff : computeBudgetMinusPlanned(b) - computeBudgetMinusPlanned(a);
   });
 
-  const maxRelativeGap = Math.max(...sorted.map((p) => relativeGap(p)), 1);
+  const maxRelativeGap = Math.max(...sorted.map((p) => computeRelativeGap(p)), 1);
   const MAX_BAR_PCT = 42;
-  const THRESHOLD = 0.4; // חריגה = 40% ומעלה
   const GAP_COLORS = {
     negative: '#dc2626',
     positive: '#f97316',
@@ -40,15 +33,9 @@ export default function GapByProjectChart() {
     { label: 'ללא חריגה', color: GAP_COLORS.none },
   ];
 
-  const highGapProjects = sorted.filter((p) => {
-    const g = computeBudgetMinusPlanned(p);
-    return g !== 0 && relativeGap(p) >= THRESHOLD;
-  });
+  const highGapProjects = sorted.filter((p) => isProjectShownInGapChart(p));
 
-  const lowGapProjects = sorted.filter((p) => {
-    const g = computeBudgetMinusPlanned(p);
-    return g !== 0 && relativeGap(p) < THRESHOLD;
-  });
+  const lowGapProjects = sorted.filter((p) => !highGapProjects.includes(p));
 
   const visibleProjects = showMore ? [...highGapProjects, ...lowGapProjects] : highGapProjects;
   const hiddenCount = lowGapProjects.length;
@@ -71,7 +58,7 @@ export default function GapByProjectChart() {
       <div className="gap-info flex flex-col gap-2 mb-3">
         {highGapProjects.length === 0 ? (
           <div className="text-right text-sm text-slate-600">
-            אין כרגע פרויקטים עם פער של יותר מ‑40%. לחץ על ההרחבה כדי לראות פרויקטים עם פער קטן יותר.
+            אין כרגע פרויקטים עם פער של יותר מ‑40%. לחץ על ההרחבה כדי לראות את כל הפרויקטים.
           </div>
         ) : (
           <div className="text-right text-sm text-slate-600">לחץ על פרויקט כדי לראות פרטים נוספים.</div>
@@ -81,10 +68,10 @@ export default function GapByProjectChart() {
       <div className="gap-rows">
         {visibleProjects.map((p) => {
           const g = computeBudgetMinusPlanned(p);
-          const rel = relativeGap(p);
+          const rel = computeRelativeGap(p);
           const pct = Math.round((rel / maxRelativeGap) * MAX_BAR_PCT);
           const isPos = g >= 0;
-          const isExceed = g !== 0 && rel >= THRESHOLD;
+          const isExceed = isGapStatusExceeded(p);
           let barColor = 'var(--blue)'; // default blue
           if (isExceed) barColor = isPos ? '#f97316' : '#dc2626';
 
@@ -151,8 +138,8 @@ export default function GapByProjectChart() {
         <div className="gap-footer mt-4 flex items-center justify-between gap-3">
           <div className="text-right text-sm text-slate-600">
             {showMore
-              ? 'לחץ שוב כדי להסתיר פרויקטים עם פער של פחות מ‑40%.'
-              : `עוד ${hiddenCount} פרויקטים עם פער של פחות מ‑40% זמינים בהרחבה.`}
+              ? 'לחץ שוב כדי להסתיר פרויקטים נוספים.'
+              : `עוד ${hiddenCount} פרויקטים זמינים בהרחבה.`}
           </div>
           <button
             type="button"

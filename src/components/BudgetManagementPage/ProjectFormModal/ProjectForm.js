@@ -100,7 +100,7 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
 
           <div className="np-row">
             <div className="np-field">
-              <label className="np-label">המשיכי</label>
+              <label className="np-label">המשכי</label>
               <select className="np-select" value={form.logHemsheci} onChange={(e) => set('logHemsheci', e.target.value === 'true')}>
                 <option value="false">לא</option>
                 <option value="true">כן</option>

@@ -48,8 +48,8 @@ export default function FilterBar() {
         value={filters.logHemsheci}
         onChange={(e) => updateFilter("logHemsheci", e.target.value)}
       >
-        <option value="">המשיכי — הכל</option>
-        <option value="yes">המשיכי</option>
+        <option value="">המשכי — הכל</option>
+        <option value="yes">המשכי</option>
         <option value="no">חדש</option>
       </select>
 
