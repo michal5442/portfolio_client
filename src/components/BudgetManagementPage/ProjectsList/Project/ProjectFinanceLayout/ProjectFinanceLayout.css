@@ -44,6 +44,12 @@
   gap: 8px;
 }
 
+.cf-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .cf-tot {
   font-size: 13px;
   font-weight: 700;
@@ -63,10 +69,34 @@
   transition: all .12s ease;
 }
 
+.cf-delete-btn {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #b91c1c;
+  font-size: 13px;
+  padding: 3px 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .12s ease;
+}
+
 .cf-edit-btn:hover {
   background: var(--bg2);
   color: var(--text);
   border-color: var(--border2);
+}
+
+.cf-delete-btn:hover {
+  background: #fecaca;
+  border-color: #f87171;
+}
+
+.cf-delete-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
 }
 
 .cf-edit-icon {

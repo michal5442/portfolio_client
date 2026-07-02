@@ -1,10 +1,59 @@
-.spm-root { padding: 1rem; }
-.spm-header { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:0.5rem }
-.spm-header h3 { margin:0 }
-.spm-controls { display:flex; gap:0.5rem; align-items:center }
-.spm-search { padding:0.4rem 0.6rem; border:1px solid #d1d5db; border-radius:6px }
-.spm-select { padding:0.35rem 0.6rem; border:1px solid #d1d5db; border-radius:6px }
-.spm-body { margin-top:0.5rem }
-.spm-count { margin-bottom:0.5rem; color:#475569 }
-.spm-list { display:flex; flex-direction:column; gap:0.5rem; max-height:60vh; overflow:auto }
-.spm-row { border:1px solid #e6eef6; padding:0.25rem; border-radius:6px }
+.spm-root {
+  padding: 12px 24px 24px;
+}
+
+.spm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border, #e2e8f0);
+}
+
+.spm-header h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text, #1e293b);
+}
+
+.spm-body {
+  margin-top: 16px;
+}
+
+.spm-count {
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--text2, #64748b);
+}
+
+/* Compact, single-line filter bar — never wraps, fits inside the modal's
+   existing width instead of growing it. */
+.spm-filters .toolbar {
+  flex-wrap: nowrap;
+  margin-bottom: 0;
+  gap: 6px;
+}
+
+.spm-filters .toolbar input[type="text"] {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.spm-filters .filter-dropdown,
+.spm-filters .filter-button {
+  min-width: 0;
+  width: auto;
+  flex: 1 1 0;
+}
+
+.spm-filters .toolbar select {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.spm-filters .toolbar .btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}

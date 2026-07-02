@@ -4,6 +4,7 @@ import { useProjects } from "../../../services/context/ProjectsContext";
 import Project from "./Project/Project";
 import ProjectDetail from "../ProjectDetail/ProjectDetail";
 import Modal from "../Modal/Modal";
+import Table from "../Table/Table";
 import "./ProjectsList.css";
 
 function DetailContainer({ project, onClose }) {
@@ -30,33 +31,11 @@ export default function ProjectsList() {
   const closeDetail = () => setSelectedProjectId(null);
   const isList = viewMode === "list";
 
-  const projectItems = filteredProjects.map((p) => (
-    <Project key={p.id} project={p} />
-  ));
-
   if (isList) {
     return (
       <section className="p-list" dir="rtl">
-        <div className={`p-split p-split--no-det`}>
-          <div className="p-table-wrap">
-            <table className="p-table">
-              <thead>
-                <tr>
-                  <th className="pt-th-name">שם הפרויקט</th>
-                  <th className="pt-th-sector">אגף</th>
-                  <th className="pt-th-unit">יחידה מבצעת</th>
-                  <th className="pt-th-continuation">המשכיות</th>
-                  <th className="pt-th-status">מסלול</th>
-                  <th>תקציב כ"א</th>
-                  <th>תקציב רכש</th>
-                  <th>פערים</th>
-                </tr>
-              </thead>
-              <tbody>
-                {projectItems}
-              </tbody>
-            </table>
-          </div>
+        <div className="p-split p-split--no-det">
+          <Table projects={filteredProjects} />
           <DetailContainer project={selectedProject} onClose={closeDetail} />
         </div>
       </section>
@@ -65,7 +44,11 @@ export default function ProjectsList() {
 
   return (
     <section className="p-list" dir="rtl">
-      <div className="p-grid">{projectItems}</div>
+      <div className="p-grid">
+        {filteredProjects.map((p) => (
+          <Project key={p.id} project={p} />
+        ))}
+      </div>
       <DetailContainer project={selectedProject} onClose={closeDetail} />
     </section>
   );

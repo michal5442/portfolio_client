@@ -14,10 +14,11 @@ export function ProjectsProvider({ children }) {
 
   const [filters, setFilters] = useState({
     search: "",
-    agaff: "",
-    yechidaMevatzat: "",
+    agaff: [],
+    yechidaMevatzat: [],
     maslol: "",
     logHemsheci: "",
+    statusPearim: [],
   });
 
   // // map of computed finance values for quick access in UI
@@ -38,7 +39,7 @@ export function ProjectsProvider({ children }) {
         const data = await getProjectByYear(selectedYear);
         const normalized = (data || []).map((p) => ({
           ...p,
-          // keep both possible field names used across the app; compute safe defaults
+          // keep both possible field names used across the app; comdefaults
           projectName: p.projectName || p.name || "",
           teur: p.teur || p.desc || "",
           totalTakzuvCoachAdam: p.totalTakzuvCoachAdam || 0,
@@ -65,7 +66,7 @@ export function ProjectsProvider({ children }) {
   };
 
   const clearFilters = () => {
-    setFilters({ search: "", agaff: "", yechidaMevatzat: "", maslol: "", logHemsheci: "" });
+    setFilters({ search: "", agaff: [], yechidaMevatzat: [], maslol: "", logHemsheci: "", statusPearim: [] });
   };
 
   const filteredProjects = useMemo(() => {
@@ -75,24 +76,40 @@ export function ProjectsProvider({ children }) {
         project.projectName?.toLowerCase().includes(filters.search.toLowerCase()) ||
         project.teur?.toLowerCase().includes(filters.search.toLowerCase());
 
-      const matchesAgaff = !filters.agaff || project.agaff === filters.agaff;
-      const matchesYechida = !filters.yechidaMevatzat || project.yechidaMevatzat === filters.yechidaMevatzat;
+      const matchesAgaff = !filters.agaff?.length || filters.agaff.includes(project.agaff);
+      const matchesYechida = !filters.yechidaMevatzat?.length || filters.yechidaMevatzat.includes(project.yechidaMevatzat);
       const matchesMaslol = !filters.maslol || String(project.maslol) === String(filters.maslol);
 
       let matchesHemsheci = true;
       if (filters.logHemsheci === "yes") matchesHemsheci = project.logHemsheci === true;
       if (filters.logHemsheci === "no") matchesHemsheci = project.logHemsheci === false;
 
-      return matchesSearch && matchesAgaff && matchesYechida && matchesMaslol && matchesHemsheci;
+      // Map display names to statusPearim values
+      const statusPearimMap = {
+        "אין פער": "takin",
+        "פער בפלוס": "odef",
+        "פער במינוס": "geraon"
+      };
+      let matchesPearim = true;
+      if (filters.statusPearim?.length > 0) {
+        const projectStatus = projectFinanceMap[project.id]?.statusPearim || "takin";
+        const selectedStatuses = filters.statusPearim.map(name => statusPearimMap[name]);
+        matchesPearim = selectedStatuses.includes(projectStatus);
+      }
+
+      return matchesSearch && matchesAgaff && matchesYechida && matchesMaslol && matchesHemsheci && matchesPearim;
     });
-  }, [projects, filters]);
+  }, [projects, filters, projectFinanceMap]);
   // derive filter options from loaded projects
   const filterOptions = useMemo(() => {
     const uniq = (key) => Array.from(new Set(projects.map((p) => p[key]).filter(Boolean))).sort();
-    return {
+    const result = {
       agaff: uniq("agaff"),
       yechidaMevatzat: uniq("yechidaMevatzat"),
+      statusPearim: ["אין פער", "פער בפלוס", "פער במינוס"],
     };
+    console.log("filterOptions computed:", result, "from", projects.length, "projects");
+    return result;
   }, [projects]);
 
   const gapDetails = useMemo(() => {

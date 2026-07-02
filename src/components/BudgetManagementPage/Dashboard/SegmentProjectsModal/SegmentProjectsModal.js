@@ -1,75 +1,75 @@
 import React, { useMemo, useState } from 'react';
 import Modal from '../../Modal/Modal';
 import './SegmentProjectsModal.css';
-import { useProjects } from '../../../../services/context/ProjectsContext';
-import Project from '../../ProjectsList/Project/Project';
-import { MASLOL_LABELS } from '../../../../constants/maslol';
+import FilterBar from '../../FilterBar/FilterBar';
+import Table from '../../Table/Table';
+
+const EMPTY_FILTERS = { search: '', agaff: [], yechidaMevatzat: [], maslol: '', logHemsheci: '' };
 
 export default function SegmentProjectsModal({ title, initialProjects, onClose }) {
-  const { projectFinanceMap } = useProjects();
-  const [search, setSearch] = useState('');
-  const [maslolFilter, setMaslolFilter] = useState('any');
-  const [resourceFilter, setResourceFilter] = useState('any'); // 'hr' | 'proc' | 'any'
-  const [continuationFilter, setContinuationFilter] = useState('any'); // 'any'|'continuation'|'new'
+  // Local-only filter state: changing filters here must never touch the
+  // app-wide ProjectsContext filters.
+  const [filters, setFilters] = useState(EMPTY_FILTERS);
+
+  const updateFilter = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const clearFilters = () => setFilters(EMPTY_FILTERS);
+
+  const filterOptions = useMemo(() => {
+    const agaffSet = new Set();
+    const yechidaSet = new Set();
+    initialProjects.forEach((p) => {
+      if (p.agaff) agaffSet.add(p.agaff);
+      if (p.yechidaMevatzat) yechidaSet.add(p.yechidaMevatzat);
+    });
+    return {
+      agaff: Array.from(agaffSet),
+      yechidaMevatzat: Array.from(yechidaSet),
+    };
+  }, [initialProjects]);
 
   const filtered = useMemo(() => {
-    return initialProjects.filter(p => {
-      if (search && !p.projectName?.toLowerCase().includes(search.toLowerCase())) return false;
-      if (maslolFilter !== 'any' && (p.maslol || '') !== maslolFilter) return false;
-      if (continuationFilter !== 'any') {
+    return initialProjects.filter((p) => {
+      if (filters.search && !p.projectName?.toLowerCase().includes(filters.search.toLowerCase())) return false;
+
+      if (filters.agaff?.length && !filters.agaff.includes(p.agaff)) return false;
+
+      if (filters.yechidaMevatzat?.length && !filters.yechidaMevatzat.includes(p.yechidaMevatzat)) return false;
+
+      if (filters.maslol && p.maslol !== filters.maslol) return false;
+
+      if (filters.logHemsheci) {
         const isCont = Boolean(p.logHemsheci);
-        if (continuationFilter === 'continuation' && !isCont) return false;
-        if (continuationFilter === 'new' && isCont) return false;
+        if (filters.logHemsheci === 'yes' && !isCont) return false;
+        if (filters.logHemsheci === 'no' && isCont) return false;
       }
-      if (resourceFilter !== 'any') {
-        const hr = (p.totalTakzuvCoachAdam || 0);
-        const proc = (p.totalTakzivRechesh || 0);
-        if (resourceFilter === 'hr' && hr <= proc) return false;
-        if (resourceFilter === 'proc' && proc <= hr) return false;
-      }
+
       return true;
     });
-  }, [initialProjects, search, maslolFilter, resourceFilter, continuationFilter]);
+  }, [initialProjects, filters]);
 
   return (
-    <Modal onClose={onClose} maxWidth={820}>
+    <Modal onClose={onClose} maxWidth={980}>
       <div className="spm-root" dir="rtl">
         <div className="spm-header">
           <h3>{title}</h3>
-          <div className="spm-controls">
-            <input className="spm-search" placeholder="חיפוש פרויקט" value={search} onChange={e => setSearch(e.target.value)} />
+        </div>
 
-            <select className="spm-select" value={maslolFilter} onChange={e => setMaslolFilter(e.target.value)}>
-              <option value="any">כל המסלולים</option>
-              <option value="KIYUM">{MASLOL_LABELS.KIYUM}</option>
-              <option value="HITAZMUT">{MASLOL_LABELS.HITAZMUT}</option>
-            </select>
-
-            <select className="spm-select" value={resourceFilter} onChange={e => setResourceFilter(e.target.value)}>
-              <option value="any">כל המשאבים</option>
-              <option value="hr">כ"א דומיננטי</option>
-              <option value="proc">רכש דומיננטי</option>
-            </select>
-
-            <select className="spm-select" value={continuationFilter} onChange={e => setContinuationFilter(e.target.value)}>
-              <option value="any">הכל</option>
-              <option value="continuation">המשכיים</option>
-              <option value="new">חדשים</option>
-            </select>
-          </div>
+        <div className="spm-filters">
+          <FilterBar
+            filters={filters}
+            filterOptions={filterOptions}
+            updateFilter={updateFilter}
+            clearFilters={clearFilters}
+          />
         </div>
 
         <div className="spm-body">
           <div className="spm-count">נמצאו {filtered.length} פרויקטים</div>
-          <div className="spm-list">
-            {filtered.map(p => (
-              <div key={p.id} className="spm-row">
-                <Project project={p} />
-              </div>
-            ))}
-          </div>
+          <Table projects={filtered} />
         </div>
-
       </div>
     </Modal>
   );
