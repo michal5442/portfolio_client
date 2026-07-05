@@ -1,8 +1,8 @@
 import React from 'react';
 import './PageTitle.css';
 import YearSelector from '../YearSelector/YearSelector';
-import ViewToggle from '../ViewToggle/ViewToggle';
-import NewProjectButton from '../NewProjectButton/NewProjectButton';
+// import ViewToggle from '../ViewToggle/ViewToggle';
+// import NewProjectButton from '../NewProjectButton/NewProjectButton';
 import { useProjects } from '../../../../services/context/ProjectsContext';
 
 const PageTitle = ({ view = 'split', onViewChange }) => {

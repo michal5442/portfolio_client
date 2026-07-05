@@ -28,28 +28,49 @@
   color: var(--text2, #64748b);
 }
 
-/* Compact, single-line filter bar — never wraps, fits inside the modal's
-   existing width instead of growing it. */
+/* Compact filter bar — each control sizes to its own content instead of
+   being squeezed into equal-width slots, so labels are never clipped.
+   Wraps to a second line if the modal is too narrow to fit everything. */
 .spm-filters .toolbar {
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   margin-bottom: 0;
-  gap: 6px;
+  gap: 8px;
+  row-gap: 10px;
 }
 
+/* Smaller, fixed-ish width search box instead of growing to fill space */
 .spm-filters .toolbar input[type="text"] {
-  flex: 1 1 auto;
-  min-width: 0;
+  flex: 0 1 180px;
+  min-width: 120px;
+  max-width: 220px;
 }
 
-.spm-filters .filter-dropdown,
+/* Let dropdowns hug their content width */
+.spm-filters .filter-dropdown {
+  min-width: 0;
+  width: auto;
+  flex: 0 0 auto;
+}
+
 .spm-filters .filter-button {
   min-width: 0;
   width: auto;
-  flex: 1 1 0;
+  flex: 0 0 auto;
+  padding: 8px 14px;
+}
+
+/* Override the ellipsis truncation from FilterBar.css so the full label
+   is always visible */
+.spm-filters .filter-button-value {
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: unset;
+  flex: 0 0 auto;
 }
 
 .spm-filters .toolbar select {
-  flex: 1 1 0;
+  flex: 0 0 auto;
+  width: auto;
   min-width: 0;
 }
 
