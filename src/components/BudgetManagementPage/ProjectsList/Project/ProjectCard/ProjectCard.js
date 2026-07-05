@@ -9,9 +9,10 @@ import { useState } from "react";
 import ProjectFormModal from "../../../ProjectFormModal/ProjectFormModal";
 
 export default function ProjectCard({ project, financeData, isSelected }) {
-  const { setSelectedProjectId } = useProjects();
+  const { setSelectedProjectId, deleteProjectData } = useProjects();
   const isKiyum = project.maslol === "KIYUM";
   const [openEdit, setOpenEdit] = useState(false);
+   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleCardClick = (event) => {
     const clickedInteractiveElement = event.target.closest("button, a, input, select, textarea");
@@ -20,6 +21,18 @@ export default function ProjectCard({ project, financeData, isSelected }) {
     }
 
     setSelectedProjectId(isSelected ? null : project.id);
+  };
+
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    if (!window.confirm("למחוק את הפרויקט?")) return;
+    setIsDeleting(true);
+    try {
+      await deleteProjectData(project.id);
+    } catch (err) {
+      console.error("שגיאה במחיקת פרויקט:", err);
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -46,6 +59,8 @@ export default function ProjectCard({ project, financeData, isSelected }) {
           financeData={financeData}
           mode="card"
           onEdit={(e) => { e.stopPropagation(); setOpenEdit(true); }}
+          onDelete={handleDelete}
+          isDeleting={isDeleting}
         />
       </div>
       <ProjectFormModal open={openEdit} onClose={() => setOpenEdit(false)} initialData={project} mode="edit" />

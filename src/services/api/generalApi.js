@@ -73,3 +73,24 @@ export async function getProjectByYear(year) {
 
   return response.json();
 }
+
+export async function deleteProject(id) {
+  if (!id) {
+    throw new Error("Project ID must not be empty.");
+  }
+
+  const response = await apiFetch(`/${RESOURCE}/deleteProject/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
+
+  if (response.status === 404) {
+    throw new Error(`Project with ID '${id}' was not found.`);
+  }
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Failed to delete project.");
+  }
+
+  return response.json();
+}

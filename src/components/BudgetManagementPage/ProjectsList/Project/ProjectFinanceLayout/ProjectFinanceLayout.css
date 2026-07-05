@@ -47,7 +47,7 @@
 .cf-actions {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .cf-tot {
@@ -56,37 +56,47 @@
   color: var(--blue);
 }
 
-.cf-edit-btn {
-  background: rgb(219, 240, 188);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  cursor: pointer;
-  color: var(--text2);
-  font-size: 14px;
-  padding: 3px 6px;
-  display: inline-flex;
-  align-items: center;
-  transition: all .12s ease;
-}
-
+.cf-edit-btn,
 .cf-delete-btn {
-  background: #fee2e2;
-  border: 1px solid #fca5a5;
   border-radius: 6px;
   cursor: pointer;
-  color: #b91c1c;
-  font-size: 13px;
-  padding: 3px 7px;
+  font-size: 12px;
+  padding: 4px 8px;
+  width: 4vb;
+  height: 0.5%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: all .12s ease;
 }
 
+.cf-edit-btn {
+  background: rgb(228, 244, 204);
+  border: 1px solid rgb(156, 213, 70);
+}
+
+.cf-delete-btn {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+}
+
+@media (max-width: 600px) {
+  .cf-actions {
+    gap: 2px;
+  }
+
+  .cf-edit-btn,
+  .cf-delete-btn {
+    padding: 3px 6px;
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 11px;
+  }
+}
+
 .cf-edit-btn:hover {
-  background: var(--bg2);
-  color: var(--text);
-  border-color: var(--border2);
+  background: rgb(215, 247, 168);
+  border-color: rgb(113, 185, 4);
 }
 
 .cf-delete-btn:hover {
@@ -99,21 +109,7 @@
   cursor: wait;
 }
 
-.cf-edit-icon {
-  width: 12px;
-  height: 12px;
-  display: inline-block;
-  position: relative;
-}
 
-.cf-edit-icon::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: currentColor;
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z'/><path d='M15 5l4 4'/></svg>") center / contain no-repeat;
-  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z'/><path d='M15 5l4 4'/></svg>") center / contain no-repeat;
-}
 
 /* ── ROW (list) mode ── */
 .li-fin {

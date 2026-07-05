@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
-import { getProjectByYear, insertProject, updateProject } from "../api/generalApi";
+import { getProjectByYear, insertProject, updateProject, deleteProject } from "../api/generalApi";
 import { calculateProjectFinance } from "../../utils/calculateProjectFinance";
 
 const ProjectsContext = createContext();
@@ -97,7 +97,9 @@ export function ProjectsProvider({ children }) {
         matchesPearim = selectedStatuses.includes(projectStatus);
       }
 
-      return matchesSearch && matchesAgaff && matchesYechida && matchesMaslol && matchesHemsheci && matchesPearim;
+      const isActive = project.active === true;
+
+      return matchesSearch && matchesAgaff && matchesYechida && matchesMaslol && matchesHemsheci && matchesPearim && isActive;
     });
   }, [projects, filters, projectFinanceMap]);
   // derive filter options from loaded projects
@@ -170,6 +172,12 @@ export function ProjectsProvider({ children }) {
     return normalizedUpdated;
   };
 
+  const deleteProjectData = async (id) => {
+    await deleteProject(id);
+    setSelectedProjectId((prev) => (prev === id ? null : prev));
+    return id;
+  };
+
   const selectedProject = useMemo(() => projects.find((p) => p.id === selectedProjectId) || null, [projects, selectedProjectId]);
 
   const value = {
@@ -194,6 +202,7 @@ export function ProjectsProvider({ children }) {
     clearFilters,
     addNewProject,
     updateProjectData,
+    deleteProjectData
   };
 
   return <ProjectsContext.Provider value={value}>{children}</ProjectsContext.Provider>;

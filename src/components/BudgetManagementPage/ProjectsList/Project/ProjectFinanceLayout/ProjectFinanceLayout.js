@@ -18,13 +18,13 @@ export default function ProjectFinanceLayout({ financeData, mode = "card", onEdi
           <div className="cf-tot">סה"כ {formatMoney(totalTaktziv)}</div>
           <div className="cf-actions">
             {onDelete && (
-              <button className="cf-delete-btn" onClick={onDelete} aria-label="מחק" title="מחק" disabled={isDeleting}>
-                {isDeleting ? "…" : "✕"}
+              <button className="cf-delete-btn" onClick={onDelete} aria-label="מחק" title="מחק">
+                <span> ❌ </span>
               </button>
             )}
             {onEdit && (
               <button className="cf-edit-btn" onClick={onEdit} aria-label="עדכן" title="עדכן">
-                <span className="cf-edit-icon" />
+                <span> ✏ </span>
               </button>
             )}
           </div>
