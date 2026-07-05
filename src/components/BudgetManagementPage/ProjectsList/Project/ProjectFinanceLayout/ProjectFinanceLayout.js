@@ -24,7 +24,7 @@ export default function ProjectFinanceLayout({ financeData, mode = "card", onEdi
             )}
             {onEdit && (
               <button className="cf-edit-btn" onClick={onEdit} aria-label="עדכן" title="עדכן">
-                <span> ✏ </span>
+                <span className="cf-edit-icon">✎</span>
               </button>
             )}
           </div>

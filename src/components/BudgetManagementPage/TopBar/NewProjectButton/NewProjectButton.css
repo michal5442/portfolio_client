@@ -27,7 +27,8 @@
   background-color: white;
   border-radius: 0.5rem;
   box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
-  width: 580px;
+  max-width: 580px;
+  width: calc(100% - 2rem);
   padding: 2rem;
 }
 
@@ -104,7 +105,8 @@
   background-color: white;
   border-radius: 0.5rem;
   box-shadow: 0 20px 30px -8px rgba(2,6,23,0.18), 0 8px 12px -6px rgba(2,6,23,0.08);
-  width: 580px;
+  max-width: 580px;
+  width: calc(100% - 2rem);
   padding: 2rem;
   z-index: 1001;
 }
@@ -125,6 +127,10 @@
 .np-textarea:focus {
   box-shadow: 0 0 0 1px #1e5f8e;
   border-color: #1e5f8e;
+}
+
+@media (max-width: 640px) {
+  .np-modal { padding: 1rem; }
 }
 
 .np-select {

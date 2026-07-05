@@ -21,7 +21,7 @@ export default function SummarySquares() {
   }, [totalGap, totalHR]);
 
   const summaryCards = [
-    { label: "פרויקטים", value: totalCount, subText: `פעילים: ${totalActive}` },
+    { label: "פרויקטים", value: totalCount },
     { label: `תקציב כ"א`, value: formatMoney(totalHR) },
     { label: "תקציב רכש", value: formatMoney(totalProc) },
     { label: "סה''כ תקציב", value: formatMoney(totalBudget) },
@@ -32,11 +32,10 @@ export default function SummarySquares() {
   return (
     <div className="ss-wrapper">
       <div className="ss-grid">
-        {summaryCards.map(({ label, value, subText }) => (
+        {summaryCards.map(({ label, value }) => (
           <div key={label} className="ss-card">
             <div className="ss-title">{label}</div>
             <div className="ss-value">{value}</div>
-            {subText && <div className="ss-sub">{subText}</div>}
           </div>
         ))}
 

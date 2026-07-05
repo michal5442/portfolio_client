@@ -1,5 +1,10 @@
 /* src/components/ProjectsList/ProjectsList.css */
-.p-list { padding: 8px 0 16px; }
+.p-list {
+  padding: 10px 0 16px;
+  max-width: min(100%, 1520px);
+  margin: 0 auto;
+}
+
 .p-list--load, .p-list--empty {
   text-align: center;
   color: var(--text2);
@@ -9,8 +14,8 @@
 
 .p-split {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
-  gap: 12px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.95fr);
+  gap: 16px;
   align-items: start;
 }
 
@@ -39,11 +44,22 @@
 
 .p-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  justify-content: center;
 }
 
-@media (max-width: 700px) {
+@media (min-width: 1400px) {
+  .p-split {
+    gap: 20px;
+  }
+
+  .p-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
   .p-split {
     grid-template-columns: 1fr;
   }

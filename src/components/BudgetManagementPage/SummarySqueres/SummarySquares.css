@@ -1,13 +1,21 @@
 .ss-wrapper {
   padding: 10px 0 12px;
+  max-width: min(100%, 1520px);
+  margin: 0 auto;
   direction: rtl;
   font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
 }
 
 .ss-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 13px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(12px, 1.2vw, 16px);
+}
+
+@media (min-width: 1200px) {
+  .ss-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
 }
 
 .ss-card {
@@ -15,10 +23,10 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px 14px 18px;
-  min-height: 92px;
+  min-height: 72px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   position: relative !important;
-  height: 15vh;
+  height: clamp(88px, 12vh, 170px);
 }
 
 .ss-value {

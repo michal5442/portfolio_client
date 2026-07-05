@@ -32,7 +32,7 @@ export const GapIndicator = ({ value, statusPearim, achuzPearim, className = "" 
   const absValue = Math.abs(value);
   const displayValue = value === 0
     ? `₪${formatMoney(absValue)}`
-    : `${isNegative ? "▼ " : "▲ +"}${formatMoney(absValue)}`;
+    : `${isNegative ? "▼ " : "▲ "}${formatMoney(absValue)}`;
 
   return (
     <span className={`pc-gap pc-gap--${status} ${className}`} >

@@ -36,7 +36,7 @@
 }
 
 .pt-th-status {
-  width: 90px;
+  width: clamp(60px, 12%, 90px);
 }
 
 .pt-th-name {
@@ -79,12 +79,12 @@
 }
 
 .tr-status {
-  width: 90px;
+  width: clamp(60px, 12%, 90px);
   text-align: center;
 }
 
 .tr-name-cell {
-  min-width: 220px;
+  min-width: 140px;
 }
 
 .tr-name {
@@ -95,7 +95,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 320px;
+  max-width: clamp(140px, 35vw, 320px);
 }
 
 .tr-badges {
@@ -117,8 +117,14 @@
   color: var(--text);
 }
 
-@media (max-width: 700px) {
-  .tr-name {
-    max-width: 160px;
-  }
+@media (max-width: 768px) {
+  .tr-name { max-width: 140px; }
+  .p-table thead th { font-size: 11px; }
+  .tr-item td { padding: 8px 10px; }
+}
+
+@media (max-width: 640px) {
+  .pt-th-status, .tr-status { width: 70px; }
+  .p-table thead th { white-space: normal; }
+  .tr-name { white-space: normal; }
 }
