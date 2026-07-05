@@ -1,3 +1,48 @@
+.p-table-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .03);
+  overflow-x: auto;
+}
+
+.p-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: right;
+}
+
+.p-table thead th {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: 11px 14px;
+  border-bottom: 2px solid var(--border2, var(--border));
+  border-left: 1px solid var(--border);
+  background: var(--bg2);
+  white-space: nowrap;
+}
+
+.p-table thead th:first-child {
+  border-right: none;
+}
+
+.p-table thead th:last-child {
+  border-left: none;
+}
+
+.pt-th-status {
+  width: 90px;
+}
+
+.pt-th-name {
+  text-align: right;
+}
+
 .tr-item {
   background: var(--bg);
   transition: background .1s ease;

@@ -2,7 +2,7 @@
  * מחשב תקציבים, סך הכל ופערים עבור פרויקט בודד ומאחד שמות שדות
  */
 
-const ACHUZEY_PEARIM = Number(import.meta.env.VITE_ACHUZEY_PEARIM) || 10;
+const ACHUZEY_PEARIM = Number(process.env.REACT_APP_GAP_STATUS_THRESHOLD_PERCENT) || 10;
 
 export const calculateProjectFinance = (project) => {
 
@@ -23,7 +23,7 @@ export const calculateProjectFinance = (project) => {
 
   if (pearim === 0) {
     statusPearim = "takin";
-  } else if (Math.abs(achuzPearim) > ACHUZEY_PEARIM || coachAdam === 0) {
+  } else if (Math.abs(achuzPearim) >= ACHUZEY_PEARIM || coachAdam === 0) {
     statusPearim = pearim < 0 ? "geraon" : "odef";
   }
 

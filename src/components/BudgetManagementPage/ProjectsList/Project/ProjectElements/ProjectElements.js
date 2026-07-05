@@ -12,22 +12,10 @@ export const StatusPill = ({ maslol }) => {
 };
 
 /**
- * עיגול אזהרה עם סימן קריאה: אדום לפער שלילי (גירעון), כתום לפער חיובי (עודף).
- * מוצג רק כשהפער גדול מ-10%.
+ * GapAlertIcon disabled — no exclamation icon rendered.
  */
 const GapAlertIcon = ({ value, achuzPearim }) => {
-  const percent = Number(achuzPearim) || 0;
-  if (!value || Math.abs(percent) <= 10) return null;
-
-  const isNegative = value < 0;
-  return (
-    <span
-      className={`pc-gap-alert ${isNegative ? "pc-gap-alert--red" : "pc-gap-alert--orange"}`}
-      aria-hidden="true"
-    >
-      !
-    </span>
-  );
+  return null;
 };
 
 /**
@@ -35,17 +23,21 @@ const GapAlertIcon = ({ value, achuzPearim }) => {
  * משמש גם בשורת/כרטיס פרויקט בודד וגם בריבועי הסיכום.
  */
 export const GapIndicator = ({ value, statusPearim, achuzPearim, className = "" }) => {
-  //console.log(value+" "+statusPearim+" "+achuzPearim+" "+className);
-  
   const isNegative = value < 0;
-  const fallbackStatus = isNegative ? "geraon" : "odef";
-  const status = statusPearim || fallbackStatus;
+  const fallbackStatus = value === 0 ? "takin" : (isNegative ? "geraon" : "odef");
+  let status = statusPearim || fallbackStatus;
+  if (value < 0 && status === 'takin') {
+    status = 'geraon';
+  }
+  const absValue = Math.abs(value);
+  const displayValue = value === 0
+    ? `₪${formatMoney(absValue)}`
+    : `${isNegative ? "▼ " : "▲ +"}${formatMoney(absValue)}`;
 
   return (
     <span className={`pc-gap pc-gap--${status} ${className}`} >
       <GapAlertIcon value={value} achuzPearim={achuzPearim} />
-      {isNegative ? "▼ " : "▲ +"}
-      {formatMoney(value)}
+      {displayValue}
       {achuzPearim !== undefined && ` (${achuzPearim}%)`}
     </span>
   );

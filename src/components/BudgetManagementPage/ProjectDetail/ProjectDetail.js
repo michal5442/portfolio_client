@@ -26,7 +26,7 @@ export default function ProjectDetail({ project, onClose, onEdit }) {
             {project.yechidaMevatzat && <span className="badge b-unit">{project.yechidaMevatzat}</span>}
             {project.agaff           && <span className="badge b-sector">{project.agaff}</span>}
             {project.logHemsheci !== undefined && (
-              <span className={`badge ${project.logHemsheci ? "b-yes" : "b-no"}`}>{project.logHemsheci ? "המשיכי: כן" : "המשיכי: לא"}</span>
+              <span className={`badge ${project.logHemsheci ? "b-yes" : "b-no"}`}>{project.logHemsheci ? "המשכי" : "חדש"}</span>
             )}
           </div>
         </div>

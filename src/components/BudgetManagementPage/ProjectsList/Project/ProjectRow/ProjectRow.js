@@ -23,7 +23,7 @@ export default function ProjectRow({ project, financeData, isSelected }) {
       <td className="tr-unit">{project.yechidaMevatzat}</td>
       <td className="tr-continuation">
         <span className={`badge ${project.logHemsheci ? "b-yes" : "b-no"}`}>
-          {project.logHemsheci ? "המשיכי: כן" : "חדש"}
+          {project.logHemsheci ? "המשכי" : "חדש"}
         </span>
       </td>
       <td className="tr-status">

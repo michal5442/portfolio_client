@@ -33,6 +33,14 @@ export default function BudgetBySectorChart() {
           const hrBudget = projectsInSector.reduce((sum, p) => sum + (p.totalTakzuvCoachAdam || 0), 0);
           const procurementBudget = projectsInSector.reduce((sum, p) => sum + (p.totalTakzivRechesh   || 0), 0);
           const planningBudget = projectsInSector.reduce((sum, p) => sum + (p.coachAdam            || 0), 0);
+          const gapValue = hrBudget - planningBudget;
+          const gapClass = gapValue > 0 ? 'bbs-gap--surplus' : gapValue < 0 ? 'bbs-gap--over' : 'bbs-gap--neutral';
+          const gapLabel = gapValue === 0
+            ? `₪0`
+            : gapValue > 0
+              ? `▲ ₪${formatNumber(gapValue)}`
+              : `▼ ₪${formatNumber(Math.abs(gapValue))}`;
+
           return (
             <div key={s} className="bbs-row">
               <div className="bbs-lbl" title={s}>{s}</div>
@@ -42,7 +50,12 @@ export default function BudgetBySectorChart() {
                     <div className="bbs-fill" style={{ width: `${Math.round(val / maxTotal * 100)}%`, background: c }} />
                   </div>
                 ))}
-                <div className="bbs-nums">כ"א ₪{formatNumber(hrBudget)} · רכש ₪{formatNumber(procurementBudget)} · תכנון ₪{formatNumber(planningBudget)}</div>
+                <div className="bbs-nums">
+                  <span className={`bbs-gap ${gapClass}`}>{gapLabel}</span>
+                  <span>· כ"א ₪{formatNumber(hrBudget)}</span>
+                  <span>· רכש ₪{formatNumber(procurementBudget)}</span>
+                  <span>· תכנון ₪{formatNumber(planningBudget)}</span>
+                </div>
               </div>
             </div>
           );
