@@ -65,6 +65,7 @@ function CheckListDropdown({ label, allLabel, options, selected, onChange }) {
                   className="filter-option"
                   onClick={() => toggleOption(option)}
                 >
+                  
                   <input
                     type="checkbox"
                     checked={isChecked}
