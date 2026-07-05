@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useProjects } from "../../../services/context/ProjectsContext";
-import { MASLOL_LABELS } from "../../../constants/maslol";
+import { MASLOL_LABELS } from "../../../constants/constants";
 import "./FilterBar.css";
 
 function CheckListDropdown({ label, allLabel, options, selected, onChange }) {
@@ -30,7 +30,15 @@ function CheckListDropdown({ label, allLabel, options, selected, onChange }) {
       ? allLabel
       : selected.length === 1
       ? selected[0]
-      : `נבחרו ${selected.length}`;
+      : (() => {
+          const labelMap = {
+            אגף: "אגפים",
+            "יחידה מבצעת": "יחידות מבצעות",
+            פערים: "פערים",
+          };
+          const labelText = labelMap[label] || label;
+          return `נבחרו ${selected.length} ${labelText}`;
+        })();
 
   return (
     <div className="filter-dropdown" ref={ref}>
@@ -64,13 +72,27 @@ function CheckListDropdown({ label, allLabel, options, selected, onChange }) {
                   key={option}
                   className="filter-option"
                   onClick={() => toggleOption(option)}
+                  style={{ position: "relative" }}
                 >
-                  
                   <input
                     type="checkbox"
                     checked={isChecked}
                     onChange={() => toggleOption(option)}
                     onClick={(e) => e.stopPropagation()}
+                    style={{
+                      position: "absolute",
+                      right: "6px",
+                      left: "auto",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      width: "16px",
+                      height: "16px",
+                      margin: 0,
+                      padding: 0,
+                      border: "none",
+                      background: "none",
+                      direction: "ltr",
+                    }}
                   />
                   <span className="filter-option-text">{option}</span>
                 </div>
@@ -142,8 +164,8 @@ export default function FilterBar({
         value={filters.logHemsheci}
         onChange={(e) => updateFilter("logHemsheci", e.target.value)}
       >
-        <option value="">המשיכי — הכל</option>
-        <option value="yes">המשיכי</option>
+        <option value="">המשכי — הכל</option>
+        <option value="yes">המשכי</option>
         <option value="no">חדש</option>
       </select>
 

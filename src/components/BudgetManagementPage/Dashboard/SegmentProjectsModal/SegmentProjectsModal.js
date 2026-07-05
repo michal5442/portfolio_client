@@ -3,8 +3,10 @@ import Modal from '../../Modal/Modal';
 import './SegmentProjectsModal.css';
 import FilterBar from '../../FilterBar/FilterBar';
 import Table from '../../Table/Table';
+import { calculateProjectFinance } from '../../../../utils/calculateProjectFinance';
+import { STATUS_PEARIM_MAP } from '../../../../constants/constants';
 
-const EMPTY_FILTERS = { search: '', agaff: [], yechidaMevatzat: [], maslol: '', logHemsheci: '' };
+const EMPTY_FILTERS = { search: '', agaff: [], yechidaMevatzat: [], maslol: '', logHemsheci: '', statusPearim: [] };
 
 export default function SegmentProjectsModal({ title, initialProjects, onClose }) {
   // Local-only filter state: changing filters here must never touch the
@@ -27,6 +29,7 @@ export default function SegmentProjectsModal({ title, initialProjects, onClose }
     return {
       agaff: Array.from(agaffSet),
       yechidaMevatzat: Array.from(yechidaSet),
+      statusPearim: ["אין פער", "פער בפלוס", "פער במינוס"],
     };
   }, [initialProjects]);
 
@@ -44,6 +47,12 @@ export default function SegmentProjectsModal({ title, initialProjects, onClose }
         const isCont = Boolean(p.logHemsheci);
         if (filters.logHemsheci === 'yes' && !isCont) return false;
         if (filters.logHemsheci === 'no' && isCont) return false;
+      }
+
+      if (filters.statusPearim?.length > 0) {
+        const projectStatus = calculateProjectFinance(p)?.statusPearim || "takin";
+        const selectedStatuses = filters.statusPearim.map(name => STATUS_PEARIM_MAP[name]);
+        if (!selectedStatuses.includes(projectStatus)) return false;
       }
 
       return true;

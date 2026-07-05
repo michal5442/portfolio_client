@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { getProjectByYear, insertProject, updateProject, deleteProject } from "../api/generalApi";
 import { calculateProjectFinance } from "../../utils/calculateProjectFinance";
+import { STATUS_PEARIM_MAP } from "../../constants/constants";
 
 const ProjectsContext = createContext();
 
@@ -84,16 +85,10 @@ export function ProjectsProvider({ children }) {
       if (filters.logHemsheci === "yes") matchesHemsheci = project.logHemsheci === true;
       if (filters.logHemsheci === "no") matchesHemsheci = project.logHemsheci === false;
 
-      // Map display names to statusPearim values
-      const statusPearimMap = {
-        "אין פער": "takin",
-        "פער בפלוס": "odef",
-        "פער במינוס": "geraon"
-      };
       let matchesPearim = true;
       if (filters.statusPearim?.length > 0) {
         const projectStatus = projectFinanceMap[project.id]?.statusPearim || "takin";
-        const selectedStatuses = filters.statusPearim.map(name => statusPearimMap[name]);
+        const selectedStatuses = filters.statusPearim.map(name => STATUS_PEARIM_MAP[name]);
         matchesPearim = selectedStatuses.includes(projectStatus);
       }
 

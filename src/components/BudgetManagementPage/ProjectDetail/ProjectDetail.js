@@ -1,6 +1,6 @@
 // src/components/ProjectDetail/ProjectDetail.js
 import React from "react";
-import { MASLOL_LABELS } from "../../../constants/maslol";
+import { MASLOL_LABELS } from "../../../constants/constants";
 import ProjectFinanceLayout from "../ProjectsList/Project/ProjectFinanceLayout/ProjectFinanceLayout";
 import "./ProjectDetail.css";
 import { useProjects } from "../../../services/context/ProjectsContext";
