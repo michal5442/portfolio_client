@@ -40,7 +40,7 @@ function CheckListDropdown({ label, allLabel, options, selected, onChange }) {
         onClick={() => setOpen((o) => !o)}
       >
         <span className="filter-button-value">{valueText}</span>
-        <span className="filter-button-arrow">▾</span>
+        <span className="filter-button-arrow" aria-hidden="true" />
       </button>
 
       {open && (

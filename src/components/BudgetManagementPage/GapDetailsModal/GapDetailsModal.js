@@ -1,5 +1,5 @@
 import React from "react";
-import { BudgetGap } from "../ProjectsList/Project/ProjectElements/ProjectElements";
+import { BudgetGap, GapIndicator } from "../ProjectsList/Project/ProjectElements/ProjectElements";
 import { formatMoney } from "../../../utils/formatMoney";
 import GenericTable from "../../Common/GenericTable";
 import "./GapDetailsModal.css";
@@ -30,7 +30,7 @@ const columns = [
     key: "gap",
     header: "פער",
     render: (row) => <BudgetGap financeData={row.financeData} />,
-    renderTotal: (totals) => formatMoney(totals.totalGap),
+    renderTotal: (totals) => <GapIndicator value={totals.totalGap} />,
   },
 ];
 
