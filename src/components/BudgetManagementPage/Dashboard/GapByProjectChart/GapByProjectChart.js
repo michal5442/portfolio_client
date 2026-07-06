@@ -3,7 +3,7 @@ import './GapByProjectChart.css';
 import { useProjects } from '../../../../services/context/ProjectsContext';
 import Modal from '../../Modal/Modal';
 import ProjectDetail from '../../ProjectDetail/ProjectDetail';
-import { computeBudgetMinusPlanned, computeRelativeGap, isProjectShownInGapChart, isGapStatusExceeded } from '../dashUtils/dashUtils';
+import { computeBudgetMinusPlanned, computeRelativeGap, compareByRelativeGap, isGapStatusExceeded } from '../dashUtils/dashUtils';
 
 export default function GapByProjectChart() {
   const { projects } = useProjects();
@@ -14,10 +14,7 @@ export default function GapByProjectChart() {
   const openProjectDetail = (id) => setSelectedProjectId(id);
   const closeProjectDetail = () => setSelectedProjectId(null);
 
-  const sorted = [...projects].sort((a, b) => {
-    const relDiff = computeRelativeGap(b) - computeRelativeGap(a);
-    return relDiff !== 0 ? relDiff : computeBudgetMinusPlanned(b) - computeBudgetMinusPlanned(a);
-  });
+  const sorted = [...projects].sort(compareByRelativeGap);
 
   const maxRelativeGap = Math.max(...sorted.map((p) => computeRelativeGap(p)), 1);
   const MAX_BAR_PCT = 42;
@@ -33,13 +30,9 @@ export default function GapByProjectChart() {
     { label: 'ללא חריגה', color: GAP_COLORS.none },
   ];
 
-  const highGapProjects = sorted.filter((p) => isProjectShownInGapChart(p));
-
-  const lowGapProjects = sorted.filter((p) => !highGapProjects.includes(p));
-
-  const visibleProjects = showMore ? [...highGapProjects, ...lowGapProjects] : highGapProjects;
-  const hiddenCount = lowGapProjects.length;
-  const hasExpandableProjects = lowGapProjects.length > 0;
+  const visibleProjects = showMore ? sorted : sorted.slice(0, 4);
+  const hiddenCount = Math.max(sorted.length - 4, 0);
+  const hasExpandableProjects = hiddenCount > 0;
 
   return (
     <div className="gap-card">
@@ -56,12 +49,10 @@ export default function GapByProjectChart() {
       </div>
 
       <div className="gap-info flex flex-col gap-2 mb-3">
-        {highGapProjects.length === 0 ? (
-          <div className="text-right text-sm text-slate-600">
-            אין כרגע פרויקטים עם פער של יותר מ‑40%. לחץ על ההרחבה כדי לראות את כל הפרויקטים.
-          </div>
+        {sorted.length === 0 ? (
+          <div className="text-right text-sm text-slate-600">אין כרגע פרויקטים להצגה.</div>
         ) : (
-          <div className="text-right text-sm text-slate-600">לחץ על פרויקט כדי לראות פרטים נוספים.</div>
+          <div className="text-right text-sm text-slate-600">הפרויקטים מוצגים לפי הפער היחסי הגדול ביותר. לחץ על פרויקט לקבלת פרטים נוספים.</div>
         )}
       </div>
 

@@ -34,12 +34,13 @@ export default function BudgetBySectorChart() {
           const procurementBudget = projectsInSector.reduce((sum, p) => sum + (p.totalTakzivRechesh   || 0), 0);
           const planningBudget = projectsInSector.reduce((sum, p) => sum + (p.coachAdam            || 0), 0);
           const gapValue = hrBudget - planningBudget;
+          const relativePercent = hrBudget > 0 ? Math.round(Math.abs(gapValue) / hrBudget * 100) : 0;
           const gapClass = gapValue > 0 ? 'bbs-gap--surplus' : gapValue < 0 ? 'bbs-gap--over' : 'bbs-gap--neutral';
           const gapLabel = gapValue === 0
-            ? `₪0`
+            ? `₪0 (${relativePercent}%)`
             : gapValue > 0
-              ? `▲ ₪${formatNumber(gapValue)}`
-              : `▼ ₪${formatNumber(Math.abs(gapValue))}`;
+              ? `▲ ₪${formatNumber(gapValue)} (${relativePercent}%)`
+              : `▼ ₪${formatNumber(Math.abs(gapValue))} (${relativePercent}%)`;
 
           return (
             <div key={s} className="bbs-row">

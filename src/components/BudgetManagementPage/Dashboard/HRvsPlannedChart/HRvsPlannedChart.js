@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import './HRvsPlannedChart.css';
 import { useProjects } from '../../../../services/context/ProjectsContext';
+import { computeRelativeGap, compareByRelativeGap } from '../dashUtils/dashUtils';
 
 const COLOR_HR_BUDGET = '#1e3a5f';
 const COLOR_PROC_BUDGET = '#2563eb';
 const COLOR_PLANNED = '#93c5fd';
+const INITIAL_VISIBLE_PROJECTS_COUNT = 4;
 
 const formatCurrencyShort = n => n >= 1_000_000 ? `${(n/1_000_000).toFixed(1)}M` : n >= 1_000 ? `${(n/1_000).toFixed(0)}K` : String(n);
 
 export default function HrVsPlannedChart() {
   const { projects } = useProjects();
+  const [showMore, setShowMore] = useState(false);
   const maxProjectBudget = Math.max(...projects.map(p => Math.max(p.totalTakzuvCoachAdam || 0, p.totalTakzivRechesh || 0, p.coachAdam || 0)), 1);
+  const sorted = useMemo(() => {
+    return [...projects].sort(compareByRelativeGap);
+  }, [projects]);
+  const hiddenCount = Math.max(sorted.length - INITIAL_VISIBLE_PROJECTS_COUNT, 0);
+  const visibleProjects = showMore ? sorted : sorted.slice(0, INITIAL_VISIBLE_PROJECTS_COUNT);
+  const hasExpandableProjects = hiddenCount > 0;
 
   return (
     <div className="hrp-card">
@@ -25,20 +34,31 @@ export default function HrVsPlannedChart() {
         </div>
       </div>
 
+      <div className="hrp-info">
+        {sorted.length === 0 ? (
+          <div className="hrp-note">אין פרויקטים להצגה.</div>
+        ) : hasExpandableProjects ? (
+          <div className="hrp-note">מציגים {showMore ? 'את כל הפרויקטים' : `${INITIAL_VISIBLE_PROJECTS_COUNT} פרויקטים עם הפער היחסי הגדול ביותר`}.</div>
+        ) : (
+          <div className="hrp-note">מציגים את כל הפרויקטים.</div>
+        )}
+      </div>
+
       <div className="hrp-rows">
-        {projects.map(project => {
+        {visibleProjects.map(project => {
           const hrBudget = project.totalTakzuvCoachAdam || 0;
           const procBudget = project.totalTakzivRechesh || 0;
           const planned = project.coachAdam || 0;
           const difference = hrBudget - planned;
+          const relativePercent = hrBudget > 0 ? Math.round(Math.abs(difference) / hrBudget * 100) : 0;
           const differenceClass = difference > 0 ? 'hrp-surplus' : difference < 0 ? 'hrp-over' : '';
           let differenceLabel;
           if (difference === 0) {
-            differenceLabel = `₪0`;
+            differenceLabel = `₪0 (${relativePercent}%)`;
           } else {
             differenceLabel = difference > 0
-              ? `▲ ₪${formatCurrencyShort(difference)}`
-              : `▼ ₪${formatCurrencyShort(Math.abs(difference))}`;
+              ? `▲ ₪${formatCurrencyShort(difference)} (${relativePercent}%)`
+              : `▼ ₪${formatCurrencyShort(Math.abs(difference))} (${relativePercent}%)`;
           }
 
           return (
@@ -75,6 +95,26 @@ export default function HrVsPlannedChart() {
           );
         })}
       </div>
+
+      {hasExpandableProjects && (
+        <div className="hrp-footer">
+          <div className="hrp-footer-note">
+            {showMore
+              ? `לחץ שוב כדי להסתיר פרויקטים נוספים.`
+              : `עוד ${hiddenCount} פרויקטים זמינים בהרחבה.`}
+          </div>
+          <button
+            type="button"
+            className="hrp-expand-button"
+            onClick={() => setShowMore((prev) => !prev)}
+            aria-label={showMore ? 'הצג פחות פרויקטים' : 'הצג פרויקטים נוספים'}
+          >
+            <span className="hrp-expand-icon" style={{ transform: showMore ? 'rotate(225deg)' : 'rotate(45deg)' }}>
+              ⇔
+            </span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

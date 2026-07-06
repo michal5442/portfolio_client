@@ -21,8 +21,8 @@ export const GAP_DISPLAY_THRESHOLD = 0.4; // תצוגה ראשונית של פר
 
 export const computeRelativeGap = (p) => {
   const g = computeBudgetMinusPlanned(p);
-  const base = Math.max(p.coachAdam || 0, p.totalTakzuvCoachAdam || 0, 1);
-  return Math.abs(g) / base;
+  const budget = p.totalTakzuvCoachAdam || 0;
+  return budget > 0 ? Math.abs(g) / budget : 0;
 };
 
 export const isGapStatusExceeded = (p) => {
@@ -33,6 +33,17 @@ export const isGapStatusExceeded = (p) => {
 export const isProjectShownInGapChart = (p) => {
   const g = computeBudgetMinusPlanned(p);
   return g !== 0 && computeRelativeGap(p) >= GAP_DISPLAY_THRESHOLD;
+};
+
+export const compareByRelativeGap = (a, b) => {
+  const gapDiff = computeRelativeGap(b) - computeRelativeGap(a);
+  if (gapDiff !== 0) return gapDiff;
+
+  const absA = Math.abs(computeBudgetMinusPlanned(a));
+  const absB = Math.abs(computeBudgetMinusPlanned(b));
+  if (absB !== absA) return absB - absA;
+
+  return String(a.projectName || '').localeCompare(String(b.projectName || ''), 'he');
 };
 
 // Donut geometry constants (clearer names)
