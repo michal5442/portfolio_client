@@ -1,37 +1,39 @@
 // src/components/ProjectsList/Project/ProjectCard.js
 import React from "react";
-import { useProjects } from "../../../../../services/context/ProjectsContext";
-import { StatusPill } from "../ProjectElements/ProjectElements";
-import ProjectFinanceLayout from "../ProjectFinanceLayout/ProjectFinanceLayout";
+import { useProjects } from "../../../../services/context/ProjectsContext";
+import { MaslolElement, HemsheciElement, isKiyumMaslol } from "../../ProjectElements/ProjectElements";
+import ProjectFinanceLayout from "../../../ProjectFinanceLayout/ProjectFinanceLayout";
 import "../Project.css";
 import "./ProjectCard.css";
 import { useState } from "react";
-import ProjectFormModal from "../../../ProjectFormModal/ProjectFormModal";
+import ProjectFormModal from "../../ProjectFormModal/ProjectFormModal";
 
-export default function ProjectCard({ project, financeData, isSelected }) {
-  const { setSelectedProjectId, deleteProjectData } = useProjects();
-  const isKiyum = project.maslol === "KIYUM";
+export default function ProjectCard({ project }) {
+  const { deleteProjectData, projectFinanceMap, selectedProjectId, setSelectedProjectId } = useProjects();
+
+  const financeData = projectFinanceMap[project.id];
+  const isSelected = selectedProjectId === project.id;
+  const onSelect = () => setSelectedProjectId(isSelected ? null : project.id);
+
+  const isKiyum = isKiyumMaslol(project.maslol);
   const [openEdit, setOpenEdit] = useState(false);
-   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleCardClick = (event) => {
     const clickedInteractiveElement = event.target.closest("button, a, input, select, textarea");
     if (clickedInteractiveElement) {
       return;
     }
-
-    setSelectedProjectId(isSelected ? null : project.id);
+    onSelect();
   };
 
   const handleDelete = async (e) => {
     e.stopPropagation();
     if (!window.confirm("למחוק את הפרויקט?")) return;
-    setIsDeleting(true);
+
     try {
       await deleteProjectData(project.id);
     } catch (err) {
       console.error("שגיאה במחיקת פרויקט:", err);
-      setIsDeleting(false);
     }
   };
 
@@ -42,17 +44,15 @@ export default function ProjectCard({ project, financeData, isSelected }) {
         <div className="card-title-row">
           <div className="card-name">{project.projectName}</div>
           <div className="card-actions">
-            <StatusPill maslol={project.maslol} />
+            <MaslolElement maslol={project.maslol} />
           </div>
         </div>
         <div className="card-meta">
           <span className="badge b-sector">אגף {project.agaff}</span>
           <span className="card-unit">{project.yechidaMevatzat}</span>
-          <span className={`badge ${project.logHemsheci ? "b-yes" : "b-no"}`}>
-            {project.logHemsheci ? "המשכי" : "חדש"}
-          </span>
+          <HemsheciElement isHemshechi={project.logHemsheci} />
         </div>
-        
+
         <div className={`card-desc ${!project.teur ? "card-desc--empty" : ""}`}>{project.teur || "אין תאור"}</div>
 
         <ProjectFinanceLayout
@@ -60,7 +60,6 @@ export default function ProjectCard({ project, financeData, isSelected }) {
           mode="card"
           onEdit={(e) => { e.stopPropagation(); setOpenEdit(true); }}
           onDelete={handleDelete}
-          isDeleting={isDeleting}
         />
       </div>
       <ProjectFormModal open={openEdit} onClose={() => setOpenEdit(false)} initialData={project} mode="edit" />

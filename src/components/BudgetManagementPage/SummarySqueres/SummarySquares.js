@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from "react";
 import { useProjects } from "../../../services/context/ProjectsContext";
-import { GapIndicator } from "../ProjectsList/Project/ProjectElements/ProjectElements";
+import { GapIndicator } from "../ProjectElements/ProjectElements";
 import { formatMoney } from "../../../utils/formatMoney";
 import { getGapStatus } from "../../../utils/calculateProjectFinance";
-import GapDetailsModal from "../GapDetailsModal/GapDetailsModal";
+import GapDetailsModal from "./GapDetailsModal/GapDetailsModal";
 import "./SummarySquares.css";
 
 export default function SummarySquares() {

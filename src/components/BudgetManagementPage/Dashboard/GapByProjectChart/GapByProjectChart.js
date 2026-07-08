@@ -5,8 +5,9 @@ import Modal from '../../Modal/Modal';
 import ProjectDetail from '../../ProjectDetail/ProjectDetail';
 import { computeBudgetMinusPlanned, computeRelativeGap, compareByRelativeGap, isGapStatusExceeded } from '../../../../utils/calculateProjectFinance';
 import { useExpandableProjectList } from '../dashUtils/useExpandableProjectList';
+import { INITIAL_VISIBLE_PROJECTS_COUNT } from '../../../../constants/chartConstants';
 
-const MAX_VISIBLE_PROJECTS = 4;
+const MAX_VISIBLE_PROJECTS = INITIAL_VISIBLE_PROJECTS_COUNT;
 const MAX_BAR_PERCENT = 42;
 const LABEL_OFFSET_REM = 1.1;
 

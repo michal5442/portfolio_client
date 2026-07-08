@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { formatGapDisplay } from "../../../utils/calculateProjectFinance";
 import "./ProjectFormModal.css";
+import { AGAF_OPTIONS, MASLOL_OPTIONS, YECHIDA_MEVATSAAT_OPTIONS } from "../../../constants/constants"; 
 
 export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, onCancel }) {
   const [form, setForm] = useState({
     projectName: "",
     agaff: "",
     yechidaMevatzat: "",
-    maslol: "0",
+    maslol: MASLOL_OPTIONS[0].value,
     logHemsheci: false,
     teur: "",
     hearot: "",
@@ -25,7 +26,7 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
         projectName: initialData.projectName || "",
         agaff: initialData.agaff || "",
         yechidaMevatzat: initialData.yechidaMevatzat || "",
-        maslol: initialData.maslol || "0",
+        maslol: initialData.maslol || MASLOL_OPTIONS[0].value, 
         logHemsheci: initialData.logHemsheci || false,
         teur: initialData.teur || "",
         hearot: initialData.hearot || "",
@@ -106,11 +107,21 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
           <div className="np-row">
             <div className="np-field">
               <label className="np-label">יחידת פיתוח *</label>
-              <input className={`np-input${errors.yechidaMevatzat ? ' np-input--error' : ''}`} value={form.yechidaMevatzat} onChange={(e) => set('yechidaMevatzat', e.target.value)} />
+              <select className={`np-select${errors.yechidaMevatzat ? ' np-input--error' : ''}`} value={form.yechidaMevatzat} onChange={(e) => set('yechidaMevatzat', e.target.value)}>
+                <option value="">בחר יחידת פיתוח</option>
+                {YECHIDA_MEVATSAAT_OPTIONS.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
             </div>
             <div className="np-field">
               <label className="np-label">אגף מבצע *</label>
-              <input className={`np-input${errors.agaff ? ' np-input--error' : ''}`} value={form.agaff} onChange={(e) => set('agaff', e.target.value)} />
+                <select className={`np-select${errors.agaff ? ' np-input--error' : ''}`} value={form.agaff} onChange={(e) => set('agaff', e.target.value)}>
+                <option value="">בחר אגף</option>
+                {AGAF_OPTIONS.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
             </div>
           </div>
 
@@ -125,8 +136,12 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
             <div className="np-field">
               <label className="np-label">מסלול *</label>
               <select className="np-select" value={form.maslol} onChange={(e) => set('maslol', e.target.value)}>
-                <option value="0">קיום</option>
-                <option value="1">פיתוח</option>
+              <select className={`np-select${errors.agaff ? ' np-input--error' : ''}`} value={form.agaff} onChange={(e) => set('agaff', e.target.value)}>
+                <option value="">בחר אגף</option>
+                {AGAF_OPTIONS.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
               </select>
             </div>
           </div>

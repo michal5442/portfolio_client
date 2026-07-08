@@ -25,7 +25,12 @@
 .card-accent {
   height: 3px;
   background: var(--blue);
+  border-radius: 3px;
+  flex-shrink: 0;
 }
+
+.card-accent--kiyum { background: var(--blue); }
+.card-accent--hit { background: #378ADD; }
 
 .card-body {
   padding: 12px 14px;
@@ -47,7 +52,6 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--text);
-  /* allow multi-line Hebrew titles, align RTL and avoid clipping */
   white-space: normal;
   overflow: visible;
   word-break: break-word;

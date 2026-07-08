@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
-import { getProjectByYear, insertProject, updateProject, deleteProject } from "../api/generalApi";
+import { getProjectByYear, insertProject, updateProject, deleteProject, copyProjectsFromPreviousYear } from "../api/generalApi";
 import { calculateProjectFinance } from "../../utils/calculateProjectFinance";
 import { filterProjects, getProjectFilterOptions, DEFAULT_PROJECT_FILTERS } from "../../utils/projectFilters";
+import { STATUS_PEARIM_MAP } from "../../constants/constants";
 
 const ProjectsContext = createContext();
 
@@ -126,6 +127,21 @@ export function ProjectsProvider({ children }) {
     return normalizedSaved;
   };
 
+    const copyFromPreviousYear = async (year) => {
+    const copied = await copyProjectsFromPreviousYear(year);
+    const normalized = (copied || []).map((p) => ({
+      ...p,
+      projectName: p.projectName || p.name || "",
+      teur: p.teur || p.desc || "",
+      totalTakzuvCoachAdam: p.totalTakzuvCoachAdam || 0,
+      totalTakzivRechesh: p.totalTakzivRechesh || 0,
+      coachAdam: p.coachAdam || 0,
+    }));
+
+    setProjects((prev) => [...prev, ...normalized]);
+    return normalized;
+  };
+
   const updateProjectData = async (projectData) => {
     const toSend = normalizeProjectForApi({ ...projectData });
     const updated = await updateProject(toSend);
@@ -136,6 +152,7 @@ export function ProjectsProvider({ children }) {
 
   const deleteProjectData = async (id) => {
     await deleteProject(id);
+    setProjects((prev) => prev.filter((p) => p.id !== id));
     setSelectedProjectId((prev) => (prev === id ? null : prev));
     return id;
   };
@@ -164,7 +181,8 @@ export function ProjectsProvider({ children }) {
     clearFilters,
     addNewProject,
     updateProjectData,
-    deleteProjectData
+    deleteProjectData,
+    copyFromPreviousYear
   };
 
   return <ProjectsContext.Provider value={value}>{children}</ProjectsContext.Provider>;

@@ -1,12 +1,9 @@
 import React from "react";
-import { BudgetGap, GapIndicator } from "../ProjectsList/Project/ProjectElements/ProjectElements";
-import { formatMoney } from "../../../utils/formatMoney";
-import GenericTable from "../../Common/GenericTable";
+import { PearimElement, GapIndicator } from "../../ProjectElements/ProjectElements";
+import { formatMoney } from "../../../../utils/formatMoney";
+import GenericTable from "../../../Common/GenericTable";
 import "./GapDetailsModal.css";
 
-/**
- * Gap details modal columns
- */
 const columns = [
   {
     key: "name",
@@ -29,13 +26,14 @@ const columns = [
   {
     key: "gap",
     header: "פער",
-    render: (row) => <BudgetGap financeData={row.financeData} />,
+    render: (row) => <PearimElement financeData={row.financeData} />,
     renderTotal: (totals) => <GapIndicator value={totals.totalGap} />,
   },
 ];
 
 export default function GapDetailsModal({ rows, totalGap, totalActual, onClose }) {
-  const totalPlanned = rows.reduce((s, r) => s + (r.financeData.coachAdam || 0), 0);
+  
+  const totalPlanned = rows.reduce((total, project) => total + (project.financeData.coachAdam || 0), 0);
   const totals = { totalPlanned, totalActual, totalGap };
 
   return (
@@ -55,7 +53,6 @@ export default function GapDetailsModal({ rows, totalGap, totalActual, onClose }
             tableClassName="gdm-table"
             wrapperClassName=""
             footerData={totals}
-            emptyMessage="אין פרויקטים להצגה"
           />
         </div>
       </div>

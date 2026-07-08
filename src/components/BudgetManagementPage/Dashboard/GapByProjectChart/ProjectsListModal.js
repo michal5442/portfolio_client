@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import Modal from '../../Modal/Modal';
-import ProjectDetail from '../../ProjectDetail/ProjectDetail';
-import { MASLOL_LABELS } from '../../../../constants/maslol';
+import ProjectDetailModal from '../../../Common/ProjectDetailModal';
+import { MASLOL_OPTIONS } from '../../../../constants/constants';
 import { computeBudgetMinusPlanned } from '../../../../../utils/calculateProjectFinance';
 import { formatMoney } from '../../../../../utils/formatMoney';
 import './ProjectsListModal.css';
@@ -54,8 +54,8 @@ export default function ProjectsListModal({ projects, onClose, initialFilters = 
             <div className="pl-filters">
               <select value={maslol} onChange={(e) => setMaslol(e.target.value)} className="pl-select">
                 <option value="">כל המסלולים</option>
-                {Object.keys(MASLOL_LABELS).map((k) => (
-                  <option key={k} value={k}>{MASLOL_LABELS[k]}</option>
+                  {MASLOL_OPTIONS.map((o) => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
                 ))}
               </select>
 
@@ -76,7 +76,7 @@ export default function ProjectsListModal({ projects, onClose, initialFilters = 
 
         <div className="pl-body">
           {!selectedId ? (
-            <div className="pl-list">
+            <div className="pl-table">
               {filtered.length === 0 ? (
                 <div className="text-right text-sm text-slate-600">לא נמצאו פרויקטים התואמים את המסננים.</div>
               ) : (
@@ -86,7 +86,7 @@ export default function ProjectsListModal({ projects, onClose, initialFilters = 
                     <div key={p.id} className="pl-row" role="button" tabIndex={0} onClick={() => setSelectedId(p.id)}>
                       <div className="pl-row-left">
                         <div className="pl-name">{p.projectName}</div>
-                        <div className="pl-meta">{MASLOL_LABELS[p.maslol] || ''} • {p.yechidaMevatzat || ''}</div>
+                        <div className="pl-meta">{MASLOL_OPTIONS.find((o) => o.value === p.maslol)?.label || ''} • {p.yechidaMevatzat || ''}</div>
                       </div>
                       <div className="pl-row-right">{gap >= 0 ? `+₪${formatMoney(gap)}` : `-₪${formatMoney(Math.abs(gap))}`}</div>
                     </div>
@@ -97,7 +97,7 @@ export default function ProjectsListModal({ projects, onClose, initialFilters = 
           ) : (
             <div className="pl-detail">
               <button type="button" className="pl-back" onClick={() => setSelectedId(null)}>חזרה לרשימה</button>
-              <ProjectDetail project={projects.find((x) => x.id === selectedId)} onClose={onClose} />
+              <ProjectDetailModal project={projects.find((x) => x.id === selectedId)} onClose={onClose} />
             </div>
           )}
         </div>

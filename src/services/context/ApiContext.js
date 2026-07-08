@@ -1,6 +1,5 @@
 import { createContext, useContext } from "react";
 
-// API base URL from environment or fallback to "/api"
 const API_BASE = (process.env.REACT_APP_API_BASE || "/api").replace(/\/$/, "");
 
 const ApiConfigContext = createContext({

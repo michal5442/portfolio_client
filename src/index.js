@@ -18,16 +18,11 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-// Expose chart colors as CSS variables so CSS can reuse the same palette.
 Object.entries(BUDGET_COLORS).forEach(([key, hex]) => {
   try {
     document.documentElement.style.setProperty(`--color-${key.toLowerCase()}`, hex);
   } catch (e) {
-    // defensive: if document isn't available (e.g., during tests), ignore
   }
 });

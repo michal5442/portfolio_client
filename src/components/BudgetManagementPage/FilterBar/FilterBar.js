@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useProjects } from "../../../services/context/ProjectsContext";
-import { MASLOL_LABELS } from "../../../constants/constants";
+import { MASLOL_OPTIONS } from "../../../constants/constants";
 import "./FilterBar.css";
 
 function CheckListDropdown({ label, allLabel, options, selected, onChange }) {
@@ -105,12 +105,7 @@ function CheckListDropdown({ label, allLabel, options, selected, onChange }) {
   );
 }
 
-/**
- * By default reads/writes the global ProjectsContext filters.
- * Pass `filters` / `filterOptions` / `updateFilter` / `clearFilters` as props
- * to make this a fully local, self-contained filter bar (e.g. inside a modal)
- * that never touches the app-wide filter state.
- */
+
 export default function FilterBar({
   filters: filtersProp,
   filterOptions: filterOptionsProp,
@@ -156,8 +151,9 @@ export default function FilterBar({
         onChange={(e) => updateFilter("maslol", e.target.value)}
       >
         <option value="">כל המסלולים</option>
-        <option value="KIYUM">{MASLOL_LABELS.KIYUM}</option>
-        <option value="HITAZMUT">{MASLOL_LABELS.HITAZMUT}</option>
+        {MASLOL_OPTIONS.map((o) => (
+          <option key={o.value} value={o.value}>{o.label}</option>
+        ))}
       </select>
 
       <select

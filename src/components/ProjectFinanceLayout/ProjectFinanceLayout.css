@@ -60,10 +60,10 @@
 .cf-delete-btn {
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.75rem;
-  padding: 0.15rem 0.35rem;
-  min-width: 1.35rem;
-  min-height: 1.35rem;
+  font-size: 12px;
+  padding: 4px 8px;
+  width: 4vb;
+  height: 0.5%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -73,15 +73,6 @@
 .cf-edit-btn {
   background: rgb(228, 244, 204);
   border: 1px solid rgb(156, 213, 70);
-  color: rgb(80, 113, 19);
-}
-
-.cf-edit-icon {
-  display: inline-block;
-  font-size: 0.8rem;
-  line-height: 1;
-  transform: rotate(-18deg);
-  font-weight: 700;
 }
 
 .cf-delete-btn {
@@ -96,17 +87,16 @@
 
   .cf-edit-btn,
   .cf-delete-btn {
-    padding: 0.12rem 0.3rem;
-    min-width: 1.2rem;
-    min-height: 1.2rem;
-    font-size: 0.7rem;
+    padding: 3px 6px;
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 11px;
   }
 }
 
 .cf-edit-btn:hover {
   background: rgb(215, 247, 168);
   border-color: rgb(113, 185, 4);
-  transform: translateY(-1px);
 }
 
 .cf-delete-btn:hover {
@@ -120,17 +110,6 @@
 }
 
 
-
-/* ── ROW (list) mode ── */
-.li-fin {
-  display: flex;
-  gap: 10px;
-  font-size: 11px;
-  font-variant-numeric: tabular-nums;
-}
-
-.li-fin span { color: var(--text2); }
-.li-fin strong { color: var(--text); }
 
 /* ── DETAIL (panel) mode ── */
 .pd-fin-grid {
@@ -165,10 +144,6 @@
   color: var(--text);
 }
 
-@media (max-width: 1024px) {
-  .pd-fin-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 700px) {
   .pd-fin-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

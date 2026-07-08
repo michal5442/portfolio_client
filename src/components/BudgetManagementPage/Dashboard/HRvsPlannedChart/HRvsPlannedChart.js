@@ -74,9 +74,9 @@ export default function HrVsPlannedChart() {
                     <span className="hrp-item-value">{differenceLabel}</span>
                   </span>
                   <span className="hrp-sep" aria-hidden="true">·</span>
-                  <span className="hrp-item hrp-hr">
+                  <span className="hrp-item hrp-budget">
                     <span className="hrp-item-value">₪{formatMoney(hrBudget)}</span>
-                    <span className="hrp-item-label">כ"א</span>
+                    <span className="hrp-item-label">תכנון</span>
                   </span>
                   <span className="hrp-sep" aria-hidden="true">·</span>
                   <span className="hrp-item hrp-proc">
@@ -86,7 +86,7 @@ export default function HrVsPlannedChart() {
                   <span className="hrp-sep" aria-hidden="true">·</span>
                   <span className="hrp-item hrp-plan">
                     <span className="hrp-item-value">₪{formatMoney(planned)}</span>
-                    <span className="hrp-item-label">תכנון</span>
+                    <span className="hrp-item-label">כ"א</span>
                   </span>
                 </div>
               </div>
