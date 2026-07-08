@@ -7,7 +7,7 @@
 .pfm-modal .np-tabs{display:flex;justify-content:flex-start;gap:1.5rem;border-bottom:1px solid #e5e7eb;margin-bottom:1.5rem}
 .pfm-modal .np-tab{padding:.8rem 0;font-size:.94rem;font-weight:500;border:none;border-bottom:3px solid transparent;background:none;cursor:pointer;color:#64748b;margin-bottom:-1px;transition:color .2s,border-color .2s}
 .pfm-modal .np-tab:hover{color:#1e293b}
-.pfm-modal .np-tab--active{color:#2563eb;border-bottom-color:#2563eb;font-weight:700}
+.pfm-modal .np-tab--active{color:var(--color-proc);border-bottom-color:var(--color-proc);font-weight:700}
 
 .np-panels{position:relative}
 .np-panel{opacity:0;transform:translateX(10px);max-height:0;overflow:hidden;pointer-events:none;transition:opacity .25s ease,transform .25s ease,max-height .25s ease}

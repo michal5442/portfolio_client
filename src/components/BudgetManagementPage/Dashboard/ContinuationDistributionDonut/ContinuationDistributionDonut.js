@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ContinuationDistributionDonut.css';
 import { useProjects } from '../../../../services/context/ProjectsContext';
-import { DASH_COLORS, formatCompactNumber, computeProjectTotalBudget } from '../dashUtils/dashUtils';
+import { DASH_COLORS } from '../dashUtils/dashUtils';
+import { computeProjectTotalBudget } from '../../../../utils/calculateProjectFinance';
+import { formatMoney } from '../../../../utils/formatMoney';
 import DonutChart from '../DonutChart/DonutChart';
-import { useState } from 'react';
 import SegmentProjectsModal from '../SegmentProjectsModal/SegmentProjectsModal';
 
 export default function ContinuationVsNewBudgetDonut() {
@@ -22,8 +23,8 @@ export default function ContinuationVsNewBudgetDonut() {
   ];
 
   const legendItems = [
-    { label: 'המשכי', displayValue: `₪${formatCompactNumber(continuationBudgetTotal)}`, color: DASH_COLORS[0] },
-    { label: 'חדש',   displayValue: `₪${formatCompactNumber(newProjectsBudgetTotal)}`,  color: DASH_COLORS[1] },
+    { label: 'המשכי', displayValue: `₪${formatMoney(continuationBudgetTotal)}`, color: DASH_COLORS[0] },
+    { label: 'חדש',   displayValue: `₪${formatMoney(newProjectsBudgetTotal)}`,  color: DASH_COLORS[1] },
   ];
 
   const [modalOpen, setModalOpen] = useState(false);

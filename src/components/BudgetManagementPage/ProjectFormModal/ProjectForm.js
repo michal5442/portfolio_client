@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { formatGapDisplay } from "../../../utils/calculateProjectFinance";
 import "./ProjectFormModal.css";
 
 export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, onCancel }) {
@@ -10,7 +11,7 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
     logHemsheci: false,
     teur: "",
     hearot: "",
-    totalTakzuvCoachAdam: 0,
+    totalTakzivCoachAdam: 0,
     totalTakzivRechesh: 0,
     coachAdam: 0,
   });
@@ -28,7 +29,7 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
         logHemsheci: initialData.logHemsheci || false,
         teur: initialData.teur || "",
         hearot: initialData.hearot || "",
-        totalTakzuvCoachAdam: initialData.totalTakzuvCoachAdam || 0,
+        totalTakzivCoachAdam: initialData.totalTakzivCoachAdam || 0,
         totalTakzivRechesh: initialData.totalTakzivRechesh || 0,
         coachAdam: initialData.coachAdam || 0,
       }));
@@ -45,10 +46,10 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
     if (form[field] === "" || form[field] === null || form[field] === undefined) set(field, 0);
   };
 
-  const totalBudget = Number(form.totalTakzuvCoachAdam) + Number(form.totalTakzivRechesh);
-  const gaps = Number(form.totalTakzuvCoachAdam) - Number(form.coachAdam);
+  const totalBudget = Number(form.totalTakzivCoachAdam) + Number(form.totalTakzivRechesh);
+  const gaps = Number(form.totalTakzivCoachAdam) - Number(form.coachAdam);
   const gapNum = Number(gaps) || 0;
-  const gapDisplay = gapNum === 0 ? `₪0` : (gapNum > 0 ? `▲ ₪${gapNum}+` : `▼ ₪${Math.abs(gapNum)}-`);
+  const gapDisplay = formatGapDisplay(gapNum, Number(form.totalTakzivCoachAdam));
   const gapColor = gapNum === 0 ? "#1e5f8e" : (gapNum > 0 ? "#059669" : "#dc2626");
 
   const handleSubmit = async () => {
@@ -57,9 +58,24 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
     if (!form.yechidaMevatzat.trim()) newErrors.yechidaMevatzat = true;
     if (!form.agaff.trim()) newErrors.agaff = true;
     if (Number(form.totalTakzivRechesh) === 0) newErrors.totalTakzivRechesh = true;
-    if (Number(form.totalTakzuvCoachAdam) === 0) newErrors.totalTakzuvCoachAdam = true;
+    if (Number(form.totalTakzivCoachAdam) === 0) newErrors.totalTakzivCoachAdam = true;
     if (Number(form.coachAdam) === 0) newErrors.coachAdam = true;
-    if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
+
+    const detailFields = ['projectName', 'yechidaMevatzat', 'agaff'];
+    const budgetFields = ['totalTakzivRechesh', 'totalTakzivCoachAdam', 'coachAdam'];
+    const hasDetailError = Object.keys(newErrors).some((field) => detailFields.includes(field));
+    const hasBudgetError = Object.keys(newErrors).some((field) => budgetFields.includes(field));
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      if (hasDetailError) {
+        setTab('פרטים');
+      } else if (hasBudgetError) {
+        setTab('תקציב');
+      }
+      return;
+    }
+
     setErrors({});
     await onSubmit({ ...initialData, ...form });
   };
@@ -134,7 +150,7 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
             </div>
             <div className="np-field">
               <label className="np-label">תקציב כ"א (₪) *</label>
-              <input type="number" className={`np-input${errors.totalTakzuvCoachAdam ? ' np-input--error' : ''}`} value={form.totalTakzuvCoachAdam} onFocus={() => handleNumFocus('totalTakzuvCoachAdam')} onBlur={() => handleNumBlur('totalTakzuvCoachAdam')} onChange={(e) => set('totalTakzuvCoachAdam', e.target.value)} />
+              <input type="number" className={`np-input${errors.totalTakzivCoachAdam ? ' np-input--error' : ''}`} value={form.totalTakzivCoachAdam} onFocus={() => handleNumFocus('totalTakzivCoachAdam')} onBlur={() => handleNumBlur('totalTakzivCoachAdam')} onChange={(e) => set('totalTakzivCoachAdam', e.target.value)} />
             </div>
           </div>
 

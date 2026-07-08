@@ -1,38 +1,48 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './GapByProjectChart.css';
 import { useProjects } from '../../../../services/context/ProjectsContext';
 import Modal from '../../Modal/Modal';
 import ProjectDetail from '../../ProjectDetail/ProjectDetail';
-import { computeBudgetMinusPlanned, computeRelativeGap, compareByRelativeGap, isGapStatusExceeded } from '../dashUtils/dashUtils';
+import { computeBudgetMinusPlanned, computeRelativeGap, compareByRelativeGap, isGapStatusExceeded } from '../../../../utils/calculateProjectFinance';
+import { useExpandableProjectList } from '../dashUtils/useExpandableProjectList';
+
+const MAX_VISIBLE_PROJECTS = 4;
+const MAX_BAR_PERCENT = 42;
+const LABEL_OFFSET_REM = 1.1;
+
+const GAP_COLORS = {
+  negative: '#dc2626',
+  positive: '#f97316',
+  none: 'var(--blue)',
+};
+
+const gapLegend = [
+  { label: 'חריגה במינוס', color: GAP_COLORS.negative },
+  { label: 'חריגה בפלוס', color: GAP_COLORS.positive },
+  { label: 'ללא חריגה', color: GAP_COLORS.none },
+];
 
 export default function GapByProjectChart() {
   const { projects } = useProjects();
-  const [showMore, setShowMore] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
 
   const selectedProject = projects.find((p) => p.id === selectedProjectId);
   const openProjectDetail = (id) => setSelectedProjectId(id);
   const closeProjectDetail = () => setSelectedProjectId(null);
 
-  const sorted = [...projects].sort(compareByRelativeGap);
+  const {
+    sorted,
+    showMore,
+    toggleShowMore,
+    visibleProjects,
+    hiddenCount,
+    hasExpandableProjects,
+  } = useExpandableProjectList(projects, compareByRelativeGap, MAX_VISIBLE_PROJECTS);
 
-  const maxRelativeGap = Math.max(...sorted.map((p) => computeRelativeGap(p)), 1);
-  const MAX_BAR_PCT = 42;
-  const GAP_COLORS = {
-    negative: '#dc2626',
-    positive: '#f97316',
-    none: 'var(--blue)',
-  };
-
-  const gapLegend = [
-    { label: 'חריגה במינוס', color: GAP_COLORS.negative },
-    { label: 'חריגה בפלוס', color: GAP_COLORS.positive },
-    { label: 'ללא חריגה', color: GAP_COLORS.none },
-  ];
-
-  const visibleProjects = showMore ? sorted : sorted.slice(0, 4);
-  const hiddenCount = Math.max(sorted.length - 4, 0);
-  const hasExpandableProjects = hiddenCount > 0;
+  const maxRelativeGap = useMemo(
+    () => Math.max(...sorted.map((p) => computeRelativeGap(p)), 1),
+    [sorted],
+  );
 
   return (
     <div className="gap-card">
@@ -60,11 +70,11 @@ export default function GapByProjectChart() {
         {visibleProjects.map((p) => {
           const g = computeBudgetMinusPlanned(p);
           const rel = computeRelativeGap(p);
-          const pct = Math.round((rel / maxRelativeGap) * MAX_BAR_PCT);
+          const pct = Math.round((rel / maxRelativeGap) * MAX_BAR_PERCENT);
           const isPos = g >= 0;
           const isExceed = isGapStatusExceeded(p);
-          let barColor = 'var(--blue)'; // default blue
-          if (isExceed) barColor = isPos ? '#f97316' : '#dc2626';
+          let barColor = GAP_COLORS.none;
+          if (isExceed) barColor = isPos ? GAP_COLORS.positive : GAP_COLORS.negative;
 
           const relativePercent = Math.round(rel * 100);
           let valueLabel;
@@ -76,8 +86,7 @@ export default function GapByProjectChart() {
             valueLabel = `${isPos ? '+' : '−'}${relativePercent}%`;
           }
 
-          const effPct = Math.min(pct, MAX_BAR_PCT);
-          const offset = 1.1;
+          const effPct = Math.min(pct, MAX_BAR_PERCENT);
 
           return (
             <div
@@ -108,7 +117,7 @@ export default function GapByProjectChart() {
                 <span
                   className="gap-val"
                   style={{
-                    [isPos ? 'left' : 'right']: `calc(50% + ${effPct}% + ${offset}rem)`,
+                    [isPos ? 'left' : 'right']: `calc(50% + ${effPct}% + ${LABEL_OFFSET_REM}rem)`,
                   }}
                 >
                   {valueLabel}
@@ -135,7 +144,7 @@ export default function GapByProjectChart() {
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white p-2 text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
-            onClick={() => setShowMore((prev) => !prev)}
+            onClick={toggleShowMore}
             aria-label={showMore ? 'הצג פחות פרויקטים' : 'הצג פרויקטים נוספים'}
           >
             <span

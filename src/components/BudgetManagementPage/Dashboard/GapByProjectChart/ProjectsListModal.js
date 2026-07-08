@@ -2,7 +2,8 @@ import React, { useMemo, useState } from 'react';
 import Modal from '../../Modal/Modal';
 import ProjectDetail from '../../ProjectDetail/ProjectDetail';
 import { MASLOL_LABELS } from '../../../../constants/maslol';
-import { formatCompactNumber, computeBudgetMinusPlanned } from '../dashUtils/dashUtils';
+import { computeBudgetMinusPlanned } from '../../../../../utils/calculateProjectFinance';
+import { formatMoney } from '../../../../../utils/formatMoney';
 import './ProjectsListModal.css';
 
 export default function ProjectsListModal({ projects, onClose, initialFilters = {} }) {
@@ -22,7 +23,7 @@ export default function ProjectsListModal({ projects, onClose, initialFilters = 
       if (hemsheci === 'yes' && p.logHemsheci !== true) return false;
       if (hemsheci === 'no' && p.logHemsheci !== false) return false;
       if (budgetType !== 'all') {
-        const hr = Number(p.totalTakzuvCoachAdam || 0);
+        const hr = Number(p.totalTakzivCoachAdam || 0);
         const proc = Number(p.totalTakzivRechesh || 0);
         if (budgetType === 'hr' && hr < proc) return false;
         if (budgetType === 'proc' && proc <= hr) return false;
@@ -87,7 +88,7 @@ export default function ProjectsListModal({ projects, onClose, initialFilters = 
                         <div className="pl-name">{p.projectName}</div>
                         <div className="pl-meta">{MASLOL_LABELS[p.maslol] || ''} • {p.yechidaMevatzat || ''}</div>
                       </div>
-                      <div className="pl-row-right">{gap >= 0 ? `+₪${formatCompactNumber(gap)}` : `-₪${formatCompactNumber(Math.abs(gap))}`}</div>
+                      <div className="pl-row-right">{gap >= 0 ? `+₪${formatMoney(gap)}` : `-₪${formatMoney(Math.abs(gap))}`}</div>
                     </div>
                   );
                 })

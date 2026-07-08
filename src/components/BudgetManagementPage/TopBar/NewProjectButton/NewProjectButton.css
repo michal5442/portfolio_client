@@ -65,8 +65,8 @@
 }
 
 .np-tab--active {
-  color: #2563eb;
-  border-bottom-color: #2563eb;
+  color: var(--color-proc);
+  border-bottom-color: var(--color-proc);
   font-weight: 700;
 }
 
