@@ -4,6 +4,7 @@ import { useProjects } from "../../../services/context/ProjectsContext";
 import ProjectCard from "./ProjectCard/ProjectCard";
 import ProjectDetailModal from "../../Common/ProjectDetailModal";
 import ProjectTable from "../ProjectTable/ProjectTable";
+import "./ProjectsList.css";
 
 
 export default function ProjectsList() {

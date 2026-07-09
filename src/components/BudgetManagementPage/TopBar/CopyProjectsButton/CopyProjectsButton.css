@@ -1,5 +1,5 @@
 .copy-projects-btn {
-  background-color: #10b981;
+  background-color: #1e5f8e;
   color: white;
   font-size: 0.875rem;
   font-weight: 500;
@@ -16,5 +16,5 @@
 }
 
 .copy-projects-btn:hover:not(:disabled) {
-  background-color: #059669;
+  background-color: #174f78;
 }

@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import './HRvsPlannedChart.css';
+import BudgetNumbers from '../BudgetNumbers/BudgetNumbers';
 import { useProjects } from '../../../../services/context/ProjectsContext';
 import { compareByRelativeGap } from '../../../../utils/calculateProjectFinance';
 import { useExpandableProjectList } from '../dashUtils/useExpandableProjectList';
-import { formatMoney } from '../../../../utils/formatMoney';
 import { formatGapDisplay } from '../../../../utils/calculateProjectFinance';
 import { BUDGET_COLORS, INITIAL_VISIBLE_PROJECTS_COUNT } from '../../../../constants/chartConstants';
 
@@ -14,7 +14,7 @@ const HRP_LEGEND_ITEMS = [
 ];
 
 export default function HrVsPlannedChart() {
-  const { projects } = useProjects();
+  const { filteredProjects } = useProjects();
   const {
     sorted,
     showMore,
@@ -22,10 +22,10 @@ export default function HrVsPlannedChart() {
     visibleProjects,
     hiddenCount,
     hasExpandableProjects,
-  } = useExpandableProjectList(projects, compareByRelativeGap, INITIAL_VISIBLE_PROJECTS_COUNT);
+  } = useExpandableProjectList(filteredProjects, compareByRelativeGap, INITIAL_VISIBLE_PROJECTS_COUNT);
   const maxProjectBudget = useMemo(
-    () => Math.max(...projects.map((p) => Math.max(p.totalTakzivCoachAdam || 0, p.totalTakzivRechesh || 0, p.coachAdam || 0)), 1),
-    [projects],
+    () => Math.max(...filteredProjects.map((p) => Math.max(p.totalTakzivCoachAdam || 0, p.totalTakzivRechesh || 0, p.coachAdam || 0)), 1),
+    [filteredProjects],
   );
 
   return (
@@ -69,26 +69,13 @@ export default function HrVsPlannedChart() {
                     <div className="hrp-fill" style={{ width: `${Math.round(val / maxProjectBudget * 100)}%`, background: color }} />
                   </div>
                 ))}
-                <div className="hrp-nums" dir="ltr">
-                  <span className={`hrp-item hrp-gap ${differenceClass}`}>
-                    <span className="hrp-item-value">{differenceLabel}</span>
-                  </span>
-                  <span className="hrp-sep" aria-hidden="true">·</span>
-                  <span className="hrp-item hrp-budget">
-                    <span className="hrp-item-value">₪{formatMoney(hrBudget)}</span>
-                    <span className="hrp-item-label">תכנון</span>
-                  </span>
-                  <span className="hrp-sep" aria-hidden="true">·</span>
-                  <span className="hrp-item hrp-proc">
-                    <span className="hrp-item-value">₪{formatMoney(procBudget)}</span>
-                    <span className="hrp-item-label">רכש</span>
-                  </span>
-                  <span className="hrp-sep" aria-hidden="true">·</span>
-                  <span className="hrp-item hrp-plan">
-                    <span className="hrp-item-value">₪{formatMoney(planned)}</span>
-                    <span className="hrp-item-label">כ"א</span>
-                  </span>
-                </div>
+                <BudgetNumbers
+                  gapLabel={differenceLabel}
+                  gapClass={differenceClass}
+                  hrBudget={hrBudget}
+                  procurementBudget={procBudget}
+                  planningBudget={planned}
+                />
               </div>
             </div>
           );

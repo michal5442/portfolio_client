@@ -1,4 +1,3 @@
-
 .p-list-section { padding: 8px 0 16px; }
 .p-table--load, .p-table--empty {
   text-align: center;
@@ -9,13 +8,9 @@
 
 .p-table-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.95fr);
+  grid-template-columns: 1fr;
   gap: 12px;
   align-items: start;
-}
-
-.p-split--no-det {
-  grid-template-columns: 1fr;
 }
 
 .p-rows {

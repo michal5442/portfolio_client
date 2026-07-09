@@ -1,6 +1,6 @@
 import React from "react";
-import { formatMoney } from "../../../utils/formatMoney";
-import { MASLOL_OPTIONS, MASLOL } from "../../../constants/constants"; 
+import { formatGapDisplay } from "../../../utils/calculateProjectFinance";
+import { STATUS_PAAR, MASLOL_OPTIONS, MASLOL } from "../../../constants/constants"; 
 import "./ProjectElements.css";
 
 export const isKiyumMaslol = (maslol) => maslol === MASLOL.KIYUM.value; 
@@ -31,30 +31,22 @@ export const HemsheciElement = ({
 };
 
 
-export const GapIndicator = ({ value, statusPearim, achuzPearim, className = "" }) => {
-  const isNegative = value < 0;
-  const fallbackStatus = value === 0 ? STATUS_PAAR.TAKIN : (isNegative ? STATUS_PAAR.GERAON : STATUS_PAAR.ODEF);
-  let status = statusPearim || fallbackStatus;
-  if (value < 0 && status === STATUS_PAAR.TAKIN) {
-    status = STATUS_PAAR.GERAON;
+const normalizeGapStatus = (value, statusPearim) => {
+  if (typeof statusPearim === "string" && statusPearim) {
+    return statusPearim;
   }
-  const absValue = Math.abs(value);
-  const displayValue = value === 0
-    ? `₪${formatMoney(absValue)}`
-    : `${isNegative ? "▼ " : "▲ +"}${formatMoney(absValue)}`;
 
-  return (
-    <span className={`pc-gap pc-gap--${status} ${className}`} >
-      {displayValue}
-      {achuzPearim !== undefined && ` (${achuzPearim}%)`}
-    </span>
-  );
+  if (value === 0) return STATUS_PAAR.TAKIN.value;
+  return value < 0 ? STATUS_PAAR.GERAON.value : STATUS_PAAR.ODEF.value;
 };
 
 export const PearimElement = ({ financeData }) => {
-  const { pearim, achuzPearim, statusPearim } = financeData;
+  const { pearim, statusPearim, totalTakzivCoachAdam } = financeData;
+  const status = normalizeGapStatus(pearim, statusPearim);
 
   return (
-    <GapIndicator value={pearim} achuzPearim={achuzPearim} statusPearim={statusPearim} />
+    <span className={`pc-gap pc-gap--${status}`}>
+      {formatGapDisplay(pearim, totalTakzivCoachAdam)}
+    </span>
   );
 };

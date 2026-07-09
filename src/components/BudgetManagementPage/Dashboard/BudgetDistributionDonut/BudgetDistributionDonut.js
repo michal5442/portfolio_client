@@ -6,9 +6,9 @@ import { formatMoney } from '../../../../utils/formatMoney';
 import DonutChart from '../DonutChart/DonutChart';
 
 export default function BudgetDistributionDonut() {
-  const { projects } = useProjects();
-  const totalHrBudget = projects.reduce((sum, p) => sum + (p.totalTakzivCoachAdam || 0), 0);
-  const totalProcurementBudget = projects.reduce((sum, p) => sum + (p.totalTakzivRechesh   || 0), 0);
+  const { filteredProjects } = useProjects();
+  const totalHrBudget = filteredProjects.reduce((sum, p) => sum + (p.totalTakzivCoachAdam || 0), 0);
+  const totalProcurementBudget = filteredProjects.reduce((sum, p) => sum + (p.totalTakzivRechesh   || 0), 0);
 
   const segments = [
     { value: totalHrBudget, color: DASH_COLORS[0] },

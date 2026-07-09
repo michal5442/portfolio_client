@@ -40,6 +40,7 @@ html, body {
   min-height: 100vh;
 }
 
+
 body {
   margin: 0;
   background: linear-gradient(180deg, #f2f2ee 0%, #ecebe6 100%), var(--bg3);
@@ -47,11 +48,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* App container sizing */
 .App {
   width: min(100%, 1520px);
-  max-width: 1160px;
+  max-width: 1520px;
   margin: 0 auto;
-  padding: 1.5rem 1rem 3rem;
+  padding: clamp(1.4rem, 2.2vw, 2.2rem) clamp(1.2rem, 3vw, 3rem) 3rem;
 }
 
 @media (min-width: 1440px) {

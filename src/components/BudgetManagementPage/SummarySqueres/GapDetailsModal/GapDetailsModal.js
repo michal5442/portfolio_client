@@ -1,6 +1,7 @@
 import React from "react";
-import { PearimElement, GapIndicator } from "../../ProjectElements/ProjectElements";
+import { PearimElement } from "../../ProjectElements/ProjectElements";
 import { formatMoney } from "../../../../utils/formatMoney";
+import { formatGapDisplay, getGapStatus } from "../../../../utils/calculateProjectFinance";
 import GenericTable from "../../../Common/GenericTable";
 import "./GapDetailsModal.css";
 
@@ -15,7 +16,7 @@ const columns = [
     key: "actual",
     header: "תקציב בפועל",
     render: (row) => formatMoney(row.financeData.totalTakzivCoachAdam),
-    renderTotal: (totals) => formatMoney(totals.totalActual),
+    renderTotal: (totals) => formatMoney(totals.totalHR),
   },
   {
     key: "planned",
@@ -27,14 +28,19 @@ const columns = [
     key: "gap",
     header: "פער",
     render: (row) => <PearimElement financeData={row.financeData} />,
-    renderTotal: (totals) => <GapIndicator value={totals.totalGap} />,
+    renderTotal: (totals) => (
+      <span className={`pc-gap pc-gap--${getGapStatus(totals.totalGap, totals.totalHR)}`}>
+        {formatGapDisplay(totals.totalGap, totals.totalHR)}
+      </span>
+    ),
   },
 ];
 
-export default function GapDetailsModal({ rows, totalGap, totalActual, onClose }) {
-  
-  const totalPlanned = rows.reduce((total, project) => total + (project.financeData.coachAdam || 0), 0);
-  const totals = { totalPlanned, totalActual, totalGap };
+export default function GapDetailsModal({ rows, totalGap, totalHR, totalPlanned, onClose }) {
+  const computedTotalPlanned = typeof totalPlanned === "number"
+    ? totalPlanned
+    : rows.reduce((total, project) => total + (project.financeData?.coachAdam || 0), 0);
+  const totals = { totalPlanned: computedTotalPlanned, totalHR, totalGap };
 
   return (
     <div className="gdm-overlay" onClick={onClose}>

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import Modal from '../../Modal/Modal';
 import './SegmentProjectsModal.css';
 import FilterBar from '../../FilterBar/FilterBar';
-import Table from '../../Table/Table';
+import ProjectTable from '../../ProjectTable/ProjectTable';
 import { filterProjects, getProjectFilterOptions, DEFAULT_PROJECT_FILTERS } from '../../../../utils/projectFilters';
 
 export default function SegmentProjectsModal({ title, initialProjects, onClose }) {
@@ -37,7 +37,7 @@ export default function SegmentProjectsModal({ title, initialProjects, onClose }
 
         <div className="spm-body">
           <div className="spm-count">נמצאו {filtered.length} פרויקטים</div>
-          <Table projects={filtered} />
+          <ProjectTable projects={filtered} />
         </div>
       </div>
     </Modal>

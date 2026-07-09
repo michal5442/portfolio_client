@@ -1,0 +1,50 @@
+.hrp-nums {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+  text-align: left;
+  direction: ltr;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+}
+
+.hrp-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.hrp-item-label {
+  color: #64748b;
+}
+
+.hrp-item-value {
+  color: inherit;
+}
+
+.hrp-sep {
+  color: #cbd5e1;
+}
+
+.hrp-gap {
+  font-weight: 600;
+}
+
+.hrp-surplus {
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.hrp-over {
+  color: #dc2626;
+  font-weight: 600;
+}

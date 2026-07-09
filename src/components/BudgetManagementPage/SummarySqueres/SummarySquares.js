@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { useProjects } from "../../../services/context/ProjectsContext";
-import { GapIndicator } from "../ProjectElements/ProjectElements";
 import { formatMoney } from "../../../utils/formatMoney";
-import { getGapStatus } from "../../../utils/calculateProjectFinance";
+import { formatGapDisplay, getGapStatus } from "../../../utils/calculateProjectFinance";
 import GapDetailsModal from "./GapDetailsModal/GapDetailsModal";
 import "./SummarySquares.css";
 
@@ -14,6 +13,10 @@ export default function SummarySquares() {
   const totalGapStatus = useMemo(() => {
     return getGapStatus(totalGap, totalHR);
   }, [totalGap, totalHR]);
+
+  const totalPlanned = useMemo(() => {
+    return gapDetails.reduce((total, project) => total + (project.financeData.coachAdam || 0), 0);
+  }, [gapDetails]);
 
   const summaryCards = [
     { label: "פרויקטים", value: totalCount },
@@ -45,7 +48,9 @@ export default function SummarySquares() {
         >
           <div className="ss-title">פערים</div>
           <div className="ss-value">
-            <GapIndicator value={totalGap} statusPearim={totalGapStatus} />
+            <span className={`pc-gap pc-gap--${totalGapStatus}`}>
+              {formatGapDisplay(totalGap, totalHR)}
+            </span>
           </div>
         </div>
       </div>
@@ -54,7 +59,8 @@ export default function SummarySquares() {
         <GapDetailsModal
           rows={gapDetails}
           totalGap={totalGap}
-          totalActual={totalHR}
+          totalHR={totalHR}
+          totalPlanned={totalPlanned}
           onClose={() => setIsGapOpen(false)}
         />
       )}

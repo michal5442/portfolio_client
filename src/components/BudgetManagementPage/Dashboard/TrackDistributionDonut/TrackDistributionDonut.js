@@ -7,11 +7,11 @@ import DonutChart from '../DonutChart/DonutChart';
 import SegmentProjectsModal from '../SegmentProjectsModal/SegmentProjectsModal';
 
 export default function MaslolTrackDistributionDonut() {
-  const { projects } = useProjects();
+  const { filteredProjects } = useProjects();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
-  const kiyumCount = projects.filter(project => project.maslol === MASLOL.KIYUM.value).length;
-  const hitazmutCount = projects.filter(project => project.maslol === MASLOL.HITAZMUT.value).length;
+  const kiyumCount = filteredProjects.filter(project => project.maslol === MASLOL.KIYUM.value).length;
+  const hitazmutCount = filteredProjects.filter(project => project.maslol === MASLOL.HITAZMUT.value).length;
 
   const chartSegments = [
     { value: kiyumCount, color: DASH_COLORS[0] },
@@ -29,7 +29,7 @@ export default function MaslolTrackDistributionDonut() {
   };
 
   const modalTitle = legendItems[modalIndex]?.label || 'פרויקטים';
-  const modalProjects = projects.filter((project) => { 
+  const modalProjects = filteredProjects.filter((project) => { 
     if (modalIndex === 0) return project.maslol === MASLOL.KIYUM.value;
     if (modalIndex === 1) return project.maslol === MASLOL.HITAZMUT.value;
     return Boolean(project.logHemsheci);

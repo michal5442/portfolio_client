@@ -94,7 +94,7 @@
   border: none !important;
   box-shadow: none !important;
   font-weight: 700;
-  font-size: 18px !important;
+  font-size: inherit !important;
 }
 
 .ss-error {

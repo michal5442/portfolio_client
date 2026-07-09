@@ -3,7 +3,7 @@ import './GapByProjectChart.css';
 import { useProjects } from '../../../../services/context/ProjectsContext';
 import Modal from '../../Modal/Modal';
 import ProjectDetail from '../../ProjectDetail/ProjectDetail';
-import { computeBudgetMinusPlanned, computeRelativeGap, compareByRelativeGap, isGapStatusExceeded } from '../../../../utils/calculateProjectFinance';
+import { computeBudgetMinusPlanned, computeRelativeGap, compareByRelativeGap, isGapStatusExceeded, formatGapDisplay } from '../../../../utils/calculateProjectFinance';
 import { useExpandableProjectList } from '../dashUtils/useExpandableProjectList';
 import { INITIAL_VISIBLE_PROJECTS_COUNT } from '../../../../constants/chartConstants';
 
@@ -24,10 +24,10 @@ const gapLegend = [
 ];
 
 export default function GapByProjectChart() {
-  const { projects } = useProjects();
+  const { filteredProjects } = useProjects();
   const [selectedProjectId, setSelectedProjectId] = useState(null);
 
-  const selectedProject = projects.find((p) => p.id === selectedProjectId);
+  const selectedProject = filteredProjects.find((p) => p.id === selectedProjectId);
   const openProjectDetail = (id) => setSelectedProjectId(id);
   const closeProjectDetail = () => setSelectedProjectId(null);
 
@@ -38,7 +38,7 @@ export default function GapByProjectChart() {
     visibleProjects,
     hiddenCount,
     hasExpandableProjects,
-  } = useExpandableProjectList(projects, compareByRelativeGap, MAX_VISIBLE_PROJECTS);
+  } = useExpandableProjectList(filteredProjects, compareByRelativeGap, MAX_VISIBLE_PROJECTS);
 
   const maxRelativeGap = useMemo(
     () => Math.max(...sorted.map((p) => computeRelativeGap(p)), 1),
@@ -78,14 +78,7 @@ export default function GapByProjectChart() {
           if (isExceed) barColor = isPos ? GAP_COLORS.positive : GAP_COLORS.negative;
 
           const relativePercent = Math.round(rel * 100);
-          let valueLabel;
-          if (g === 0) {
-            valueLabel = `0%`;
-          } else if (isExceed) {
-            valueLabel = `חריגה ${isPos ? '▲' : '▼'} ${relativePercent}%`;
-          } else {
-            valueLabel = `${isPos ? '+' : '−'}${relativePercent}%`;
-          }
+          const valueLabel = formatGapDisplay(g, p.totalTakzivCoachAdam);
 
           const effPct = Math.min(pct, MAX_BAR_PERCENT);
 

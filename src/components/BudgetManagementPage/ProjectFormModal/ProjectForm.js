@@ -136,12 +136,10 @@ export default function ProjectForm({ initialData = {}, mode = "new", onSubmit, 
             <div className="np-field">
               <label className="np-label">מסלול *</label>
               <select className="np-select" value={form.maslol} onChange={(e) => set('maslol', e.target.value)}>
-              <select className={`np-select${errors.agaff ? ' np-input--error' : ''}`} value={form.agaff} onChange={(e) => set('agaff', e.target.value)}>
-                <option value="">בחר אגף</option>
-                {AGAF_OPTIONS.map((option) => (
-                  <option key={option} value={option}>{option}</option>
+                <option value="">בחר מסלול</option>
+                {MASLOL_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
                 ))}
-              </select>
               </select>
             </div>
           </div>

@@ -75,9 +75,9 @@
 
 .cf-edit-icon {
   display: inline-block;
-  font-size: 0.8rem;
+  font-size: 1rem;
   line-height: 1;
-  transform: rotate(-18deg);
+  transform: rotate(-20deg);
   font-weight: 700;
 }
 

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import './BudgetBySectorChart.css';
+import BudgetNumbers from '../BudgetNumbers/BudgetNumbers';
 import { useProjects } from '../../../../services/context/ProjectsContext';
-import { formatMoney } from '../../../../utils/formatMoney';
 import { formatGapDisplay, getGapStatus } from '../../../../utils/calculateProjectFinance';
 import { BUDGET_COLORS } from '../../../../constants/chartConstants';
 
@@ -18,12 +18,12 @@ const gapClassMap = {
 };
 
 export default function BudgetBySectorChart() {
-  const { projects } = useProjects();
+  const { filteredProjects } = useProjects();
 
   const sectorsData = useMemo(() => {
     const sectorMap = new Map();
 
-    projects.forEach(project => {
+    filteredProjects.forEach(project => {
       const sector = project.agaff;
       if (!sector) return;
 
@@ -54,7 +54,7 @@ export default function BudgetBySectorChart() {
           gapLabel: formatGapDisplay(gapValue, sectorItem.hrBudget)
         };
       });
-  }, [projects]);
+  }, [filteredProjects]);
 
   const maxTotal = useMemo(() => {
     if (!sectorsData.length) {
@@ -102,12 +102,13 @@ export default function BudgetBySectorChart() {
                   </div>
                 );
               })}
-              <div className="bbs-nums">
-                <span className={`bbs-gap ${gapClassMap[sectorItem.gapStatus]}`}>{sectorItem.gapLabel}</span>
-                <span>· כ"א ₪{formatMoney(sectorItem.hrBudget)}</span>
-                <span>· רכש ₪{formatMoney(sectorItem.procurementBudget)}</span>
-                <span>· תכנון ₪{formatMoney(sectorItem.planningBudget)}</span>
-              </div>
+                <BudgetNumbers
+                  gapLabel={sectorItem.gapLabel}
+                  gapClass={gapClassMap[sectorItem.gapStatus]}
+                  hrBudget={sectorItem.hrBudget}
+                  procurementBudget={sectorItem.procurementBudget}
+                  planningBudget={sectorItem.planningBudget}
+                />
             </div>
           </div>
         ))}

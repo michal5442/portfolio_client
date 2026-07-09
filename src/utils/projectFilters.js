@@ -1,5 +1,5 @@
 import { calculateProjectFinance } from "./calculateProjectFinance";
-import { STATUS_PEARIM_MAP } from "../constants/constants";
+import { STATUS_PAAR_OPTIONS } from "../constants/constants";
 
 export const DEFAULT_PROJECT_FILTERS = {
   search: "",
@@ -10,15 +10,12 @@ export const DEFAULT_PROJECT_FILTERS = {
   statusPearim: [],
 };
 
-export const STATUS_PEARIM_OPTIONS = ["אין פער", "פער בפלוס", "פער במינוס"];
-
 export function getProjectFilterOptions(projects) {
   const uniq = (key) => Array.from(new Set(projects.map((project) => project[key]).filter(Boolean))).sort();
-
   return {
     agaff: uniq("agaff"),
     yechidaMevatzat: uniq("yechidaMevatzat"),
-    statusPearim: STATUS_PEARIM_OPTIONS,
+    statusPearim: STATUS_PAAR_OPTIONS,
   };
 }
 
@@ -41,7 +38,7 @@ function matchesHemsheci(project, value) {
 function matchesStatusPearim(project, selectedStatuses, getProjectStatus) {
   if (!selectedStatuses?.length) return true;
   const projectStatus = getProjectStatus(project);
-  const selectedCodes = selectedStatuses.map((name) => STATUS_PEARIM_MAP[name]);
+  const selectedCodes = selectedStatuses.map((item) => item.value);
   return selectedCodes.includes(projectStatus);
 }
 

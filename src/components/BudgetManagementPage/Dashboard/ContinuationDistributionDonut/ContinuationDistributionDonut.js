@@ -8,12 +8,12 @@ import DonutChart from '../DonutChart/DonutChart';
 import SegmentProjectsModal from '../SegmentProjectsModal/SegmentProjectsModal';
 
 export default function ContinuationVsNewBudgetDonut() {
-  const { projects } = useProjects();
-  const continuationBudgetTotal = projects
+  const { filteredProjects } = useProjects();
+  const continuationBudgetTotal = filteredProjects
     .filter(project => Boolean(project.logHemsheci))
     .reduce((sum, project) => sum + computeProjectTotalBudget(project), 0);
 
-  const newProjectsBudgetTotal = projects
+  const newProjectsBudgetTotal = filteredProjects
     .filter(project => !Boolean(project.logHemsheci))
     .reduce((sum, project) => sum + computeProjectTotalBudget(project), 0);
 
@@ -36,7 +36,7 @@ export default function ContinuationVsNewBudgetDonut() {
   };
 
   const title = legendItems[modalIndex]?.label || 'פרויקטים';
-  const modalList = projects.filter(p => modalIndex === 0 ? Boolean(p.logHemsheci) : !Boolean(p.logHemsheci));
+  const modalList = filteredProjects.filter(p => modalIndex === 0 ? Boolean(p.logHemsheci) : !Boolean(p.logHemsheci));
 
   return (
     <div className="cdd-card">

@@ -29,7 +29,7 @@ function CheckListDropdown({ label, allLabel, options, selected, onChange }) {
     selected.length === 0
       ? allLabel
       : selected.length === 1
-      ? selected[0]
+      ? (typeof selected[0] === 'object' ? selected[0].label : selected[0])
       : (() => {
           const labelMap = {
             אגף: "אגפים",
@@ -66,10 +66,12 @@ function CheckListDropdown({ label, allLabel, options, selected, onChange }) {
           )}
           <div className="filter-options">
             {options?.map((option) => {
+              const optionKey = typeof option === 'object' ? option.value : option;
+              const optionLabel = typeof option === 'object' ? option.label : option;
               const isChecked = selected.includes(option);
               return (
                 <div
-                  key={option}
+                  key={optionKey}
                   className="filter-option"
                   onClick={() => toggleOption(option)}
                   style={{ position: "relative" }}
@@ -94,7 +96,7 @@ function CheckListDropdown({ label, allLabel, options, selected, onChange }) {
                       direction: "ltr",
                     }}
                   />
-                  <span className="filter-option-text">{option}</span>
+                  <span className="filter-option-text">{optionLabel}</span>
                 </div>
               );
             })}

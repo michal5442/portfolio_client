@@ -68,7 +68,7 @@ const columns = [
   },
 ];
 
-export default function Table({ projects }) {
+export default function ProjectTable({ projects }) {
   const { selectedProjectId, setSelectedProjectId, projectFinanceMap } = useProjects();
 
   const rowsWithFinance = projects.map((project) => ({
